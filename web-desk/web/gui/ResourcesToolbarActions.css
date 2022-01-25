@@ -1,0 +1,50 @@
+.resources-toolbar-actions {
+    position: absolute !important;
+
+    top: 110px;
+    height: 40px;
+    right: 0;
+    width: 300px;
+
+    padding: 10px;
+    /*padding-left: 20px;*/
+
+    border-left: 1px solid black;
+    border-bottom: 1px solid black;
+    background-color: #444;
+}
+
+.resources-toolbar-actions .btnGroup {
+    margin-right: 0;
+}
+
+.resources-toolbar-actions .btnGroup a,
+.resources-toolbar-actions .btnGroup button,
+.resources-toolbar-actions button:visited,
+.resources-toolbar-actions button:active,
+.resources-toolbar-actions button:focus,
+.resources-toolbar-actions button:hover,
+.resources-toolbar-actions button:link,
+.resources-toolbar-actions .btnGroupLast button {
+    background-image: linear-gradient(to bottom,#fff 0,#ddd 100%);
+    background-repeat: repeat-x;
+    outline: none;
+    box-shadow: none;
+    -webkit-box-shadow: none;
+    border: 1px solid #ccc;
+    color: #333;
+}
+
+.resources-toolbar-actions .btnGroup a.active,
+.resources-toolbar-actions .btnGroup button.active,
+.resources-toolbar-actions .btnGroupLast a.active,
+.resources-toolbar-actions .btnGroupLast button.active {
+    background-color: #ddd;
+    border: 1px solid #bbb;
+    background-image: none;
+    color: #333;
+}
+
+.resources-toolbar-actions.panel-hidden {
+    display: none;
+}

@@ -1,0 +1,48 @@
+{
+  "name": "gdu-sheets",
+  "version": "0.1.0",
+  "description": "a sprite packer for build pipelines",
+  "repository": "GameDevUtils/gdu-sheets",
+  "files": [
+    "build"
+  ],
+  "main": "build/index",
+  "types": "build/index.d.ts",
+  "bin": "build/index.js",
+  "type": "node",
+  "scripts": {
+    "mjs": "tsc -d",
+    "cjs": "tsc -m commonjs",
+    "reinstall": "rm -rf ./node_modules && npm install",
+    "clean": "rm -rf ./build",
+    "build": "npm run mjs && npm run cjs && chmod 755 ./build/index.js",
+    "clean-build": "npm run clean && npm run build",
+    "lint": "npx eslint . --ext .js,.jsx,.ts,.tsx,.json",
+    "lint-and-fix": "npx eslint . --ext .js,.jsx,.ts,.tsx,.json --fix",
+    "test": "jest",
+    "watch": "jest --watch",
+    "watchAll": "jest --watchAll"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@babel/preset-typescript": "^7.16.0",
+    "@types/jest": "^27.0.3",
+    "@types/node": "^16.7.10",
+    "@types/yargs": "^17.0.2",
+    "@typescript-eslint/eslint-plugin": "^4.33.0",
+    "@typescript-eslint/parser": "^4.33.0",
+    "babel-jest": "^27.3.1",
+    "eslint": "^7.32.0",
+    "jest": "^27.3.1",
+    "pkg": "^5.3.1",
+    "ts-jest": "^27.0.7",
+    "ts-node": "^10.4.0",
+    "typescript": "^4.4.3"
+  },
+  "dependencies": {
+    "colors": "^1.4.0",
+    "yargs": "^17.1.1"
+  }
+}

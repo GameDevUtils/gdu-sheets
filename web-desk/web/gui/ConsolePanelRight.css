@@ -1,0 +1,9 @@
+.console-line {
+    border-top: 1px dotted #777;
+    margin-bottom: 5px;
+    padding-top: 5px;
+}
+
+.panel-hidden {
+    display: none;
+}

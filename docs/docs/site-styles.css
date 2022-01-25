@@ -1,0 +1,11 @@
+.missing-super-link {
+    color: limegreen;
+    font-size: 0.75em;
+    vertical-align: super;
+}
+
+.missing-sub-link {
+    color: limegreen;
+    font-size: 0.75em;
+    vertical-align: sub;
+}

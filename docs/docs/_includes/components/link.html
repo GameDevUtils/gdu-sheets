@@ -1,0 +1,17 @@
+
+{% if include.href %}
+  {% assign expectedurl = include.href %}
+
+  {% if expectedurl == page.url %}
+    {% assign activeclass = "active" %}
+    {% assign ariacurrent = "page" %}
+  {% else %}
+    {% assign activeclass = "" %}
+    {% assign ariacurrent = "false" %}
+  {% endif %}
+
+  <a class="nav-link {{ activeclass }}" href="{{ expectedurl }}" aria-current="{{ ariacurrent }}">{{ include.text }}</a>
+{% else %}
+{% endif%}
+{% capture expectedurl %}{{ fullurl }}/link{% endcapture %}
+

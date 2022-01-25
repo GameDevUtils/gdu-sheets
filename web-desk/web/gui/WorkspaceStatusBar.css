@@ -1,0 +1,42 @@
+.workspaceStatusBar {
+    position: absolute;
+    bottom: 0;
+    left: 300px;
+    right: 300px;
+    height: 40px;
+
+    line-height: 40px;
+    padding-left: 10px;
+    padding-right: 270px;
+
+    border-top: 1px solid black;
+    background-color: lightgray;
+}
+
+#workspaceStatusBarProgressBar {
+    position: absolute;
+
+    bottom: 7px;
+    width: 200px;
+    right: 5px;
+    height: 25px;
+
+    border-radius: .4em;
+    background-color: #def;
+}
+
+.progress {
+    border: solid 1px #666;
+}
+
+#workspaceStatusBarProgressBar div.progress-bar {
+    width: 5%;
+}
+
+.settingsPanelHidden {
+    left: 0;
+}
+
+.resourcesPanelHidden {
+    right: 0;
+}

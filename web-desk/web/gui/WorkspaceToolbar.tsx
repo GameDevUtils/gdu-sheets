@@ -1,0 +1,49 @@
+import React, {Component} from 'react';
+// import { Navbar, Nav, ButtonGroup, Button } from "react-bootstrap";
+import './WorkspaceToolbar.css';
+import {Button, ButtonGroup, Nav, Navbar} from "react-bootstrap";
+
+type MyProps = {
+    settingsPanelHidden: boolean,
+    resourcesPanelHidden: boolean,
+};
+
+type MyState = {
+
+};
+
+export class WorkspaceToolbar extends Component<MyProps, MyState> {
+    render() {
+        let className = "workspaceToolbar" + (this.props.settingsPanelHidden ? " settingsPanelHidden" : "");
+        className += (this.props.resourcesPanelHidden ? " resourcesPanelHidden" : "");
+        return (
+            <Navbar expand="lg" className={className}>
+                <Nav className="me-auto">
+                    <ButtonGroup id="grpZoomInOut" bsPrefix="btn-x" className="btnGroup btn-group">
+                        <Button id="btnZoomOut"><i className="fa fa-search-minus"> </i></Button>
+                        <Button id="btnZoomIn"><i className="fa fa-search-plus"> </i></Button>
+                    </ButtonGroup>
+
+                    <ButtonGroup id="grpZoomPercent" bsPrefix="btn-x" className="btnGroup btn-group">
+                        <select id="ddlZoomPercent" className="form-control" defaultValue="100.0">
+                            <option value="1600.0">1600.0%</option>
+                            <option value="800.0">800.0%</option>
+                            <option value="400.0">400.0%</option>
+                            <option value="200.0">200.0%</option>
+                            <option value="100.0">100.0% &deg;</option>
+                            <option value="50.0">50.0%</option>
+                            <option value="25.0">25.0%</option>
+                            <option value="12.5">12.5%</option>
+                        </select>
+                    </ButtonGroup>
+
+                    <ButtonGroup id="grpFitToWorkspace" bsPrefix="btn-x" className="btnGroup btn-group">
+                        <Button><i className="fa fa-arrows-alt-h"> </i></Button>
+                        <Button><i className="fa fa-arrows-alt-v"> </i></Button>
+                        <Button><i className="fa fa-expand-alt"> </i></Button>
+                    </ButtonGroup>
+                </Nav>
+            </Navbar>
+        );
+    }
+}

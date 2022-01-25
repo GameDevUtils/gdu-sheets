@@ -1,0 +1,75 @@
+.config-label {
+    color: black;
+    font-weight: bold;
+    line-height: 30px;
+    font-size: 0.75em;
+}
+
+.config-label-two-line {
+    line-height: normal;
+}
+
+.config-input-row {
+    padding-bottom: 5px;
+}
+
+.config-input-row-last {
+    padding-bottom: 50px;
+}
+
+.config-input-row-last ul {
+    list-style: disc;
+    margin: 0 25px;
+}
+
+.sidePanelLeft input,
+.sidePanelLeft select,
+.sidePanelLeft .input-group .input-group-text {
+    font-size: 0.8em;
+    border: 1px solid #444;
+    border-radius: .4em;
+}
+
+.sidePanelLeft select {
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    appearance: none;
+    background-image:
+        url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPCEtLSBHZW5lcmF0b3I6IEFkb2JlIElsbHVzdHJhdG9yIDI1LjQuMSwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246IDYuMDAgQnVpbGQgMCkgIC0tPgo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkxheWVyXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IgoJIHZpZXdCb3g9IjAgMCAyOTIuNCAyOTIuNCIgc3R5bGU9ImVuYWJsZS1iYWNrZ3JvdW5kOm5ldyAwIDAgMjkyLjQgMjkyLjQ7IiB4bWw6c3BhY2U9InByZXNlcnZlIj4KPHBhdGggZD0iTTI4Nyw2OS40Yy0zLjQtMy41LTguMS01LjUtMTMtNS40SDE4LjRjLTUsMC05LjMsMS44LTEyLjksNS40QzIsNzIuNywwLDc3LjQsMCw4Mi4yYzAsNSwxLjgsOS4zLDUuNCwxMi45bDEyOCwxMjcuOQoJYzMuNiwzLjYsNy44LDUuNCwxMi44LDUuNHM5LjItMS44LDEyLjgtNS40TDI4Nyw5NWMzLjUtMy41LDUuNC03LjgsNS40LTEyLjhzLTEuOS05LjItNS41LTEyLjhMMjg3LDY5LjR6Ii8+Cjwvc3ZnPgo=),
+        linear-gradient(to bottom, #fff 0%,#eee 100%);
+    background-repeat: no-repeat, repeat;
+    background-position: right .7em top 50%, 0 0;
+    background-size: .65em auto, 100%;
+}
+
+.sidePanelLeft i.fa-question-circle {
+    position: relative;
+    top: 5px;
+    left: -12px;
+}
+
+.sidePanelLeft .col-8 {
+    padding-left: 0;
+}
+
+.sidePanelLeft .col-3 {
+    padding-left: 4px;
+}
+
+/*.sidePanelLeft .col-3:not(.config-label-two-line) {*/
+/*    background-color: yellow;*/
+/*}*/
+
+.homepage-link,
+.homepage-copy,
+.homepage-site {
+    text-align: center;
+}
+
+.homepage-icon img {
+    width: 100%;
+}
+
+.panel-hidden {
+    display: none;
+}

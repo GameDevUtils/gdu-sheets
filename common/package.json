@@ -1,0 +1,31 @@
+{
+  "name": "gdu-core",
+  "version": "1.0.0",
+  "description": "",
+  "repository": "GameDevUtils/gdu-sheets",
+  "files": [
+    "build"
+  ],
+  "main": "build/index",
+  "types": "build/index.d.ts",
+  "bin": "build/index.js",
+  "type": "node",
+  "scripts": {
+    "mjs": "tsc -d && mv build/index.js build/index.cjs",
+    "cjs": "tsc -m commonjs",
+    "build": "tsc -d && tsc -m commonjs",
+    "test": "npx eslint . --ext .js,.jsx,.ts,.tsx"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^16.7.10",
+    "@types/yargs": "^17.0.2",
+    "@typescript-eslint/eslint-plugin": "^4.31.2",
+    "@typescript-eslint/parser": "^4.31.2",
+    "eslint": "^7.32.0",
+    "pkg": "^5.3.1",
+    "typescript": "^4.4.3"
+  }
+}

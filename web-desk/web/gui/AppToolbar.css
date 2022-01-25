@@ -1,0 +1,48 @@
+.appToolbar {
+    position: absolute;
+
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 55px;
+
+    padding-left: 30px;
+    padding-right: 30px;
+
+    background-color: #eee;
+    border-bottom: 1px solid black;
+}
+
+.btnGroup {
+    margin-right: 10px;
+}
+
+.btnGroup a, .btnGroup button,
+.appToolbar button:visited,
+.appToolbar button:active,
+.appToolbar button:focus,
+.appToolbar button:hover,
+.appToolbar button:link,
+.btnGroupLast button {
+/*.appToolbar a:visited, .appToolbar input:visited,.appToolbar button:visited,*/
+/*.appToolbar a:active, .appToolbar input:active,.appToolbar button:active,*/
+/*.appToolbar a:focus, .appToolbar input:focus,.appToolbar button:focus,*/
+/*.appToolbar a:hover, .appToolbar input:hover,.appToolbar button:hover,*/
+/*.appToolbar a:link, .appToolbar input:link,.appToolbar button:link,*/
+/*.btnGroupLast a, .btnGroupLast input, .btnGroupLast button {*/
+    background-image: linear-gradient(to bottom,#fff 0,#ddd 100%);
+    background-repeat: repeat-x;
+    outline: none;
+    box-shadow: none;
+    -webkit-box-shadow: none;
+    border: 1px solid #ccc;
+    color: #333;
+}
+
+.btnGroup a.activexx, .btnGroup button.activexx,
+.btnGroupLast a.activexx, .btnGroupLast button.activexx {
+    background-color: #ddd;
+    border: 1px solid #bbb;
+    background-image: none;
+    color: #333;
+}

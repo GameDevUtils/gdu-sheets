@@ -1,0 +1,81 @@
+.workspaceToolbar {
+    /* TODO: I'm not sure why !important is needed here. -- Joe */
+    position: absolute !important;
+
+    top: 55px;
+    height: 55px;
+    left: 300px;
+    right: 300px;
+
+    padding-left: 30px;
+    padding-right: 30px;
+    border-bottom: 1px solid black;
+
+    background-color: #444;
+}
+
+.workspaceToolbar .btnGroup {
+    margin-right: 10px;
+}
+
+.workspaceToolbar .btnGroup a,
+.workspaceToolbar .btnGroup button,
+.workspaceToolbar button:visited,
+.workspaceToolbar button:active,
+.workspaceToolbar button:focus,
+.workspaceToolbar button:hover,
+.workspaceToolbar button:link,
+.workspaceToolbar .btnGroupLast button {
+    background-image: linear-gradient(to bottom,#fff 0,#ddd 100%);
+    background-repeat: repeat-x;
+    outline: none;
+    box-shadow: none;
+    -webkit-box-shadow: none;
+    border: 1px solid #ccc;
+    color: #333;
+}
+
+.workspaceToolbar .btnGroup a.active,
+.workspaceToolbar .btnGroup button.active,
+.workspaceToolbar .btnGroupLast a.active,
+.workspaceToolbar .btnGroupLast button.active {
+    background-color: #ddd;
+    border: 1px solid #bbb;
+    background-image: none;
+    color: #333;
+}
+
+.workspaceToolbar input,
+.workspaceToolbar select,
+.workspaceToolbar .input-group .input-group-text {
+    font-size: 0.8em;
+    border: 1px solid #444;
+    border-radius: .4em;
+}
+
+.workspaceToolbar select {
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    appearance: none;
+    background-image:
+        url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPCEtLSBHZW5lcmF0b3I6IEFkb2JlIElsbHVzdHJhdG9yIDI1LjQuMSwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246IDYuMDAgQnVpbGQgMCkgIC0tPgo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkxheWVyXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IgoJIHZpZXdCb3g9IjAgMCAyOTIuNCAyOTIuNCIgc3R5bGU9ImVuYWJsZS1iYWNrZ3JvdW5kOm5ldyAwIDAgMjkyLjQgMjkyLjQ7IiB4bWw6c3BhY2U9InByZXNlcnZlIj4KPHBhdGggZD0iTTI4Nyw2OS40Yy0zLjQtMy41LTguMS01LjUtMTMtNS40SDE4LjRjLTUsMC05LjMsMS44LTEyLjksNS40QzIsNzIuNywwLDc3LjQsMCw4Mi4yYzAsNSwxLjgsOS4zLDUuNCwxMi45bDEyOCwxMjcuOQoJYzMuNiwzLjYsNy44LDUuNCwxMi44LDUuNHM5LjItMS44LDEyLjgtNS40TDI4Nyw5NWMzLjUtMy41LDUuNC03LjgsNS40LTEyLjhzLTEuOS05LjItNS41LTEyLjhMMjg3LDY5LjR6Ii8+Cjwvc3ZnPgo=),
+        linear-gradient(to bottom, #fff 0%,#eee 100%);
+    background-repeat: no-repeat, repeat;
+    background-position: right .7em top 50%, 0 0;
+    background-size: .65em auto, 100%;
+
+    width: 110px;
+}
+
+#grpZoomInOut i.fa,
+#grpFitToWorkspace i.fa {
+    width: 20px;
+}
+
+.settingsPanelHidden {
+    left: 0;
+}
+
+.resourcesPanelHidden {
+    right: 0;
+}

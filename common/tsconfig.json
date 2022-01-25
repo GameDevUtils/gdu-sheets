@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "target": "ES2015",
+    "module": "ES2015", //"commonjs",
+    "sourceMap": true,
+    "rootDir": "src",
+    "outDir": "build",
+    "importHelpers": false,
+    "esModuleInterop": true,
+    "moduleResolution": "node",
+    "strict": true
+  },
+  "include": [
+    "src"
+  ]
+}

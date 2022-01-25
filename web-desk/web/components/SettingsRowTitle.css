@@ -1,0 +1,19 @@
+.config-title,
+.config-title-error {
+    font-weight: bolder;
+    font-size: 1.1em;
+    color: white;
+    background-color: dimgray;
+    text-align: center;
+    margin-bottom: 5px;
+    cursor: pointer;
+}
+
+.config-title-error {
+    color: white;
+    background-color: darkred;
+    cursor: default;
+}
+
+.config-title {
+}

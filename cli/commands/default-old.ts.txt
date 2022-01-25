@@ -1,0 +1,23 @@
+import {Arguments, Argv/*, CommandModule*/} from 'yargs';
+import ExtCommandModule from './helpers/ExtCommandModule';
+import {ValidatedResult} from "./args-util";
+
+export default class DefaultCommandModule extends ExtCommandModule {
+    constructor() {
+        super();
+        this._command = "$0";
+        this._describe = "create, modify, and publish sprite sheet projects";
+        this._builder = undefined;
+        // this._handlerResult = new ValidatedResult();
+
+        this.handler = (args: Arguments) => {
+            // console.log("hello, Default Handler!", args);
+            this.handlerResult = new ValidatedResult();
+        }
+    }
+
+    // _handlerResult: ValidatedResult;
+    // get handlerResult() : ValidatedResult { return this._handlerResult; };
+    // set handlerResult(value) { this._handlerResult = value; };
+}
+
