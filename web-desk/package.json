@@ -19,15 +19,24 @@
     "web-vitals": "^1.1.2"
   },
   "main": "public/electron.js",
+
+  "scripts-old": {
+    "clean-desk": "rm -rf ./build/",
+    "build-desk": "electron-forge make"
+  },
   "scripts": {
     "start": "react-scripts start",
-    "start2": "PORT=8088 react-scripts start",
-    "build": "react-scripts build",
+    "start8088": "PORT=8088 react-scripts start",
     "test": "react-scripts test",
-    "eject": "react-scripts eject",
+    "eject-for-real": "react-scripts eject",
     "dev": "concurrently -k \"BROWSER=none npm start\" \"npm:electron\"",
+    "clean-web": "rm -rf ./build/",
+    "clean-desk": "echo \"No npm clean script for electron has been written.\"",
+    "build-web": "react-scripts build",
+    "build-desk": "echo \"No npm build script for electron has been written.\"",
     "electron": "wait-on tcp:3000 && electron ."
   },
+
   "eslintConfig": {
     "extends": [
       "react-app",

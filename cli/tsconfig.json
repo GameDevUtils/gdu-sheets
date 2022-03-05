@@ -1,25 +1,26 @@
 {
   "compilerOptions": {
-    "target": "ES2015", //"es6", //"ES2015",
-    "module": "ES2015", //"commonjs", //"ES2015", //"commonjs",
-//    "lib": ["es6"],
-//    "types": ["node"],
+    "target": "es2015", //"es6", //"ES2015",
+    "module": "es2015", //"commonjs", //"ES2015", //"commonjs",
+    "lib": [
+      "es2015.core",
+      "es2015"
+    ],
     "sourceMap": true,
-    "rootDir": ".",
-    "outDir": "./build",
+    "rootDir": "src",
+    "outDir": "build",
     "importHelpers": false,
     "esModuleInterop": true,
     "moduleResolution": "node",
-    "strict": true,
-    "resolveJsonModule": true,
-    "noImplicitAny": true,
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": true,
-    "skipLibCheck": true
+    "strict": true //,
+//    "resolveJsonModule": true,
+//    "noImplicitAny": true,
+//    "experimentalDecorators": true,
+//    "emitDecoratorMetadata": true,
+//    "skipLibCheck": true
   },
   "include": [
-    "**/*.ts",
-//    "../node_modules/@types/node/globals.d.ts"
+    "src"
   ],
   "exclude": [
     "**/*.test.ts"

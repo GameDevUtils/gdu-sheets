@@ -1,0 +1,45 @@
+<!--<header class="site-header" role="banner">-->
+
+  <div class="container">
+    <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
+      <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
+        <img src='{{"/assets/images/site-icon.png" | absolute_url}}' alt="Site Icon" style="height:40px; width:40px; margin-right:20px;"/>
+<!--        <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"></use></svg>-->
+        <span class="fs-4">GameDevUtils.com</span>
+      </a>
+
+      {% assign language = "" %}
+      {% assign version = "v0.3.0" %}
+
+      {% assign languages = "/en/,/es/,/fr/" | split: "," %}
+      {% for lang in languages %}
+        {% if page.path contains {{ lang }} %}
+          {% assign language = lang %}
+          {% break %}
+        {% endif %}
+      {% endfor %}
+
+
+      <ul class="nav nav-pills">
+<!--        <li class="nav-item"><a href="#" class="nav-link active" aria-current="page">Home</a></li>-->
+        {%- assign active_class = "" -%}
+        {%- if page.url == "/" -%}{%- assign active_class = "active" -%}{%- endif -%}
+        {%- if page.layout == "post" -%}{%- assign active_class = "active" -%}{%- endif -%}
+        <li class="nav-item"><a href='{{"/" | absolute_url}}' class="nav-link {{active_class}}">Blog</a></li>
+
+        {%- assign active_class = "" -%}{%- if page.url contains "/docs/" -%}{%- assign active_class = "active" -%}{%- endif -%}
+        <li class="nav-item"><a href='{{ "/content/" | append: version | append: "/" | append: language | append: "/docs/" | absolute_url }}' class="nav-link {{active_class}}">Docs</a></li>
+
+        {%- assign active_class = "" -%}{%- if page.url contains "/features/" -%}{%- assign active_class = "active" -%}{%- endif -%}
+        <li class="nav-item"><a href='{{ "/content/" | append: version | append: "/" | append: language | append: "/features/" | absolute_url }}' class="nav-link {{active_class}}">Features</a></li>
+
+        <li class="nav-item"><a href="#" class="nav-link">Apps</a></li>
+        <li class="nav-item"><a href="https://github.com/GameDevUtils" target="_blank" class="nav-link">Code</a></li>
+
+        {%- assign active_class = "" -%}{%- if page.url contains "/about/" -%}{%- assign active_class = "active" -%}{%- endif -%}
+        <li class="nav-item"><a href='{{ "/content/" | append: version | append: "/" | append: language | append: "/about/" | absolute_url }}' class="nav-link {{active_class}}">About</a></li>
+      </ul>
+    </header>
+  </div>
+
+<!--</header>-->

@@ -1,5 +1,5 @@
 {
-  "name": "gdu-core",
+  "name": "gdu-common",
   "version": "1.0.0",
   "description": "",
   "repository": "GameDevUtils/gdu-sheets",
@@ -13,6 +13,7 @@
   "scripts": {
     "mjs": "tsc -d && mv build/index.js build/index.cjs",
     "cjs": "tsc -m commonjs",
+    "clean": "rm -rf ./build/",
     "build": "tsc -d && tsc -m commonjs",
     "test": "npx eslint . --ext .js,.jsx,.ts,.tsx"
   },
