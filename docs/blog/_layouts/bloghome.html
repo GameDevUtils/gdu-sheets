@@ -18,7 +18,8 @@ layout: default
         <h3>
           <a class="post-link" href="{{ post.url | relative_url }}">{{ post.title | escape }}</a> <span class="post-meta">{{ post.date | date: date_format }}</span>
         </h3>
-
+<p>{{post.categories}}</p>
+<p>{% if post.categories contains "en" %}true{% endif %}</p>
         {%- if site.show_excerpts -%}
           {{ post.excerpt }}
         {%- endif -%}

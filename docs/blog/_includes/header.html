@@ -1,45 +1,105 @@
 <!--<header class="site-header" role="banner">-->
 
+<!--  <nav class="navbar navbar-dark bg-dark fixed-top">-->
+<!--      <a class="navbar-brand" href="#">Navbar</a>-->
+<!--      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">-->
+<!--          <span class="navbar-toggler-icon"></span>-->
+<!--      </button>-->
+<!--      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">-->
+<!--          <div class="navbar-nav">-->
+<!--              <a class="nav-item nav-link active" href="#">Home <span class="sr-only">(current)</span></a>-->
+<!--              <a class="nav-item nav-link" href="#">Features</a>-->
+<!--              <a class="nav-item nav-link" href="#">Pricing</a>-->
+<!--              <a class="nav-item nav-link disabled" href="#">Disabled</a>-->
+<!--          </div>-->
+<!--      </div>-->
+<!--  </nav>-->
+
   <div class="container">
     <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
       <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
         <img src='{{"/assets/images/site-icon.png" | absolute_url}}' alt="Site Icon" style="height:40px; width:40px; margin-right:20px;"/>
-<!--        <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"></use></svg>-->
         <span class="fs-4">GameDevUtils.com</span>
       </a>
 
-      {% assign language = "" %}
+      {% assign language = "/en/" %}
       {% assign version = "v0.3.0" %}
 
-      {% assign languages = "/en/,/es/,/fr/" | split: "," %}
+      {% assign languages = "/en/,/es/,/fr/,/ja/,/cz/,/ko/,/hi/" | split: "," %}
       {% for lang in languages %}
-        {% if page.path contains {{ lang }} %}
+        {% if page.dir contains {{ "/lang/" | append: lang }} %}
           {% assign language = lang %}
           {% break %}
         {% endif %}
       {% endfor %}
 
+        {% case language %}
+        {% when '/es/' %}
+            {% assign BLOG_LABEL = 'Blog' %}
+            {% assign DOCS_LABEL = 'Documentos' %}
+            {% assign FEAT_LABEL = 'Rasgos' %}
+            {% assign CODE_LABEL = 'Código' %}
+            {% assign ABOUT_LABEL = 'Sobre' %}
+            {% assign LANG_LABEL = 'Langue' %}
+        {% when '/fr/' %}
+            {% assign BLOG_LABEL = 'Blog' %}
+            {% assign DOCS_LABEL = 'Documents' %}
+            {% assign FEAT_LABEL = 'Traits' %}
+            {% assign CODE_LABEL = 'Code' %}
+            {% assign ABOUT_LABEL = 'Sur' %}
+            {% assign LANG_LABEL = 'Idioma' %}
+        {% else %}
+            {% assign BLOG_LABEL = 'Blog' %}
+            {% assign DOCS_LABEL = 'Docs' %}
+            {% assign FEAT_LABEL = 'Features' %}
+            {% assign CODE_LABEL = 'Code' %}
+            {% assign ABOUT_LABEL = 'About' %}
+            {% assign LANG_LABEL = 'Language' %}
+        {% endcase %}
 
-      <ul class="nav nav-pills">
+        {% if page.dir == "/" and page.url != "/404.html" %}{% assign hide_header_links = "d-none" %}{% endif %}
+
+      <ul class="nav nav-pills {{ hide_header_links }}">
 <!--        <li class="nav-item"><a href="#" class="nav-link active" aria-current="page">Home</a></li>-->
         {%- assign active_class = "" -%}
-        {%- if page.url == "/" -%}{%- assign active_class = "active" -%}{%- endif -%}
+        {%- if page.url contains "/blog/" -%}{%- assign active_class = "active" -%}{%- endif -%}
         {%- if page.layout == "post" -%}{%- assign active_class = "active" -%}{%- endif -%}
-        <li class="nav-item"><a href='{{"/" | absolute_url}}' class="nav-link {{active_class}}">Blog</a></li>
+        <li class="nav-item"><a href='{{ "/lang" | append: language | append: "blog/" | absolute_url}}' class="nav-link {{active_class}}">{{BLOG_LABEL}}</a></li>
 
         {%- assign active_class = "" -%}{%- if page.url contains "/docs/" -%}{%- assign active_class = "active" -%}{%- endif -%}
-        <li class="nav-item"><a href='{{ "/content/" | append: version | append: "/" | append: language | append: "/docs/" | absolute_url }}' class="nav-link {{active_class}}">Docs</a></li>
+        <li class="nav-item"><a href='{{ "/lang" | append: language | append: "docs/" | absolute_url }}' class="nav-link {{active_class}}">{{DOCS_LABEL}}</a></li>
 
         {%- assign active_class = "" -%}{%- if page.url contains "/features/" -%}{%- assign active_class = "active" -%}{%- endif -%}
-        <li class="nav-item"><a href='{{ "/content/" | append: version | append: "/" | append: language | append: "/features/" | absolute_url }}' class="nav-link {{active_class}}">Features</a></li>
+        <li class="nav-item"><a href='{{ "/lang" | append: language | append: "features/" | absolute_url }}' class="nav-link {{active_class}}">{{FEAT_LABEL}}</a></li>
 
-        <li class="nav-item"><a href="#" class="nav-link">Apps</a></li>
-        <li class="nav-item"><a href="https://github.com/GameDevUtils" target="_blank" class="nav-link">Code</a></li>
+        <li class="nav-item"><a href="https://github.com/GameDevUtils" target="_blank" class="nav-link">{{CODE_LABEL}}</a></li>
 
         {%- assign active_class = "" -%}{%- if page.url contains "/about/" -%}{%- assign active_class = "active" -%}{%- endif -%}
-        <li class="nav-item"><a href='{{ "/content/" | append: version | append: "/" | append: language | append: "/about/" | absolute_url }}' class="nav-link {{active_class}}">About</a></li>
+        <li class="nav-item"><a href='{{ "/lang" | append: language | append: "about/" | absolute_url }}' class="nav-link {{active_class}}">{{ABOUT_LABEL}}</a></li>
+
+          <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  {{LANG_LABEL}}
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <li><a class="dropdown-item" href="javascript:setLang('/en/','{{ language}}')">English</a></li>
+                  <li><a class="dropdown-item" href="javascript:setLang('/es/','{{ language}}')">Español</a></li>
+                  <li><a class="dropdown-item" href="javascript:setLang('/fr/','{{ language}}')">Français</a></li>
+                  <li><a class="dropdown-item" href="javascript:setLang('/ja/','{{ language}}')">日本</a></li>
+                  <li><a class="dropdown-item" href="javascript:setLang('/cz/','{{ language}}')">中国人</a></li>
+                  <li><a class="dropdown-item" href="javascript:setLang('/ko/','{{ language}}')">한국어</a></li>
+                  <li><a class="dropdown-item" href="javascript:setLang('/hi/','{{ language}}')">हिन्दी</a></li>
+              </ul>
+          </li>
+
       </ul>
     </header>
+      <script lang="text/javascript">
+          function setLang(langNew, langOrig) {
+              if(langOrig === langNew) { return; }
+              window.location.href = window.location.href.replaceAll(langOrig, langNew);
+          }
+      </script>
   </div>
 
 <!--</header>-->

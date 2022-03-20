@@ -16,14 +16,15 @@
 title: GameDevUtils.com
 email: hello@gamedevutils.com
 tagline: More tools. More platforms.
+
 # author: Contact Us
-description: >- # this means to ignore newlines until "baseurl:"
-  I created GameDevUtils.com for my game programming students
-  to have access to high-quality, free tools. The goals of the
-  project are to create tools that rival the
-  for-pay apps in functionality and design, to provide access to
-  the source code for those tools, and to get my students excited about
-  game programming by making many of the more tedious production tasks easier.
+#description: >- # this means to ignore newlines until "baseurl:"
+#  I created GameDevUtils.com for my game programming students
+#  to have access to high-quality, free tools. The goals of the
+#  project are to create tools that rival the
+#  for-pay apps in functionality and design, to provide access to
+#  the source code for those tools, and to get my students excited about
+#  game programming by making many of the more tedious production tasks easier.
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "" # the base hostname & protocol for your site, e.g. http://example.com
 
@@ -31,9 +32,11 @@ facebook_username:  groundh0g
 twitter_username:   groundh0g
 youtube_username:   groundh0g
 github_username:    groundh0g
-#instagram_username: groundh0g72
-twitch_username:    groundh0gXNA
 linkedin_username:  groundh0g
+pinterest_username: groundh0g
+instagram_username: groundh0g72
+twitch_username:    groundh0gXNA
+rss: RSS
 
 show_excerpts: true
 # Build settings

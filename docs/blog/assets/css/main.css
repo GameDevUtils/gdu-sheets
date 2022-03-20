@@ -117,6 +117,10 @@ a.disabled:visited {
     text-decoration: none;
 }
 
+footer {
+    background-color: #eee;
+}
+
 /*h2 {*/
 /*    margin-left: +13px;*/
 /*}*/
