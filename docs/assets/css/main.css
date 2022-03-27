@@ -1,0 +1,150 @@
+.no-bullets ul li {
+  list-style: none;
+}
+
+.no-bullets {
+    /*background-color: #ffda7c;*/
+    background-color: #fec;
+    color: black;
+    padding: 5px;
+    /*margin-top: 10px;*/
+    margin-bottom: 15px;
+    font-size: 1.4em;
+    font-weight: bolder;
+    border: gray dashed 3px;
+    border-radius: 20px;
+}
+
+.no-bullets a:link,
+.no-bullets a:active,
+.no-bullets a:visited
+{
+    color: black;
+    text-decoration: none;
+}
+
+.no-bullets a:hover
+{
+    /*color: steelblue;*/
+    color: #fd7e14;
+    text-decoration: none;
+}
+
+.no-bullets a.active:link,
+.no-bullets a.active:hover,
+.no-bullets a.active:active,
+.no-bullets a.active:visited
+{
+    /*color: #fd7e14;*/
+    color: #c50;
+}
+
+.no-bullets li {
+    font-size: 0.85em;
+}
+
+.no-bullets ul :not(li.active) ul li {
+    display: none;
+}
+
+.no-bullets ul li.active ul li {
+    color: black;
+    margin-left: 15px;
+}
+
+.no-bullets ul {
+    margin: 10px 10px 10px 15px;
+}
+
+.no-bullets ul li ul {
+    margin: 0 0 10px 15px;
+}
+
+.no-bullets ul li ul li {
+    font-weight: normal;
+}
+
+.docs-nav {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.docs-nav .disabled {
+    background-color: lightgray;
+    color: black;
+    border: 0;
+}
+
+a.popupFeatureSheets:visited,
+a.popupFeatureSheets:hover,
+a.popupFeatureSheets:link,
+a.popupFeatureSheets:active,
+
+a.popupFeatureFonts:visited,
+a.popupFeatureFonts:hover,
+a.popupFeatureFonts:link,
+a.popupFeatureFonts:active,
+
+a.popupFeatureTiles:visited,
+a.popupFeatureTiles:hover,
+a.popupFeatureTiles:link,
+a.popupFeatureTiles:active,
+
+a.popupFeatureAnimation:visited,
+a.popupFeatureAnimation:hover,
+a.popupFeatureAnimation:link,
+a.popupFeatureAnimation:active,
+
+a.popupFeatureEffects:visited,
+a.popupFeatureEffects:hover,
+a.popupFeatureEffects:link,
+a.popupFeatureEffects:active
+
+{
+    color: white
+}
+
+a.disabled:active,
+a.disabled:hover,
+a.disabled:link,
+a.disabled:visited {
+    color: black;
+    text-decoration: none;
+}
+
+footer h1,
+footer h2,
+footer h3,
+footer h4,
+footer h5,
+footer h6 {
+    color: white;
+}
+
+footer,
+footer a:active,
+footer a:hover,
+footer a:link,
+footer a:visited {
+    color: #fff;
+    text-decoration: none;
+}
+
+.site-footer {
+    color: #ccc;
+    text-decoration: none;
+    margin: 0px;
+}
+
+footer a.disabled:active,
+footer a.disabled:hover,
+footer a.disabled:link,
+footer a.disabled:visited {
+    color: #ddd;
+    text-decoration: none;
+}
+
+footer svg.svg-icon use {
+    /*background-color: #ffeedd;*/
+    fill: #fff;
+}

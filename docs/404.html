@@ -1,0 +1,179 @@
+---
+layout: page
+---
+
+<!--<style type="text/css" media="screen">-->
+<!--  .container {-->
+<!--    margin: 10px auto;-->
+<!--    max-width: 600px;-->
+<!--    text-align: center;-->
+<!--  }-->
+<!--  h1 {-->
+<!--    margin: 30px 0;-->
+<!--    font-size: 4em;-->
+<!--    line-height: 1;-->
+<!--    letter-spacing: -1px;-->
+<!--  }-->
+<!--</style>-->
+
+<style type="text/css">
+  .lang-hide { display:none; }
+</style>
+
+{% capture CONTENT_EN %}
+# Sincerest Apologies.
+
+We seem to have misplaced this page.
+
+Pages for this website are initially written in English, then translated using automated tools. You may click the back button in your web browser to return to the page that led you here.
+
+![typing]({{"/assets/images/404/woman-g0366ac123_1280.jpg" | absolute_url}})
+
+Our resources are limited, but we will try to bring this page up-to-date as soon as possible.
+{% endcapture %}
+
+{% capture CONTENT_ES %}
+# Mis más sinceras disculpas.
+
+Parece que hemos perdido esta página.
+
+Las páginas de este sitio web están inicialmente escritas en inglés y luego traducidas utilizando herramientas automatizadas. Puede hacer clic en el botón Atrás de su navegador web para volver a la página que lo trajo aquí.
+
+![mecanografía]({{"/assets/images/404/woman-g0366ac123_1280.jpg" | absolute_url}})
+
+Nuestros recursos son limitados, pero intentaremos actualizar esta página lo antes posible.
+{% endcapture %}
+
+{% capture CONTENT_FR %}
+# Excuses les plus sincères.
+
+Il semble que nous ayons égaré cette page.
+
+Les pages de ce site Web sont initialement rédigées en anglais, puis traduites à l'aide d'outils automatisés. Vous pouvez cliquer sur le bouton de retour de votre navigateur Web pour revenir à la page qui vous a amené ici.
+
+![dactylographie]({{"/assets/images/404/woman-g0366ac123_1280.jpg" | absolute_url}})
+
+Nos ressources sont limitées, mais nous essaierons de mettre à jour cette page dès que possible.
+{% endcapture %}
+
+{% capture CONTENT_JA %}
+# 心よりお詫び申し上げます。
+
+このページが欠落しているようです。
+
+このウェブサイトのページはもともと英語で書かれており、自動化されたツールを使用して翻訳されています。 ウェブブラウザの[戻る]ボタンをクリックすると、前のページに戻ることができます。
+
+![タイピング]({{"/assets/images/404/woman-g0366ac123_1280.jpg" | absolute_url}})
+
+リソースには限りがありますが、このページをできるだけ早く最新の状態に保つよう努めます。
+{% endcapture %}
+
+{% capture CONTENT_CZ %}
+# 我们真诚地道歉。
+
+我们似乎放错了这个页面。
+
+该网站的页面最初是用英语编写的，然后使用自动化工具进行翻译。 您可以单击 Web 浏览器中的后退按钮返回到将您带到这里的页面。
+
+![在笔记本电脑上工作]({{"/assets/images/404/woman-g0366ac123_1280.jpg" | absolute_url}})
+
+我们的资源有限，但我们会尽快更新此页面。
+{% endcapture %}
+
+{% capture CONTENT_KO %}
+# 진심으로 사과드립니다.
+
+이 페이지의 위치가 잘못되었을 수 있습니다.
+
+이 웹사이트의 페이지는 처음에 영어로 작성된 다음 자동화 도구를 사용하여 번역됩니다. 웹 브라우저에서 뒤로 버튼을 클릭하면 이전 페이지로 돌아갈 수 있습니다.
+
+![노트북 작업]({{"/assets/images/404/woman-g0366ac123_1280.jpg" | absolute_url}})
+
+리소스가 제한되어 있지만 가능한 한 빨리 이 페이지를 업데이트하겠습니다.
+{% endcapture %}
+
+{% capture CONTENT_HI %}
+# दिल से क्षमा।
+
+ऐसा लगता है कि हमने इस पेज को गलत जगह पर रख दिया है।
+
+इस वेबसाइट के पृष्ठ प्रारंभ में अंग्रेजी में लिखे गए हैं और फिर स्वचालित उपकरणों का उपयोग करके उनका अनुवाद किया गया है। आप अपने वेब ब्राउजर में बैक बटन पर क्लिक करके पिछले पेज पर लौट सकते हैं।
+
+![टाइपिंग]({{"/assets/images/404/woman-g0366ac123_1280.jpg" | absolute_url}})
+
+हमारे संसाधन सीमित हैं, लेकिन हम इस पेज को जल्द से जल्द अपडेट करने का प्रयास करेंगे।
+{% endcapture %}
+
+
+<div class="container lang-en lang-hide">
+  {{ CONTENT_EN | markdownify }}
+</div>
+
+<div class="container lang-es lang-hide">
+  {{ CONTENT_ES | markdownify }}
+</div>
+
+<div class="container lang-fr lang-hide">
+  {{ CONTENT_FR | markdownify }}
+</div>
+
+<div class="container lang-ja lang-hide">
+  {{ CONTENT_JA | markdownify }}
+</div>
+
+<div class="container lang-cz lang-hide">
+  {{ CONTENT_CZ | markdownify }}
+</div>
+
+<div class="container lang-ko lang-hide">
+  {{ CONTENT_KO | markdownify }}
+</div>
+
+<div class="container lang-hi lang-hide">
+  {{ CONTENT_HI | markdownify }}
+</div>
+
+
+
+<script type="text/javascript">
+  // String.prototype.includes polyfill
+  if (!String.prototype.includes) {
+    String.prototype.includes = function(search, start) {
+      'use strict';
+
+      if (search instanceof RegExp) {
+        throw TypeError('first argument must not be a RegExp');
+      }
+      if (start === undefined) { start = 0; }
+      return this.indexOf(search, start) !== -1;
+    };
+  }
+
+  // console.log(document.querySelector("div.lang-es"))
+
+  function removeClass(selector, className) {
+    const element = document.querySelector(selector);
+    if(element.classList.contains(className)) {
+      element.classList.remove(className);
+    }
+  }
+
+  if(window.location.href.includes("/lang/es/")) {
+    removeClass("div.lang-es", "lang-hide");
+  } else if(window.location.href.includes("/lang/fr/")) {
+    removeClass("div.lang-fr", "lang-hide");
+  } else if(window.location.href.includes("/lang/ja/")) {
+    removeClass("div.lang-ja", "lang-hide");
+  } else if(window.location.href.includes("/lang/cz/")) {
+    removeClass("div.lang-cz", "lang-hide");
+  } else if(window.location.href.includes("/lang/ko/")) {
+    removeClass("div.lang-ko", "lang-hide");
+  } else if(window.location.href.includes("/lang/hi/")) {
+    removeClass("div.lang-hi", "lang-hide");
+  } else {
+    removeClass("div.lang-en", "lang-hide");
+  }
+
+  // console.log(document.querySelector("div.lang-es"))
+
+</script>
