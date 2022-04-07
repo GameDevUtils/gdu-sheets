@@ -1,6 +1,9 @@
 ---
 layout: post
-title: "Happy Birth Day, Eldest!"
+title: "Happy Birthday, Eldest!"
+author:
+  name: Joseph Hall
+  twitter: groundh0g
 ---
 
 On February 13th, 2022, my firstborn (of three girls) turned 22!
