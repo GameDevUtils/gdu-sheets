@@ -1,8 +1,7 @@
+// import {Arguments, Argv} from "yargs";
 // import Options from './options';
-import {Arguments, Argv} from "yargs";
-import Options from './options';
-import NewProjectCommandModule from "./new-project";
-import * as yargs from "yargs";
+// import NewProjectCommandModule from "./project/new";
+// import * as yargs from "yargs";
 
 describe("options", () => {
 

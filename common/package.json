@@ -15,18 +15,43 @@
     "cjs": "tsc -m commonjs",
     "clean": "rm -rf ./build/",
     "build": "tsc -d && tsc -m commonjs",
-    "test": "npx eslint . --ext .js,.jsx,.ts,.tsx"
+    "lint": "npx eslint . --ext .js,.jsx,.ts,.tsx",
+    "test": "jest",
+    "watch": "jest --watch",
+    "licenses": "license-report --output=table --only=prod"
   },
   "keywords": [],
   "author": "",
   "license": "MIT",
   "devDependencies": {
+    "@babel/preset-typescript": "^7.16.0",
+    "@types/bmp-js": "^0.1.0",
+    "@types/jest": "^27.0.3",
+    "@types/js-base64": "^3.3.1",
+    "@types/ndarray": "^1.0.11",
     "@types/node": "^16.7.10",
+    "@types/pngjs": "^6.0.1",
+    "@types/uuid": "^8.3.4",
     "@types/yargs": "^17.0.2",
-    "@typescript-eslint/eslint-plugin": "^4.31.2",
-    "@typescript-eslint/parser": "^4.31.2",
+    "@typescript-eslint/eslint-plugin": "^4.33.0",
+    "@typescript-eslint/parser": "^4.33.0",
+    "babel-jest": "^27.3.1",
     "eslint": "^7.32.0",
+    "jest": "^27.3.1",
+    "license-report": "^5.0.2",
     "pkg": "^5.3.1",
+    "ts-jest": "^27.0.7",
+    "ts-node": "^10.4.0",
     "typescript": "^4.4.3"
+  },
+  "dependencies": {
+    "bmp-js": "^0.1.0",
+    "decode-gif": "^1.0.1",
+    "jpeg-js": "^0.4.3",
+    "jszip": "^3.9.1",
+    "ndarray": "^1.0.19",
+    "pngjs": "^6.0.0",
+    "save-pixels": "^2.3.6",
+    "uuid": "^8.3.2"
   }
 }

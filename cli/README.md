@@ -1,3 +1,3 @@
 # gdu-sheets
 
-A rewrite of the existing sheets app to distribute as static SPA, desktop app (via ElectronJS), and CLI.
+A rewrite of the existing sheets app to distribute as a static SPA (using ReactJS), desktop app (using ElectronJS), and CLI (using NodeJS).
