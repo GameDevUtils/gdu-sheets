@@ -25,8 +25,8 @@ tagline: More tools. More platforms.
 #  for-pay apps in functionality and design, to provide access to
 #  the source code for those tools, and to get my students excited about
 #  game programming by making many of the more tedious production tasks easier.
-baseurl: "" # the subpath of your site, e.g. /blog
-url: "" # the base hostname & protocol for your site, e.g. http://example.com
+baseurl: "/gdu-sheets" # the subpath of your site, e.g. /blog
+url: "https://gamedevutils.github.io" # the base hostname & protocol for your site, e.g. http://example.com
 
 facebook_username:  groundh0g
 twitter_username:   groundh0g
