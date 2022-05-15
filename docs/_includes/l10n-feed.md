@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+{%- capture code -%}{%- include l10n-code.md -%}{%- endcapture -%}
+
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <generator uri="{{ site.feedify.generator.uri }}" version="{{ site.feedify.generator.version }}">{{ site.feedify.generator.name }}</generator>
+    <link href='{{ "/lang" | append: code | append: "feed.xml" | absolute_url }}' rel="self" type="application/atom+xml"/>
+    <link href='{{ "/" | absolute_url }}' rel="alternate" type="text/html"/>
+    <updated>{{ site.time | date_to_xmlschema }}</updated>
+    <id>'{{ "/lang" | append: code | append: "feed.xml" | absolute_url }}'</id>
+    <title type="html">{{ site.feedify.generator.home }}</title>
+
+{% assign code_key = code | replace: "/", "" %}
+{% for post in site.categories[code_key] %}
+
+    <entry>
+        <title type="html">{{ post.title | default: "Untitled Post" }}</title>
+        <link href='{{ post.url | absolute_url }}' rel="alternate"
+              type="text/html" title='{{ post.title | default: "Untitled Post" }}'/>
+        <published>{{ post.date | date_to_rfc822 }}</published>
+        <updated>{{ post.date | date_to_rfc822 }}</updated>
+        <id>{{ post.id | absolute_url }}</id>
+        <content type="html" xml:base='{{ post.url | absolute_url }}'>{{ post.content | xml_escape }}
+        </content>
+        <author>
+            <name>{{ post.author["name"] | default: site.author["name"] | default: "Joseph Hall" | escape }}
+                {% assign twitter_handle = post.author["twitter"] | default: site.author["twitter"] | default: "groundh0g" | escape %}
+                {% if twitter_handle %}(@{{ twitter_handle }}){% endif %}</name>
+        </author>
+        {% for cat in post.categories -%}
+        <category term="{{ cat }}"/>
+        {% endfor %}
+        <summary type="html">{{ post.excerpt | xml_escape }}</summary>
+    </entry>
+
+{% endfor %}
+
+</feed>

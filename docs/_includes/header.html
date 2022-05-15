@@ -1,0 +1,141 @@
+  <div class="container">
+    <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
+      <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none">
+        <img src='{{"/assets/images/site-icon.png" | absolute_url}}' alt="Site Icon" style="height:40px; width:40px; margin-right:20px;"/>
+        <span class="fs-4">GameDevUtils.com</span>
+      </a>
+
+      {% capture language %}{% include l10n-code.md %}{% endcapture %}
+
+      {% comment %}
+      {% assign language = "/en/" %}
+      {% assign version = "v0.3.0" %}
+
+      {% assign language_list = "/en/,/es/,/fr/,/ja/,/cz/,/ko/,/hi/" %}
+      {% assign languages = language_list | split: "," %}
+
+      {% for lang in languages %}
+        {% if page.dir contains {{ "/lang" | append: lang }} %}
+          {% assign language = lang %}
+          {% break %}
+        {% endif %}
+      {% endfor %}
+      {% endcomment %}
+
+        {% case language %}
+        {% when '/cz/' %}
+            {% assign BLOG_LABEL = '博客' %}
+            {% assign DOCS_LABEL = '文档' %}
+            {% assign FEAT_LABEL = '特点' %}
+            {% assign CODE_LABEL = '源代码' %}
+            {% assign ABOUT_LABEL = '关于' %}
+            {% assign LANG_LABEL = '语言' %}
+        {% when '/es/' %}
+            {% assign BLOG_LABEL = 'Blog' %}
+            {% assign DOCS_LABEL = 'Documentos' %}
+            {% assign FEAT_LABEL = 'Rasgos' %}
+            {% assign CODE_LABEL = 'Código' %}
+            {% assign ABOUT_LABEL = 'Sobre' %}
+            {% assign LANG_LABEL = 'Idioma' %}
+        {% when '/fr/' %}
+            {% assign BLOG_LABEL = 'Blog' %}
+            {% assign DOCS_LABEL = 'Documents' %}
+            {% assign FEAT_LABEL = 'Traits' %}
+            {% assign CODE_LABEL = 'Source' %}
+            {% assign ABOUT_LABEL = 'Sur' %}
+            {% assign LANG_LABEL = 'Langue' %}
+        {% when '/hi/' %}
+            {% assign BLOG_LABEL = 'ब्लॉग' %}
+            {% assign DOCS_LABEL = 'डॉक्स' %}
+            {% assign FEAT_LABEL = 'विशेषताएं' %}
+            {% assign CODE_LABEL = 'सोर्स कोड' %}
+            {% assign ABOUT_LABEL = 'के बारे में' %}
+            {% assign LANG_LABEL = 'भाषा' %}
+        {% when '/ja/' %}
+            {% assign BLOG_LABEL = 'ブログ' %}
+            {% assign DOCS_LABEL = 'ドキュメント' %}
+            {% assign FEAT_LABEL = '特徴' %}
+            {% assign CODE_LABEL = 'コード' %}
+            {% assign ABOUT_LABEL = '情報' %}
+            {% assign LANG_LABEL = '言語' %}
+        {% when '/ko/' %}
+            {% assign BLOG_LABEL = '블로그' %}
+            {% assign DOCS_LABEL = '문서' %}
+            {% assign FEAT_LABEL = '기인하다' %}
+            {% assign CODE_LABEL = '소스 코드' %}
+            {% assign ABOUT_LABEL = '정보' %}
+            {% assign LANG_LABEL = '언어' %}
+        {% else %}
+            {% assign BLOG_LABEL = 'Blog' %}
+            {% assign DOCS_LABEL = 'Docs' %}
+            {% assign FEAT_LABEL = 'Features' %}
+            {% assign CODE_LABEL = 'Code' %}
+            {% assign ABOUT_LABEL = 'About' %}
+            {% assign LANG_LABEL = 'Language' %}
+        {% endcase %}
+
+        {% if page.dir == "/" and page.url != "/404.html" %}{% assign hide_header_links = "d-none" %}{% endif %}
+
+      <ul class="nav nav-pills {{ hide_header_links }}">
+<!--        <li class="nav-item"><a href="#" class="nav-link active" aria-current="page">Home</a></li>-->
+        {%- assign active_class = "" -%}
+        {%- if page.url contains "/blog/" -%}{%- assign active_class = "active" -%}{%- endif -%}
+        {%- if page.layout == "post" -%}{%- assign active_class = "active" -%}{%- endif -%}
+        <li class="nav-item"><a href='{{ "/lang" | append: language | append: "blog/" | absolute_url}}' class="nav-link {{active_class}}">{{BLOG_LABEL}}</a></li>
+
+        {%- assign active_class = "" -%}{%- if page.url contains "/docs/" -%}{%- assign active_class = "active" -%}{%- endif -%}
+        <li class="nav-item"><a href='{{ "/lang" | append: language | append: "docs/" | absolute_url }}' class="nav-link {{active_class}}">{{DOCS_LABEL}}</a></li>
+
+        {%- assign active_class = "" -%}{%- if page.url contains "/features/" -%}{%- assign active_class = "active" -%}{%- endif -%}
+        <li class="nav-item"><a href='{{ "/lang" | append: language | append: "features/" | absolute_url }}' class="nav-link {{active_class}}">{{FEAT_LABEL}}</a></li>
+
+        <li class="nav-item"><a href="https://github.com/GameDevUtils" target="_blank" class="nav-link">{{CODE_LABEL}}</a></li>
+
+        {%- assign active_class = "" -%}{%- if page.url contains "/about/" -%}{%- assign active_class = "active" -%}{%- endif -%}
+        <li class="nav-item"><a href='{{ "/lang" | append: language | append: "about/" | absolute_url }}' class="nav-link {{active_class}}">{{ABOUT_LABEL}}</a></li>
+
+          <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  {{LANG_LABEL}}
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <li><a class="dropdown-item" href="javascript:setLang('/en/','{{ language }}')">English</a></li>
+                  <li><a class="dropdown-item" href="javascript:setLang('/es/','{{ language }}')">Español</a></li>
+                  <li><a class="dropdown-item" href="javascript:setLang('/fr/','{{ language }}')">Français</a></li>
+                  <li><a class="dropdown-item" href="javascript:setLang('/ja/','{{ language }}')">日本</a></li>
+                  <li><a class="dropdown-item" href="javascript:setLang('/cz/','{{ language }}')">中国人</a></li>
+                  <li><a class="dropdown-item" href="javascript:setLang('/ko/','{{ language }}')">한국어</a></li>
+                  <li><a class="dropdown-item" href="javascript:setLang('/hi/','{{ language }}')">हिन्दी</a></li>
+              </ul>
+          </li>
+
+      </ul>
+    </header>
+
+      <script lang="text/javascript">
+          function setLang(langNew, langOld) {
+              const href = window.location.href;
+              const search = href.endsWith("/blog/") || "{{ page.url }}".indexOf("/404.html" > 0);
+              if(search) {
+                  const languages = "{{ language_list }}".split(",");
+                  // const languages = "/en/,/es/,/fr/,/ja/,/cz/,/ko/,/hi/".split(",");
+                  let found = languages.some((lang) => {
+                      if(href.indexOf(lang) > 0) {
+                          langOld = lang;
+                          return true;
+                      }
+                  });
+                  if(found) {
+                      // alert("if\n" + window.location.href + '\n' + window.location.href.replaceAll(langOld, langNew))
+                      window.location.href = href.replaceAll(langOld, langNew);
+                  }
+              } else {
+                  if(langOld === langNew) { return; }
+                  // alert("else\n" + window.location.href + '\n' + window.location.href.replaceAll(langOld, langNew))
+                  window.location.href = href.replaceAll(langOld, langNew);
+              }
+          }
+      </script>
+  </div>
+
+<!--</header>-->

@@ -1,0 +1,34 @@
+---
+layout: default
+---
+
+<div class="home">
+  {%- assign count = 0 -%}
+  {%- if site.posts.size > 0 -%}
+<!--    <h2 class="post-list-heading">{{ page.list_title | default: "News and Such" }}</h2>-->
+    <ul class="post-list">
+      {%- for post in site.posts -%}
+          {% if post.categories contains page.language %}
+          <li>
+            {%- assign date_format = site.minima.date_format | default: "%b %-d, %Y" -%}
+            <h3>
+              <a class="post-link" href="{{ post.url | relative_url }}">{{ post.title | escape }}</a> <span class="post-meta">{{ post.date | date: date_format }}</span>
+            </h3>
+            {%- if site.show_excerpts -%}
+              {{ post.excerpt }}
+            {%- endif -%}
+          </li>
+          {%- assign count = count | plus: 1 -%}
+          {%- endif -%}
+      {%- endfor -%}
+    </ul>
+
+    {%- if count == 0 -%}
+      {{ content }}
+    {%- else -%}
+      {% include l10n-html.md blurb="subscribe.md" %}
+    {%- endif -%}
+
+  {%- endif -%}
+
+</div>

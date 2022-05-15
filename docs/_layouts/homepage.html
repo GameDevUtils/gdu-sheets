@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang='"{{ page.lang | default: site.lang | default: "en" }}"' class="homepage-full-height">
+
+  {%- include head.html -%}
+
+  <body class="bg-dark homepage-full-height">
+
+  <div class="bg-light">
+
+    {%- include header.html -%}
+
+  </div>
+
+  <div class="homepage-full-height container"> {{ content }} </div>
+
+  </body>
+
+</html>
