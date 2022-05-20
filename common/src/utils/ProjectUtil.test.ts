@@ -1,8 +1,11 @@
-import ProjectUtil from "./ProjectUtil";
+import ProjectUtil, {Images} from "./ProjectUtil";
 import ObjectUtil from "./ObjectUtil";
 import {APPLICATION_VERSION} from "./AppUtil";
 import '../objs/projects';
 import {TrimMode, YesNo} from "../objs/projects";
+import ImageUtil_PNG from "./ImageUtil._png";
+import ImageUtil from "./ImageUtil";
+import ImageUtil_ImageParser from "./ImageUtil._base";
 
 describe("ProjectUtil", () => {
 
@@ -126,6 +129,111 @@ describe("ProjectUtil", () => {
             // expect(result.options.borderPadding).toBe(proj1.options.borderPadding);
         });
 
+        test("serializes version 0.3.0 projects without images", () => {
+            const proj1Obj = ProjectUtil.getDefaultProject();
+            const proj1Txt = ProjectUtil.serialize(proj1Obj);
+            const proj2Obj = ProjectUtil.deserialize(proj1Txt, APPLICATION_VERSION.CURRENT);
+
+            expect(proj1Obj).toStrictEqual(proj2Obj);
+        });
+
+        test("serializes version 0.2.0 projects without images", () => {
+            const proj1Obj = ProjectUtil.getDefaultProject(APPLICATION_VERSION.V0_2_0);
+            const proj1Txt = ProjectUtil.serialize(proj1Obj, APPLICATION_VERSION.V0_2_0);
+            const proj2Obj = ProjectUtil.deserialize(proj1Txt, APPLICATION_VERSION.V0_2_0);
+
+            expect(proj2Obj).toStrictEqual(proj1Obj);
+        });
+
+        test("reports error when deserializing malformed projects", () => {
+            const proj1Obj = ProjectUtil.getDefaultProject();
+            const proj1Txt = ProjectUtil.serialize(proj1Obj);
+            const proj2Obj = ProjectUtil.deserialize(proj1Txt.substring(25), APPLICATION_VERSION.CURRENT);
+
+            expect(proj1Obj).toStrictEqual(proj2Obj);
+        });
+
+        test("serializes and deserailizes projects without images", () => {
+            const proj1Obj = ProjectUtil.getDefaultProject();
+            proj1Obj.images["foo"] = ImageUtil.EMPTY_IMAGE_ITEM;
+
+            const proj1Txt = ProjectUtil.serialize(proj1Obj);
+            const proj2Obj = ProjectUtil.deserialize(proj1Txt, APPLICATION_VERSION.CURRENT);
+
+            expect(proj2Obj).toStrictEqual(proj1Obj);
+        });
+
+        test("serializes and deserailizes projects with images", () => {
+            const proj1Obj = ProjectUtil.getDefaultProject();
+            proj1Obj.images["foo"] = ImageUtil.EMPTY_IMAGE_ITEM;
+            proj1Obj.images["foo"].frames.push(ImageUtil_PNG.EMPTY_IMAGE_FRAME);
+            proj1Obj.images["foo"].frames.push(
+                ImageUtil_ImageParser.buildImageFrame(new Uint8Array([0,0,0,0,0,0,0,0,0]), 3, 3)
+            );
+
+            const proj1Txt = ProjectUtil.serialize(proj1Obj);
+            const proj2Obj = ProjectUtil.deserialize(proj1Txt, APPLICATION_VERSION.CURRENT);
+
+            expect(proj2Obj).not.toStrictEqual(proj1Obj);
+        });
+
+    });
+
+    // TODO: test method cited in test name
+    test.todo("mergeProjectOptions");
+
+    test("mergeImages, version 0.3.0", () => {
+        const images1 : Images = { };
+        const images2 : Images = { };
+        images1["foo"] = ImageUtil.getEmptyImageItem(APPLICATION_VERSION.V0_3_0);
+        images2["bar"] = ImageUtil.getEmptyImageItem(APPLICATION_VERSION.V0_3_0);
+
+        const combined = ProjectUtil.mergeImages(images1, images2, APPLICATION_VERSION.V0_3_0);
+
+        expect(combined["foo"]).not.toEqual(undefined);
+        expect(combined["bar"]).not.toEqual(undefined);
+        expect(combined["foo"]).toStrictEqual(images1["foo"]);
+        expect(combined["bar"]).toStrictEqual(images2["bar"]);
+    });
+
+    test("mergeImages, version 0.3.0, missing target parameter", () => {
+        const images1 : Images = { };
+        const images2 : Images = { };
+        images1["foo"] = ImageUtil.getEmptyImageItem(APPLICATION_VERSION.V0_3_0);
+        images2["bar"] = ImageUtil.getEmptyImageItem(APPLICATION_VERSION.V0_3_0);
+
+        const combined = ProjectUtil.mergeImages(undefined, images2, APPLICATION_VERSION.V0_3_0);
+
+        expect(combined["foo"]).toEqual(undefined);
+        expect(combined["bar"]).not.toEqual(undefined);
+        expect(combined["bar"]).toStrictEqual(images2["bar"]);
+    });
+
+    test("mergeImages, version 0.3.0, missing source parameter", () => {
+        const images1 : Images = { };
+        const images2 : Images = { };
+        images1["foo"] = ImageUtil.getEmptyImageItem(APPLICATION_VERSION.V0_3_0);
+        images2["bar"] = ImageUtil.getEmptyImageItem(APPLICATION_VERSION.V0_3_0);
+
+        const combined = ProjectUtil.mergeImages(images1, undefined, APPLICATION_VERSION.V0_3_0);
+
+        expect(combined["foo"]).not.toEqual(undefined);
+        expect(combined["bar"]).toEqual(undefined);
+        expect(combined["foo"]).toStrictEqual(images1["foo"]);
+    });
+
+    test("mergeImages, version 0.2.0", () => {
+        const images1 : Images = { };
+        const images2 : Images = { };
+        images1["foo"] = ImageUtil.getEmptyImageItem(APPLICATION_VERSION.V0_2_0);
+        images2["bar"] = ImageUtil.getEmptyImageItem(APPLICATION_VERSION.V0_2_0);
+
+        const combined = ProjectUtil.mergeImages(images1, images2, APPLICATION_VERSION.V0_2_0);
+
+        expect(combined["foo"]).not.toEqual(undefined);
+        expect(combined["bar"]).not.toEqual(undefined);
+        expect(combined["foo"]).toStrictEqual(images1["foo"]);
+        expect(combined["bar"]).toStrictEqual(images2["bar"]);
     });
 
 });

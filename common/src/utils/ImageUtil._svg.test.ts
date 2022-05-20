@@ -1,6 +1,5 @@
 describe("SVG image helper", () => {
 
-    test.skip("Test Here", () => {
-    });
+    test.todo("Test Here");
 
 });

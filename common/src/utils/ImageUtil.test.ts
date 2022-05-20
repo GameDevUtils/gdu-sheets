@@ -31,7 +31,6 @@ describe("ImageUtil", () => {
             'guid',
             'hashSHA256',
             'hashMD5',
-            'frameCount',
             'frames',
             'populateFrameDataComplete',
             'filterAppliedAliasHash',
@@ -40,11 +39,16 @@ describe("ImageUtil", () => {
             'isEmpty',
         ];
 
-        const result = keys2.every((key) => {
+        const result1 = keys2.every((key) => {
             return keys1.includes(key);
         });
 
-        expect(result).toEqual(true);
+        const result2 = keys1.every((key) => {
+            return keys2.includes(key);
+        });
+
+        expect(result1).toEqual(true);
+        expect(result2).toEqual(true);
     });
 
     // test("Creates ImageItem from DataURL", () => {

@@ -36,6 +36,8 @@ export enum SortBy {
     HEIGHT_DESC,
     NAME,
     NAME_DESC,
+    PATH,
+    PATH_DESC,
     WIDTH,
     WIDTH_DESC,
     SHORTER_SIDE,

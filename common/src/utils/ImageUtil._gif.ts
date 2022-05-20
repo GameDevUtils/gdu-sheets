@@ -9,7 +9,7 @@ import {MESSAGE_TYPE} from "../objs/messages";
 export default class ImageUtil_GIF extends ImageUtil_ImageParser {
 
     public parseImageData(data: NdArray) : ImageProps {
-        const result = ImageUtil_ImageParser.EMPTY_IMAGEPROPS;
+        const result = ImageUtil_ImageParser.EMPTY_IMAGE_PROPS;
         let img;
 
         try {

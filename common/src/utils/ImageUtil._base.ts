@@ -12,7 +12,7 @@ import {createHash} from 'crypto';
 
 export default abstract class ImageUtil_ImageParser {
 
-    static get EMPTY_IMAGEPROPS() : ImageProps
+    static get EMPTY_IMAGE_PROPS() : ImageProps
     {
         return {
             width: 0,
@@ -23,11 +23,11 @@ export default abstract class ImageUtil_ImageParser {
         } as ImageProps;
     }
 
-    static get EMPTY_IMAGEFRAME() : ImageFrame {
+    static get EMPTY_IMAGE_FRAME() : ImageFrame {
         return {
-            filename: undefined,
-            filetype: undefined,
-            filepath: undefined,
+            // filename: undefined,
+            // filetype: undefined,
+            // filepath: undefined,
             width: 0,
             height: 0,
             data: undefined,
@@ -66,13 +66,13 @@ export default abstract class ImageUtil_ImageParser {
     public static buildImageFrame(data: Uint8Array, width: number, height: number, gamma = 0) : ImageFrame {
         const hashSHA256 = createHash('sha256');
         const hashMD5 = createHash('md5');
-        const imageFrame = ImageUtil_ImageParser.EMPTY_IMAGEFRAME;
+        const imageFrame = ImageUtil_ImageParser.EMPTY_IMAGE_FRAME;
 
         if(!!width && !!height && !!data.length ) {
             imageFrame.width = width; // ?? 0;
             imageFrame.height = height; // ?? 0;
             imageFrame.gamma = gamma; // ?? 0;
-            imageFrame.data = data.valueOf();
+            imageFrame.data = data;
             imageFrame.guid = UUID();
             imageFrame.hashSHA256 = hashSHA256.update(imageFrame.data).digest('hex');
             imageFrame.hashMD5 = hashMD5.update(imageFrame.data).digest('hex');

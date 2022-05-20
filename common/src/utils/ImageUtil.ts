@@ -1,5 +1,5 @@
 import {APPLICATION_VERSION} from "./AppUtil";
-import {ImageItem} from "../objs/images";
+import {ImageFrame, ImageItem} from "../objs/images";
 
 const DefaultImageItems = {
     "0.2.0": {
@@ -12,7 +12,7 @@ const DefaultImageItems = {
         guid: undefined,
         hashSHA256: undefined,
         hashMD5: undefined,
-        frameCount: 0,
+        // frameCount: 0,
         frames: [],
         populateFrameDataComplete: false,
         filterAppliedAliasHash:false,
@@ -30,7 +30,7 @@ const DefaultImageItems = {
         guid: undefined,
         hashSHA256: undefined,
         hashMD5: undefined,
-        frameCount: 0,
+        // frameCount: 0,
         frames: [],
         populateFrameDataComplete: false,
         filterAppliedAliasHash:false,
@@ -43,23 +43,18 @@ const DefaultImageItems = {
 export default class ImageUtil {
 
     static getEmptyImageItem(version?: APPLICATION_VERSION) : ImageItem {
-        const result = Object.assign({}, DefaultImageItems[version ?? APPLICATION_VERSION.CURRENT]);
+        const result : ImageItem = Object.assign({}, DefaultImageItems[version ?? APPLICATION_VERSION.CURRENT]);
         const keys = Object.getOwnPropertyNames(result);
 
         keys.forEach((key) => {
             const k = key as keyof ImageItem;
 
             switch(key) {
-                // case 'frameCount':
-                //     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                //     // @ts-ignore
-                //     result[k] = 0;
-                //     break;
-                // case 'frames':
-                //     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                //     // @ts-ignore
-                //     result[k] = [];
-                //     break;
+                case 'frames':
+                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                    // @ts-ignore
+                    result[k] = [] as ImageFrame[];
+                    break;
                 case 'populateFrameDataComplete':
                 case 'filterAppliedAliasHash':
                 case 'filterAppliedTrimRect':

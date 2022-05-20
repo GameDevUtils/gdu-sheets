@@ -1,6 +1,7 @@
 import {ImageFrame} from "../objs/images";
-import { SortBy } from "../objs/projects";
+import {Project, SortBy} from "../objs/projects";
 import {PackMode} from "./PackUtil";
+import {Images} from "./ProjectUtil";
 
 export type SortOptions = {
     packMode: PackMode,
@@ -11,27 +12,46 @@ export type SortOptions = {
 type PackModeKeys =  'BASIC' | 'GUILLOTINE' | 'SKYLINE' | 'JOE_RECTS';
 type FromPackModeKeys = { [key in PackModeKeys]: SortBy };
 
+interface ISortableFrame {
+    filename: string;
+    fullpath: string;
+    guid: string;
+    frame: ImageFrame;
+}
+
+
 export default class SortUtil {
 
     static get PRIMARY_SORT_OPTIONS() : FromPackModeKeys {
         return {
-            "BASIC": SortBy.AREA_DESC,
+            "BASIC": SortBy.HEIGHT_DESC,
             "GUILLOTINE": SortBy.AREA_DESC,
-            "SKYLINE": SortBy.AREA_DESC,
+            "SKYLINE": SortBy.HEIGHT_DESC,
             "JOE_RECTS": SortBy.AREA_DESC,
         } as FromPackModeKeys;
     }
 
-    static sort(data: ImageFrame[][], options: SortOptions) : ImageFrame[] {
-        let sortedData: ImageFrame[] = [];
+    static sort(project: Project, options: SortOptions) : ISortableFrame[] {
+        const sortableFrames: ISortableFrame[] = [];
 
-        data.forEach((imageFrames) => {
-            imageFrames.forEach((imageFrame) => {
-                sortedData.push(imageFrame);
-            });
+        const imageKeys = Object.keys(project.images);
+        imageKeys.forEach((imageKey, index) => {
+            const imgKey = imageKey as keyof Images;
+            const image = project.images[imgKey];
+
+            if(image && image.frames.length) {
+                image.frames.forEach((frame, indexFrame) => {
+                    sortableFrames.push({
+                        filename: image.filename,
+                        fullpath: image.fullpath,
+                        guid: frame.guid,
+                        frame: frame,
+                    } as ISortableFrame);
+                });
+            }
         });
 
-        sortedData = sortedData.sort((a, b) => {
+        return sortableFrames.sort((a, b) => {
             const primarySortMode =
                 options.primarySortModeOverride ??
                 SortUtil.PRIMARY_SORT_OPTIONS[PackMode[options.packMode] as PackModeKeys]; // ?? SortBy.AREA_DESC;
@@ -43,72 +63,72 @@ export default class SortUtil {
             }
 
             return result;
-        })
-
-        return sortedData;
+        });
     }
 
-    protected static _internalCompareFrames = (sortMode: SortBy, a: ImageFrame, b: ImageFrame ) : number => {
+    protected static _internalCompareFrames = (sortMode: SortBy, a: ISortableFrame, b: ISortableFrame ) : number => {
         let result = 0;
 
         switch(sortMode) {
             case SortBy.AREA:
-                result = a.width * a.height - b.width * b.height;
+                result = a.frame.width * a.frame.height - b.frame.width * b.frame.height;
                 break;
             case SortBy.AREA_DESC:
-                result = b.width * b.height - a.width * a.height;
+                result = b.frame.width * b.frame.height - a.frame.width * a.frame.height;
                 break;
             case SortBy.HEIGHT:
-                result = a.height - b.height;
+                result = a.frame.height - b.frame.height;
                 break;
             case SortBy.HEIGHT_DESC:
-                result = b.height - a.height;
+                result = b.frame.height - a.frame.height;
                 break;
             case SortBy.NAME:
-                if (typeof(a.filename) === 'string' && typeof(b.filename) === 'string') {
-                    result = a.filename > b.filename ? 1 : a.filename === b.filename ? 0 : -1;
-                }
+                result = a.filename > b.filename ? 1 : a.filename === b.filename ? 0 : -1;
                 break;
             case SortBy.NAME_DESC:
-                if (typeof(a.filename) === 'string' && typeof(b.filename) === 'string') {
-                    result = b.filename > a.filename ? 1 : b.filename === a.filename ? 0 : -1;
-                }
+                result = b.filename > a.filename ? 1 : b.filename === a.filename ? 0 : -1;
+                break;
+            case SortBy.PATH:
+                result = a.fullpath > b.fullpath ? 1 : a.fullpath === b.fullpath ? 0 : -1;
+                break;
+            case SortBy.PATH_DESC:
+                result = b.fullpath > a.fullpath ? 1 : b.fullpath === a.fullpath ? 0 : -1;
                 break;
             case SortBy.WIDTH:
-                result = a.width - b.width;
+                result = a.frame.width - b.frame.width;
                 break;
             case SortBy.WIDTH_DESC:
-                result = b.width - a.width;
+                result = b.frame.width - a.frame.width;
                 break;
             case SortBy.SHORTER_SIDE:
-                result = Math.min(a.width, b.height) - Math.min(b.width, b.height);
+                result = Math.min(a.frame.width, b.frame.height) - Math.min(b.frame.width, b.frame.height);
                 break;
             case SortBy.SHORTER_SIDE_DESC:
-                result = Math.min(b.width, b.height) - Math.min(a.width, a.height);
+                result = Math.min(b.frame.width, b.frame.height) - Math.min(a.frame.width, a.frame.height);
                 break;
             case SortBy.LONGER_SIDE:
-                result = Math.max(a.width, a.height) - Math.max(b.width, b.height);
+                result = Math.max(a.frame.width, a.frame.height) - Math.max(b.frame.width, b.frame.height);
                 break;
             case SortBy.LONGER_SIDE_DESC:
-                result = Math.max(b.width, b.height) - Math.max(a.width, a.height);
+                result = Math.max(b.frame.width, b.frame.height) - Math.max(a.frame.width, a.frame.height);
                 break;
             case SortBy.PERIMETER:
-                result = (2 * a.width + 2 * a.height) - (2 * b.width + 2 * b.height);
+                result = (2 * a.frame.width + 2 * a.frame.height) - (2 * b.frame.width + 2 * b.frame.height);
                 break;
             case SortBy.PERIMETER_DESC:
-                result = (2 * b.width + 2 * b.height) - (2 * a.width + 2 * a.height);
+                result = (2 * b.frame.width + 2 * b.frame.height) - (2 * a.frame.width + 2 * a.frame.height);
                 break;
             case SortBy.SIDE_DIFF:
-                result = Math.abs(a.width - a.height) - Math.abs(b.width - b.height);
+                result = Math.abs(a.frame.width - a.frame.height) - Math.abs(b.frame.width - b.frame.height);
                 break;
             case SortBy.SIDE_DIFF_DESC:
-                result = Math.abs(b.width - b.height) - Math.abs(a.width - a.height);
+                result = Math.abs(b.frame.width - b.frame.height) - Math.abs(a.frame.width - a.frame.height);
                 break;
             case SortBy.SIDE_RATIO:
-                result = (!a.height || !b.height) ? 0 : (a.width / a.height - b.width / b.height);
+                result = (!a.frame.height || !b.frame.height) ? 0 : (a.frame.width / a.frame.height - b.frame.width / b.frame.height);
                 break;
             case SortBy.SIDE_RATIO_DESC:
-                result = (!a.height || !b.height) ? 0 : (b.width / b.height - a.width / a.height);
+                result = (!a.frame.height || !b.frame.height) ? 0 : (b.frame.width / b.frame.height - a.frame.width / a.frame.height);
                 break;
         }
 

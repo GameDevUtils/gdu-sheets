@@ -8,7 +8,7 @@ import {MESSAGE_TYPE} from "../objs/messages";
 
 export default class ImageUtil_PNG extends ImageUtil_ImageParser {
     public parseImageData(data: NdArray) : ImageProps {
-        const result = ImageUtil_ImageParser.EMPTY_IMAGEPROPS;
+        const result = ImageUtil_ImageParser.EMPTY_IMAGE_PROPS;
         let img;
 
         try {
@@ -23,7 +23,7 @@ export default class ImageUtil_PNG extends ImageUtil_ImageParser {
             result.height = img.height;
             result.gamma = 0;
 
-            const imageFrame = ImageUtil_ImageParser.buildImageFrame(img.data.valueOf(), img.width, img.height);
+            const imageFrame = ImageUtil_ImageParser.buildImageFrame(img.data, img.width, img.height);
             if(!result.frames || result.frames.length === 0) {
                 result.frames = [];
                 result.frames.push(imageFrame);

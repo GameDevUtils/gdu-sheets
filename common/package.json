@@ -18,6 +18,7 @@
     "lint": "npx eslint . --ext .js,.jsx,.ts,.tsx",
     "test": "jest",
     "watch": "jest --watch",
+    "watch-all": "jest --watchAll --coverage",
     "licenses": "license-report --output=table --only=prod"
   },
   "keywords": [],

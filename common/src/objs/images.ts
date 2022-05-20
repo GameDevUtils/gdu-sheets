@@ -9,9 +9,9 @@ export type ImageProps = {
 };
 
 export type ImageFrame = {
-    filename: string | undefined,
-    filetype: string | undefined,
-    filepath: string | undefined,
+    // filename: string | undefined,
+    // filetype: string | undefined,
+    // filepath: string | undefined,
     width: number;
     height: number;
     data: Uint8Array | undefined;
@@ -31,7 +31,7 @@ export type ImageItem = {
     fullpath: string | undefined, // path from pwd, e.g. './mage/walking/walk-01.png' (must be unique!!)
     filetype: ImageFormat | undefined, // detected file type
     src: string | undefined, // base64, data uri
-    frames: ImageFrame[] | undefined, // used for animated GIF sources
+    frames: ImageFrame[], // used for animated GIF sources, length === 1 for other images
     populateFrameDataComplete: boolean | undefined, // the ImageItem is ready for use
     isEmpty: boolean, // used to indicate all fields are === undefined
 }
