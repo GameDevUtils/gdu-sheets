@@ -12,7 +12,7 @@ export type Version = {
     hotfix: number | undefined,
 }
 
-const AppConstants = {
+export const AppConstants = {
     APPLICATION_NAME: {
         "0.2.0": "FannyPack Sprite Sheets",
         "0.3.0": "GameDevUtils.com Sheets",

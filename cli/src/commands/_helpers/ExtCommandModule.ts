@@ -1,13 +1,13 @@
 import yargs, {CommandModule, Arguments, Argv, CommandBuilder} from "yargs";
-import {LogMessage, MessageType} from "./LogMessage";
+// import {LogMessage, MessageType} from "./LogMessage";
 import {ValidatedResult} from "./ArgsUtil";
 
 export default class ExtCommandModule implements CommandModule<{}, unknown> {
     //_messages : string[] = [];
 
-    constructor() {
-        this._messages = [];
-    }
+    // constructor() {
+    //     this._messages = [];
+    // }
 
     _aliases: ReadonlyArray<string> | string | undefined;
     _builder: CommandBuilder<{}, unknown> | undefined;
@@ -28,7 +28,7 @@ export default class ExtCommandModule implements CommandModule<{}, unknown> {
         this.handlerResult = new ValidatedResult();
     }
 
-    _messages: LogMessage[] = [];
+    // _messages: LogMessage[] = [];
 
     _hasError = false;
     get hasError() : boolean { return this._hasError; }

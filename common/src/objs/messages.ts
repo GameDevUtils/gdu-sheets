@@ -1,6 +1,8 @@
 export enum MESSAGE_TYPE {
-    WARN,
     DEBUG,
+    INFO,
+    LOG,
+    WARN,
     ERROR,
 }
 

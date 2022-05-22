@@ -77,7 +77,8 @@ export default class ImageUtil {
 
     static get EMPTY_IMAGE_ITEM() : ImageItem { return ImageUtil.getEmptyImageItem()}
 
-    static PREAMBLE_LENGTH = 'data:image/xxx;base64,'.length;
+    static PREAMBLE_TEMPLATE = 'data:image/xxx;base64,';
+    static PREAMBLE_LENGTH = ImageUtil.PREAMBLE_TEMPLATE.length;
 
     // static createImageItem(filename: string, data: string | Blob, version?: APPLICATION_VERSION) : ImageItem {
     //     const result = ImageUtil.getEmptyImageItem(version);

@@ -1,7 +1,7 @@
 #!/bin/sh
 
 pushd ./common/
-$(npm unlink)
+$(npm link)
 popd
 
 pushd ./cli/
@@ -12,6 +12,10 @@ popd
 pushd ./web-desk/
 npm link gdu-common
 $(npm unlink --no-save gdu-common)
+popd
+
+pushd ./common/
+$(npm unlink)
 popd
 
 #ls -lfa

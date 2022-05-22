@@ -16,14 +16,12 @@
     "reinstall": "rm -rf ./node_modules && npm install",
     "clean": "rm -rf ./build && rm -rf ./coverage",
     "build": "npm run mjs && npm run cjs && chmod 755 ./build/sheets.js",
-    "clean-and-build": "npm run clean && npm run build",
-    "lint": "npx eslint . --ext .js,.jsx,.ts,.tsx,.json",
-    "lint-and-fix": "npx eslint . --ext .js,.jsx,.ts,.tsx,.json --fix",
+    "clean-build": "npm run clean && npm run build",
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx,.json",
+    "lint-fix": "eslint . --ext .js,.jsx,.ts,.tsx,.json --fix",
     "test": "jest",
     "watch": "jest --watch",
-    "watch-all": "jest --watchAll",
-    "watch-with-coverage": "jest --watch --coverage",
-    "watch-all-with-coverage": "jest --watchAll --coverage"
+    "watch-all": "jest --watchAll --coverage"
   },
   "keywords": [],
   "author": "Joseph B. Hall (@groundh0g)",
@@ -44,6 +42,7 @@
     "typescript": "^4.4.3"
   },
   "dependencies": {
+    "@types/glob": "^7.2.0",
     "colors": "^1.4.0",
     "yargs": "^17.1.1"
   }

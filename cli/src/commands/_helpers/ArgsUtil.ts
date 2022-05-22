@@ -4,7 +4,7 @@ import 'colors';
 import * as fs from "fs";
 import {symlink} from "fs";
 // import path from 'path';
-// import * as base64 from "base-64";
+import glob from 'glob';
 
 export class ValidatedResult {
      _command = "";
@@ -74,10 +74,16 @@ export default class ArgsUtil {
         if (hasImages && args["images"]) {
             for (const image of args["images"] as string[]) {
                 if (fs.existsSync(image)) {
-                    result.addImage(Buffer.from(fs.readFileSync(image)).toString('base64'));
+                    // result.addImage(Buffer.from(fs.readFileSync(image)).toString('base64'));
+                    result.addImage(image);
+                } else {
+                    glob.sync(image, {}).forEach((match) => {
+                        if (fs.existsSync(match)) {
+                            result.addImage(match);
+                        }
+                    });
                 }
             }
-
         } else if (command === "add" || command === "remove") {
             result.addError("Missing images.");
         }

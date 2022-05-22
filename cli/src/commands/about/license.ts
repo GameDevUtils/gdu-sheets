@@ -1,7 +1,7 @@
 import {Arguments /*, CommandModule*/} from 'yargs';
 import ArgsUtil, {ValidatedResult} from "../_helpers/ArgsUtil";
 import ExtCommandModule from '../_helpers/ExtCommandModule';
-import { LICENSE } from 'gdu-common';
+import {LICENSE} from "gdu-common/build/objs/content";
 
 export default class AboutLicenseCommand extends ExtCommandModule {
     constructor() {
