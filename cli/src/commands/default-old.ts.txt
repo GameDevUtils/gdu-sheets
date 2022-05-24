@@ -1,8 +1,8 @@
 import {Arguments, Argv/*, CommandModule*/} from 'yargs';
-import ExtCommandModule from './helpers/ExtCommandModule';
+import CommandModuleEx from './helpers/CommandModuleEx';
 import {ValidatedResult} from "./args-util";
 
-export default class DefaultCommandModule extends ExtCommandModule {
+export default class DefaultCommandModule extends CommandModuleEx {
     constructor() {
         super();
         this._command = "$0";

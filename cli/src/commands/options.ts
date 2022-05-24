@@ -13,7 +13,7 @@ import StringUtil from "gdu-common/build/utils/StringUtil";
 import {MESSAGE_TYPE} from "gdu-common/build/objs/messages";
 
 // n i d e p z r w h m c s x B S I A M L D t T g C
-// o O l
+// o O l f F
 
 class OptionValues {
     constructor(init?: { alias1?: string, alias2?: string, group?: string, default?: string | number | boolean, describe?: string, type?: string, hidden: boolean, choices?: string[] }) {
@@ -94,7 +94,7 @@ export default class Options {
             OptionGroup.Output,
             'image format of sprite sheet',
             'string',
-            ImageFormat[ImageFormat.PNG],
+            undefined, // ImageFormat[ImageFormat.PNG],
             Options.getEnumNames(ImageFormat),
         );
         argv.option('i', option as Options);
@@ -105,7 +105,7 @@ export default class Options {
             OptionGroup.Output,
             'data format for sprite sheet',
             'string',
-            DataFormat[DataFormat.XML],
+            undefined, // DataFormat[DataFormat.XML],
             Options.getEnumNames(DataFormat),
         );
         argv.option('d', option as Options);
@@ -116,7 +116,7 @@ export default class Options {
             OptionGroup.Output,
             'retain extension in sprite name',
             'string',
-            SpriteNameInAtlas[SpriteNameInAtlas.StripExtension],
+            undefined, // SpriteNameInAtlas[SpriteNameInAtlas.StripExtension],
             Options.getEnumNames(SpriteNameInAtlas),
         );
         argv.option('e', option as Options);
@@ -127,7 +127,7 @@ export default class Options {
             OptionGroup.Algorithm,
             'sprite packing algorithm',
             'string',
-            SpritePacker[SpritePacker.JoeRects],
+            undefined, // SpritePacker[SpritePacker.JoeRects],
             Options.getEnumNames(SpritePacker),
         );
         argv.option('p', option as Options);
@@ -138,7 +138,7 @@ export default class Options {
             OptionGroup.Algorithm,
             'sprite sort mode',
             'string',
-            SortBy[SortBy.AREA_DESC],
+            undefined, // SortBy[SortBy.AREA_DESC],
             Options.getEnumNames(SortBy),
         );
         argv.option('z', option as Options);
@@ -149,7 +149,7 @@ export default class Options {
             OptionGroup.Algorithm,
             'allow sprite rotation',
             'boolean',
-            false,
+            undefined, // false,
             // Options.getEnumValues(YesNo),
         );
         argv.option('r', option as Options);
@@ -160,7 +160,7 @@ export default class Options {
             OptionGroup.Dimensions,
             'width of the sprite sheet',
             'number',
-            1024,
+            undefined, // 1024,
             // Options.getEnumValues(YesNo),
         );
         argv.option('w', option as Options);
@@ -171,7 +171,7 @@ export default class Options {
             OptionGroup.Dimensions,
             'height of the sprite sheet',
             'number',
-            1024,
+            undefined, // 1024,
             // Options.getEnumValues(YesNo),
         );
         argv.option('h', option as Options);
@@ -182,7 +182,7 @@ export default class Options {
             OptionGroup.Dimensions,
             'size is max or actual',
             'string',
-            SizeMode[SizeMode.MaxSize],
+            undefined, // SizeMode[SizeMode.MaxSize],
             Options.getEnumNames(SizeMode),
         );
         argv.option('m', option as Options);
@@ -193,7 +193,7 @@ export default class Options {
             OptionGroup.Dimensions,
             'constrain size to powers of 2',
             'string',
-            Constraint[Constraint.PowerOfTwo],
+            undefined, // Constraint[Constraint.PowerOfTwo],
             Options.getEnumNames(Constraint),
         );
         argv.option('c', option as Options);
@@ -204,7 +204,7 @@ export default class Options {
             OptionGroup.Dimensions,
             'width must equal height',
             'boolean',
-            false, // in v0.1.0 this was false
+            undefined, // false, // in v0.1.0 this was false
             // Options.getEnumValues(YesNo),
         );
         argv.option('s', option as Options);
@@ -215,7 +215,7 @@ export default class Options {
             OptionGroup.Dimensions,
             'produce sprites at 2 scales',
             'boolean',
-            false,
+            undefined, // false,
             // Options.getEnumValues(YesNo),
         );
         argv.option('x', option as Options);
@@ -226,7 +226,7 @@ export default class Options {
             OptionGroup.Padding,
             'border padding in pixels',
             'number',
-            2,
+            undefined, // 2,
             // Options.getEnumValues(YesNo),
         );
         argv.option('B', option as Options);
@@ -237,7 +237,7 @@ export default class Options {
             OptionGroup.Padding,
             'shape padding in pixels',
             'number',
-            2,
+            undefined, // 2,
             // Options.getEnumValues(YesNo),
         );
         argv.option('S', option as Options);
@@ -248,7 +248,7 @@ export default class Options {
             OptionGroup.Padding,
             'inner padding in pixels',
             'number',
-            0,
+            undefined, // 0,
             // Options.getEnumValues(YesNo),
         );
         argv.option('I', option as Options);
@@ -259,7 +259,7 @@ export default class Options {
             OptionGroup.Filters,
             'transparent pixels, same value',
             'boolean',
-            false,
+            undefined, // false,
             // Options.getEnumValues(YesNo),
         );
         argv.option('A', option as Options);
@@ -270,7 +270,7 @@ export default class Options {
             OptionGroup.Filters,
             'top, left pixel is mask color',
             'boolean',
-            false,
+            undefined, // false,
             // Options.getEnumValues(YesNo),
         );
         argv.option('M', option as Options);
@@ -281,7 +281,7 @@ export default class Options {
             OptionGroup.Filters,
             'identify duplicate sprites',
             'boolean',
-            false,
+            undefined, // false,
             // Options.getEnumValues(YesNo),
         );
         argv.option('L', option as Options);
@@ -292,7 +292,7 @@ export default class Options {
             OptionGroup.Filters,
             'identify duplicate sprites',
             'boolean',
-            false,
+            undefined, // false,
             // Options.getEnumValues(YesNo),
         );
         argv.option('D', option as Options);
@@ -303,7 +303,7 @@ export default class Options {
             OptionGroup.Filters,
             'trim transparent pixels',
             'string',
-            TrimMode[TrimMode.None],
+            undefined, // TrimMode[TrimMode.None],
             Options.getEnumNames(TrimMode),
         );
         argv.option('t', option as Options);
@@ -314,7 +314,7 @@ export default class Options {
             OptionGroup.Filters,
             'sensitivity to transparency',
             'number',
-            1,
+            undefined, // 1,
         );
         argv.option('T', option as Options);
         argv.alias('T', option.alias1);
@@ -324,7 +324,7 @@ export default class Options {
             OptionGroup.Advanced,
             'extract animation frames',
             'string',
-            AnimatedGif[AnimatedGif.UseFirstFrame],
+            undefined, // AnimatedGif[AnimatedGif.UseFirstFrame],
             Options.getEnumNames(AnimatedGif),
         );
         argv.option('g', option as Options);
@@ -335,7 +335,7 @@ export default class Options {
             OptionGroup.Advanced,
             'zip project file',
             'boolean',
-            false,
+            undefined, // false,
         );
         argv.option('C', option as Options);
         argv.alias('C', option.alias1);
@@ -344,7 +344,7 @@ export default class Options {
 
         argv.option('o', {
             alias: 'console',
-            group: 'CLI-Only:',
+            group: 'CLI-Only',
             default: false,
             describe: 'output to console',
             type: 'boolean',
@@ -352,7 +352,7 @@ export default class Options {
 
         argv.option('O', {
             alias: 'overwrite',
-            group: 'CLI-Only:',
+            group: 'CLI-Only',
             default: false,
             describe: 'overwrite existing file, if any',
             type: 'boolean'
@@ -360,11 +360,29 @@ export default class Options {
 
         argv.option('l', {
             alias: 'log-level',
-            group: 'CLI-Only:',
+            group: 'CLI-Only',
             default: MESSAGE_TYPE[MESSAGE_TYPE.WARN],
             describe: 'set logging level, default: WARN',
             type: 'string',
             choices: Options.getEnumNames(MESSAGE_TYPE)
+        });
+
+        argv.option('f', {
+            alias: 'remove-by-filename',
+            group: 'CLI-Only',
+            default: undefined,
+            describe: 'remove images by filename only',
+            type: 'boolean',
+            conflicts: ['F']
+        });
+
+        argv.option('F', {
+            alias: 'remove-by-full-path',
+            group: 'CLI-Only',
+            default: true,
+            describe: 'remove images by full path',
+            type: 'boolean',
+            conflicts: ['f']
         });
 
         argv.showHidden(true);

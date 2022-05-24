@@ -1,9 +1,9 @@
-import {Arguments /*, CommandModule*/} from 'yargs';
 import 'colors';
-import ArgsUtil, {ValidatedResult} from "../_helpers/ArgsUtil";
-import ExtCommandModule from '../_helpers/ExtCommandModule';
+import CommandModuleEx from "../project/CommandModuleEx";
+import {ValidatedResult} from "../utils/ArgsUtil";
+import {Arguments} from "yargs";
 
-export default class RemoveImagesCommand extends ExtCommandModule {
+export default class RemoveImagesCommand extends CommandModuleEx {
     constructor() {
         super();
         this._command = "remove <path> [images..]";
@@ -12,12 +12,16 @@ export default class RemoveImagesCommand extends ExtCommandModule {
         this._handlerResult = new ValidatedResult();
     }
 
+    static setFlowValues = (self: any, commandName: string, readFirst: boolean = false, cullImages: boolean = false, packImages: boolean = false) => {
+        self.commandName = commandName;
+        self.readFirst = readFirst;
+        self._cullImages = cullImages;
+        self._packImages = packImages;
+    };
+
     handler(args: Arguments): void {
-        this.handlerResult = ArgsUtil.Validate(args,"remove", true, true);
-        if(this.handlerResult.hasNoError) {
-            // console.error(result);
-            // console.error(args);
-        }
+        RemoveImagesCommand.setFlowValues(this, 'remove', true, true);
+        super.handler(args);
     }
 
     static get helpText(): string {

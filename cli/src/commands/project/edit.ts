@@ -1,19 +1,27 @@
-import { Arguments } from 'yargs';
 import 'colors';
-import ArgsUtil, {ValidatedResult} from "../_helpers/ArgsUtil";
-import ExtCommandModule from '../_helpers/ExtCommandModule';
+import CommandModuleEx from "./CommandModuleEx";
+import {ValidatedResult} from "../utils/ArgsUtil";
+import {Arguments} from "yargs";
 
-export default class EditProjectCommand extends ExtCommandModule {
+export default class EditProjectCommand extends CommandModuleEx {
     constructor() {
         super();
         this._command = "edit <path> [images..]";
         this._describe = "modify a project";
         this._builder = undefined;
         this._handlerResult = new ValidatedResult();
+    }
 
-        this.handler = (args: Arguments) => {
-            this.handlerResult = ArgsUtil.Validate(args,"edit", true, true);
-        }
+    static setFlowValues = (self: any, commandName: string, readFirst: boolean = false, cullImages: boolean = false, packImages: boolean = false) => {
+        self.commandName = commandName;
+        self.readFirst = readFirst;
+        self._cullImages = cullImages;
+        self._packImages = packImages;
+    };
+
+    handler(args: Arguments): void {
+        EditProjectCommand.setFlowValues(this, 'edit', true);
+        super.handler(args);
     }
 
     static get helpText(): string {
@@ -24,10 +32,10 @@ provides a means to specify images to be included
 within the project, using a glob pattern.
 
 Examples:
-  gdu-sheets edit proj1 --include-2x
-  gdu-sheets edit proj2 fighter.gif mage.gif ranger.gif
-  gdu-sheets edit proj3 **/*.png --force-square
-  gdu-sheets edit ~/Documents/proj4.fpsheet **/[BCR]at.jpg
+  sheets edit proj1.sheets --include-2x
+  sheets edit proj2.sheets fighter.gif mage.gif ranger.gif
+  sheets edit proj3.sheets "**/*.png" --force-square
+  sheets edit ~/Documents/proj4.sheets "**/[BCR]at.jpg"
 `;
     }
 

@@ -24,12 +24,23 @@ export default class LogUtil {
     static _outputModule: LogTo | undefined = undefined;
     static set OutputModule(logTo: LogTo) { LogUtil._outputModule = logTo; }
 
-    static _logLevel: MESSAGE_TYPE = MESSAGE_TYPE.ERROR;
+    static _logLevel: MESSAGE_TYPE = MESSAGE_TYPE.DEBUG;
     static get LogLevel() { return LogUtil._logLevel; }
     // @ts-ignore
-    static set LogLevel(level: MESSAGE_TYPE) { LogUtil._logLevel = MESSAGE_TYPE[level]; }
+    static set LogLevel(level: MESSAGE_TYPE) { LogUtil._logLevel = level; }
 
     static LogMessage(type: MESSAGE_TYPE, data: string, more?: string | any) : void {
+
+        // // try to ensure numeric value
+        // switch(type) {
+        //     case MESSAGE_TYPE.DEBUG: type = MESSAGE_TYPE.DEBUG; break;
+        //     case MESSAGE_TYPE.INFO: type = MESSAGE_TYPE.INFO; break;
+        //     case MESSAGE_TYPE.LOG: type = MESSAGE_TYPE.LOG; break;
+        //     case MESSAGE_TYPE.WARN: type = MESSAGE_TYPE.WARN; break;
+        //     case MESSAGE_TYPE.ERROR: type = MESSAGE_TYPE.ERROR; break;
+        //     default: type = MESSAGE_TYPE.WARN; break;
+        // }
+
         const message = {
             type: type,
             data: LogUtil.IncludePrefix ? MESSAGE_TYPE[type] + ': ' + data : data,
@@ -39,7 +50,7 @@ export default class LogUtil {
         LogUtil._messages.push(message);
 
         const outputModule = LogUtil._outputModule;
-        if(outputModule && (type as number) >= (LogUtil.LogLevel as number)) {
+        if(outputModule && (type >= LogUtil.LogLevel)) {
             switch(type) {
                 case MESSAGE_TYPE.DEBUG:
                     console.debug(message.data + (message.more ? '\n' + message.more : ''));

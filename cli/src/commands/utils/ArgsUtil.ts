@@ -1,9 +1,6 @@
-import {Arguments, Argv /*CommandModule*/} from 'yargs';
-import yargs from 'yargs/yargs';
+import {Arguments} from 'yargs';
 import 'colors';
 import * as fs from "fs";
-import {symlink} from "fs";
-// import path from 'path';
 import glob from 'glob';
 
 export class ValidatedResult {

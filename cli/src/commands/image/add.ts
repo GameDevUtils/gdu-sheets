@@ -1,20 +1,28 @@
-import {Arguments} from 'yargs';
-import ArgsUtil, {ValidatedResult} from "../_helpers/ArgsUtil";
-import ExtCommandModule from "../_helpers/ExtCommandModule";
+import CommandModuleEx from "../project/CommandModuleEx";
+import {ValidatedResult} from "../utils/ArgsUtil";
+import {Arguments} from "yargs";
 
-export default class AddImagesCommand extends ExtCommandModule {
+export default class AddImagesCommand extends CommandModuleEx {
     constructor() {
         super();
         this._command = "add <path> <images..>";
         this._describe = "add image(s) to project";
         this._builder = undefined;
         this._handlerResult = new ValidatedResult();
-
-        this.handler = (args: Arguments) => {
-            super.handler(args);
-            this.handlerResult = ArgsUtil.Validate(args,"add", true, true);
-        }
     }
+
+    static setFlowValues = (self: any, commandName: string, readFirst: boolean = false, cullImages: boolean = false, packImages: boolean = false) => {
+        self.commandName = commandName;
+        self.readFirst = readFirst;
+        self._cullImages = cullImages;
+        self._packImages = packImages;
+    };
+
+    handler(args: Arguments): void {
+        AddImagesCommand.setFlowValues(this, 'add', true);
+        super.handler(args);
+    }
+
 
     static get helpText(): string {
         return `

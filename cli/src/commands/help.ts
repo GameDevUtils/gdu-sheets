@@ -1,8 +1,6 @@
-import {Arguments} from 'yargs';
 import 'colors';
 import path from 'path';
-import ArgsUtil, {ValidatedResult} from "./_helpers/ArgsUtil";
-import ExtCommandModule from "./_helpers/ExtCommandModule";
+import {Arguments} from 'yargs';
 import NewProjectCommandModule from "./project/new";
 import EditProjectCommandModule from "./project/edit";
 import AddImagesCommandModule from "./image/add";
@@ -11,8 +9,10 @@ import PublishProjectCommand from "./project/publish";
 import AboutDeveloperCommandModule from "./about/developer";
 import AboutLicenseCommandModule from "./about/license";
 import AboutLibsCommandModule from "./about/libs";
+import CommandModuleEx from "./project/CommandModuleEx";
+import ArgsUtil, {ValidatedResult} from "./utils/ArgsUtil";
 
-export default class HelpCommandModule extends ExtCommandModule{
+export default class HelpCommandModule extends CommandModuleEx {
     constructor() {
         super();
         this._command = "help <module>";
@@ -21,25 +21,24 @@ export default class HelpCommandModule extends ExtCommandModule{
         this._handlerResult = new ValidatedResult();
     }
 
+    static setFlowValues = (self: any, commandName: string, readFirst: boolean = false, cullImages: boolean = false, packImages: boolean = false) => {
+        self.commandName = commandName;
+        self.readFirst = readFirst;
+        self._cullImages = cullImages;
+        self._packImages = packImages;
+    };
+
     handler(args: Arguments): void {
+        HelpCommandModule.setFlowValues(this, 'help');
         this.handlerResult = ArgsUtil.Validate(args,"help", false, false);
         if(this.handlerResult.hasNoError) {
             let cmd = path.basename(args.$0) + ' help';
             console.log(`Use '${cmd.green}' for a list of commands.`);
             cmd += ' --show-hidden';
             console.log(`Use '${cmd.green}' for a list of all options.`);
-// console.log(`--- args = `, args);
-// console.log(`--- args.module = `, args.module);
-// console.log(`--- command = `, this.handlerResult.command);
-//             if(this.handlerResult.commandArgs.length > 1) {
+
             if (this.handlerResult.helpModule) {
                 let output = undefined;
-// console.log(`--- before "help ${this.handlerResult.commandArgs[1]}" commnd`);
-
-// console.log(`--- args = `, args);
-// console.log(`--- before "help ${this.handlerResult.module}" commnd`);
-
-//                 switch(this.handlerResult.commandArgs[1]) {
                 switch(this.handlerResult.helpModule) {
                     case 'new':
                         output = NewProjectCommandModule.helpText;

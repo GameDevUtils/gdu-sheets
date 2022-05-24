@@ -1,9 +1,9 @@
-import { Arguments } from 'yargs';
 import 'colors';
-import ArgsUtil, {ValidatedResult} from "../_helpers/ArgsUtil";
-import ExtCommandModule from '../_helpers/ExtCommandModule';
+import CommandModuleEx from "./CommandModuleEx";
+import {ValidatedResult} from "../utils/ArgsUtil";
+import {Arguments} from "yargs";
 
-export default class PublishProjectCommand extends ExtCommandModule {
+export default class PublishProjectCommand extends CommandModuleEx {
     constructor() {
         super();
         this._command = "publish <path> [outpath]";
@@ -12,26 +12,16 @@ export default class PublishProjectCommand extends ExtCommandModule {
         this._handlerResult = new ValidatedResult();
     }
 
+    static setFlowValues = (self: any, commandName: string, readFirst: boolean = false, cullImages: boolean = false, packImages: boolean = false) => {
+        self.commandName = commandName;
+        self.readFirst = readFirst;
+        self._cullImages = cullImages;
+        self._packImages = packImages;
+    };
+
     handler(args: Arguments): void {
-
-        this.handlerResult = ArgsUtil.Validate(args,"publish", true, false);
-        // const numErrors = this.handlerResult.errors.length;
-
-        if(args.output) {
-            console.error("The '--output' option was specified. The project name will be ignored.".yellow);
-        }
-
-        if(this.handlerResult.hasError) {
-            // console.error(result);
-            // console.error(args);
-            if(this.handlerResult.errors[0].startsWith("Path not found")) {
-                this.handlerResult.errors.push("No project file specified. Nothing to do.");
-            }
-        } else {
-            // TODO: happy path
-        }
-
-        // TODO: handle other errors or warnings here
+        PublishProjectCommand.setFlowValues(this, 'publish', true, false, true);
+        super.handler(args);
     }
 
     static get helpText(): string {

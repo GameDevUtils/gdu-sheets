@@ -21,7 +21,7 @@ import HelpCommand from './commands/help';
 import 'colors';
 import path from "path";
 import {APPLICATION_VERSION} from "gdu-common/build/utils/AppUtil";
-import LogUtil from "gdu-common/build/utils/LogUtil";
+import LogUtil, {LogTo} from "gdu-common/build/utils/LogUtil";
 import {MESSAGE_TYPE} from "gdu-common/build/objs/messages";
 
 (() => {

@@ -1,5 +1,3 @@
-// import {V0_2_0, V0_3_0, V_LATEST_KEY} from "../objs/projects";
-
 export enum APPLICATION_VERSION {
     V0_2_0 = "0.2.0",
     V0_3_0 = "0.3.0",
