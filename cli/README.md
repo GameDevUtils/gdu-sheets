@@ -6,7 +6,7 @@ Sheets is one of the apps in the http://gamedevutils.com/ suite of tools. It tak
 
 ## The CLI App
 
-The cli folder contains the logic for the command-line app.
+The `cli` folder contains the logic for the command-line app.
 
 ### Build
 
