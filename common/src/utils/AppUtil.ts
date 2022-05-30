@@ -34,7 +34,7 @@ export const AppConstants = {
     },
 };
 
-export default class AppUtil {
+export class AppUtil {
     static get CURRENT_VERSION() : APPLICATION_VERSION { return APPLICATION_VERSION.V0_3_0; }
 
     static APPLICATION_NAME(version?: APPLICATION_VERSION) : string {

@@ -1,14 +1,12 @@
 import {Arguments, CommandBuilder, CommandModule} from "yargs";
 import ArgsUtil, {ValidatedResult} from "../utils/ArgsUtil";
-import LogUtil from "gdu-common/build/utils/LogUtil";
-import {MESSAGE_TYPE} from "gdu-common/build/objs/messages";
 import fs from "fs";
-import ProjectUtil from "gdu-common/build/utils/ProjectUtil";
-import {APPLICATION_VERSION} from "gdu-common/build/utils/AppUtil";
-import ExtCommandModule_NoCheck from "./CommandModuleEx.no-check";
+import CommandModuleEx_NoCheck from "./CommandModuleEx.no-check";
 import {Buffer} from "buffer";
-import {YesNo} from "gdu-common/build/objs/projects";
-import FileUtil from "gdu-common/build/utils/FileUtil";
+import {
+    FileUtil, ProjectUtil, LogUtil, MESSAGE_TYPE,
+    APPLICATION_VERSION, StringUtil } from "gdu-common";
+
 
 export default class CommandModuleEx implements CommandModule<{}, unknown> {
     _aliases: ReadonlyArray<string> | string | undefined;
@@ -35,6 +33,10 @@ export default class CommandModuleEx implements CommandModule<{}, unknown> {
     get readFirst() : boolean { return this._readFirst; }
     set readFirst(val: boolean) { this._readFirst = val; }
 
+    _populateFrames = false;
+    get populateFrames() : boolean { return this._populateFrames; }
+    set populateFrames(val: boolean) { this._populateFrames = val; }
+
     _packImages = false;
     get packImages() : boolean { return this._packImages; }
     set packImages(val: boolean) { this._packImages = val; }
@@ -46,6 +48,14 @@ export default class CommandModuleEx implements CommandModule<{}, unknown> {
     _commandName : string = '';
     protected get commandName() : string { return this._commandName; }
     protected set commandName(val: string) { this._commandName = val; }
+
+    static setFlowValues = (self: any, commandName: string, readFirst: boolean = false, cullImages: boolean = false, packImages: boolean = false, populateFrames: boolean = false) => {
+        self.commandName = commandName;
+        self.readFirst = readFirst;
+        self.cullImages = cullImages;
+        self.packImages = packImages;
+        self.populateFrames = populateFrames;
+    };
 
     handler(args: Arguments): void {
         // @ts-ignore
@@ -71,7 +81,7 @@ export default class CommandModuleEx implements CommandModule<{}, unknown> {
                 }
             }
 
-            ExtCommandModule_NoCheck.mergeArgsIntoProject(project, args);
+            CommandModuleEx_NoCheck.mergeArgsIntoProject(project, args);
 
             if(this.cullImages) {
                 const cullByFullPath = args.removeByFullPath;
@@ -101,8 +111,12 @@ export default class CommandModuleEx implements CommandModule<{}, unknown> {
                 });
             } else {
                 LogUtil.LogMessage(MESSAGE_TYPE.DEBUG, 'Merging images into project ...')
-                ExtCommandModule_NoCheck.mergeImagesIntoProject(project, this.handlerResult._images);
+                CommandModuleEx_NoCheck.mergeImagesIntoProject(project, this.handlerResult._images);
                 LogUtil.LogMessage(MESSAGE_TYPE.DEBUG, 'Success.')
+            }
+
+            if(this.populateFrames || this.packImages) {
+                ProjectUtil.populateImageFrames(project);
             }
 
             if(this.packImages) {
@@ -118,7 +132,7 @@ export default class CommandModuleEx implements CommandModule<{}, unknown> {
                 } else {
                     if(save) {
                         LogUtil.LogMessage(MESSAGE_TYPE.DEBUG, `'Writing project to file, '${args.path as string}'.'`);
-                        const compressed = project.options.compressProject === YesNo.YES;
+                        const compressed = project.options.compressProject ?? false;
                         // TODO: implement compression
                         fs.writeFileSync(args.path as string, Buffer.from(projectJson), { flag: 'w' });
                     } else {
@@ -126,6 +140,7 @@ export default class CommandModuleEx implements CommandModule<{}, unknown> {
                     }
                 }
             }
+// console.log(JSON.stringify(project,null,3));
         }
     }
 }

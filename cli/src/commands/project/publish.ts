@@ -12,15 +12,8 @@ export default class PublishProjectCommand extends CommandModuleEx {
         this._handlerResult = new ValidatedResult();
     }
 
-    static setFlowValues = (self: any, commandName: string, readFirst: boolean = false, cullImages: boolean = false, packImages: boolean = false) => {
-        self.commandName = commandName;
-        self.readFirst = readFirst;
-        self._cullImages = cullImages;
-        self._packImages = packImages;
-    };
-
     handler(args: Arguments): void {
-        PublishProjectCommand.setFlowValues(this, 'publish', true, false, true);
+        CommandModuleEx.setFlowValues(this, 'publish', true, false, true, true);
         super.handler(args);
     }
 

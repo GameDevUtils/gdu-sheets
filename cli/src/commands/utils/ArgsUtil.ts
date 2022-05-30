@@ -43,6 +43,7 @@ export class ValidatedResult {
 
 export default class ArgsUtil {
     static Validate = (args: Arguments, command: string, hasPath: boolean, hasImages: boolean): ValidatedResult => {
+    // static Validate = (args: Arguments, command: string): ValidatedResult => {
         const result = new ValidatedResult();
 
         // if (command && args[command] === command) {

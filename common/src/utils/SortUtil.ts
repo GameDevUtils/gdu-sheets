@@ -20,7 +20,7 @@ interface ISortableFrame {
 }
 
 
-export default class SortUtil {
+export class SortUtil {
 
     static get PRIMARY_SORT_OPTIONS() : FromPackModeKeys {
         return {

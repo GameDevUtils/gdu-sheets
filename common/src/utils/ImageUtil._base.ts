@@ -122,7 +122,12 @@ export default abstract class ImageUtil_ImageParser {
                         // result.hashSHA256 = hashSHA256.update(result.src).digest('hex');
                         // result.hashMD5 = hashMD5.update(result.src).digest('hex');
 
-                        result.frames = imageProps.frames;
+                        result.frames = [] as ImageFrame[];
+                        for(const frame of imageProps.frames) {
+                            result.frames.push(frame);
+                        }
+                        result.populateFrameDataComplete = true;
+                        // result.frames = imageProps.frames;
 
                         result.populateFrameDataComplete = false;
                         // result.filterAppliedAliasHash = false;

@@ -1,19 +1,20 @@
-// import {ProjectOptions, DefaultOptionsValuesForV0_2_0} from "./objs/Projects";
+export { AppUtil, APPLICATION_VERSION, Version } from "./utils/AppUtil";
+export { FileUtil } from "./utils/FileUtil";
+export { ImageUtil } from "./utils/ImageUtil";
+export { LogUtil, LogTo, LogFunction } from "./utils/LogUtil";
+export { ObjectUtil } from "./utils/ObjectUtil";
+export { PackMode } from "./utils/PackUtil";
+export { ProjectUtil, Images } from "./utils/ProjectUtil";
+export { SortUtil, SortOptions } from "./utils/SortUtil";
+export { StringUtil } from './utils/StringUtil';
 
-export * as AppUtil from './utils/AppUtil';
-export * as FileUtil from './utils/FileUtil';
-export * as ImageUtil from './utils/ImageUtil';
-export * as LogUtil from './utils/LogUtil';
-export * as ObjectUtil from './utils/ObjectUtil';
-export * as ProjectUtil from './utils/ProjectUtil';
-export * as SortUtil from './utils/SortUtil';
-export * as StringUtil from './utils/StringUtil';
-export * as Files from './objs/files';
-export * as Images from './objs/images';
-export * as Messages from './objs/messages';
-export * as Projects from './objs/projects';
-export * as Content from './objs/content';
+// export * as ZipUtil from './utils/ZipUtil';
 
-
-
-
+export { DEVELOPER, LIBS, LICENSE } from './objs/content';
+export { FileParts } from './objs/files';
+export { ImageFrame, ImageProps, ImageItem } from './objs/images';
+export { MESSAGE_TYPE, Message } from './objs/messages';
+export {
+    Project, ProjectOptions,
+    AnimatedGif, Constraint, DataFormat, ImageFormat, OptionGroup, OptionName,
+    SizeMode, SortBy, SpriteNameInAtlas, SpritePacker, TrimMode, YesNo  } from './objs/projects';

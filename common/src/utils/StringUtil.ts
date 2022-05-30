@@ -1,7 +1,7 @@
-export default class StringUtil {
+export class StringUtil {
 
     // kebab-case
-    static toKebabCase = (name : string) : string => {
+    public static toKebabCase = (name : string) : string => {
         let result = name;
 
         if(name && name.length) {
@@ -20,7 +20,7 @@ export default class StringUtil {
     }
 
     // PascalCase
-    static toPascalCase = (name : string) : string => {
+    public static toPascalCase = (name : string) : string => {
         let result = name;
 
         if (name && name.length) {
@@ -37,18 +37,18 @@ export default class StringUtil {
     }
 
     // camelCase
-    static toCamelCase = (name : string) : string => {
+    public static toCamelCase = (name : string) : string => {
         const result = StringUtil.toPascalCase(name);
         return result.charAt(0).toLowerCase() + result.slice(1);
     }
 
     // snake_case
-    static toSnakeCase = (name : string) : string => {
+    public static toSnakeCase = (name : string) : string => {
         return StringUtil.toKebabCase(name).replace(/-/g, "_");
     }
 
     // CONST_CASE
-    static toConstCase = (name : string) : string => {
+    public static toConstCase = (name : string) : string => {
         return StringUtil.toKebabCase(name).replace(/-/g, "_").toUpperCase();
     }
 

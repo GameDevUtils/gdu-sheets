@@ -1,6 +1,6 @@
 import {Message, MESSAGE_TYPE} from "../objs/messages";
 
-interface LogFunction {
+export interface LogFunction {
     (data: string, ...more: any[]): void;
 }
 
@@ -13,23 +13,23 @@ export interface LogTo {
     clear?: LogFunction;
 }
 
-export default class LogUtil {
+export class LogUtil {
 
     static _messages : Array<Message> = [];
 
     static _includePrefix = false;
-    static get IncludePrefix(): boolean { return LogUtil._includePrefix; }
-    static set IncludePrefix(show: boolean) { LogUtil._includePrefix = show; }
+    public static get IncludePrefix(): boolean { return LogUtil._includePrefix; }
+    public static set IncludePrefix(show: boolean) { LogUtil._includePrefix = show; }
 
     static _outputModule: LogTo | undefined = undefined;
-    static set OutputModule(logTo: LogTo) { LogUtil._outputModule = logTo; }
+    public static set OutputModule(logTo: LogTo) { LogUtil._outputModule = logTo; }
 
     static _logLevel: MESSAGE_TYPE = MESSAGE_TYPE.DEBUG;
-    static get LogLevel() { return LogUtil._logLevel; }
+    public static get LogLevel() { return LogUtil._logLevel; }
     // @ts-ignore
-    static set LogLevel(level: MESSAGE_TYPE) { LogUtil._logLevel = level; }
+    public static set LogLevel(level: MESSAGE_TYPE) { LogUtil._logLevel = level; }
 
-    static LogMessage(type: MESSAGE_TYPE, data: string, more?: string | any) : void {
+    public static LogMessage(type: MESSAGE_TYPE, data: string, more?: string | any) : void {
 
         // // try to ensure numeric value
         // switch(type) {
@@ -71,7 +71,7 @@ export default class LogUtil {
         }
     }
 
-    static Clear() : void {
+    public static Clear() : void {
         LogUtil._messages.length = 0;
     }
 

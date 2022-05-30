@@ -13,7 +13,7 @@ const DefaultImageItems = {
         hashSHA256: undefined,
         hashMD5: undefined,
         // frameCount: 0,
-        frames: [],
+        frames: [] as ImageFrame[],
         populateFrameDataComplete: false,
         filterAppliedAliasHash:false,
         filterAppliedTrimRect: false,
@@ -31,7 +31,7 @@ const DefaultImageItems = {
         hashSHA256: undefined,
         hashMD5: undefined,
         // frameCount: 0,
-        frames: [],
+        frames: [] as ImageFrame[],
         populateFrameDataComplete: false,
         filterAppliedAliasHash:false,
         filterAppliedTrimRect: false,
@@ -40,7 +40,24 @@ const DefaultImageItems = {
     },
 };
 
-export default class ImageUtil {
+export class ImageUtil {
+
+    static get EMPTY_IMAGE_FRAME() : ImageFrame {
+        return {
+            width: 0,
+            height: 0,
+            data: undefined,
+            gamma: undefined,
+            hashSHA256: undefined,
+            hashMD5: undefined,
+            guid: undefined,
+            filterAppliedAliasHash: undefined,    // filter state
+            filterAppliedTrimRect: undefined,     // filter state
+            filterAppliedPaddingInner: undefined, // filter state
+            isDuplicate: undefined,
+            isValid: false
+        } as ImageFrame;
+    }
 
     static getEmptyImageItem(version?: APPLICATION_VERSION) : ImageItem {
         const result : ImageItem = Object.assign({}, DefaultImageItems[version ?? APPLICATION_VERSION.CURRENT]);

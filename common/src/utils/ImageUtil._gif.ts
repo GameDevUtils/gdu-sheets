@@ -38,5 +38,4 @@ export default class ImageUtil_GIF extends ImageUtil_ImageParser {
 
         return result;
     }
-
 }

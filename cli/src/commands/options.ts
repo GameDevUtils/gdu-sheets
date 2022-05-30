@@ -7,10 +7,13 @@ import {
     OptionGroup,
     OptionName,
     SizeMode,
-    SortBy, SpriteNameInAtlas, SpritePacker, TrimMode
-} from "gdu-common/build/objs/projects";
-import StringUtil from "gdu-common/build/utils/StringUtil";
-import {MESSAGE_TYPE} from "gdu-common/build/objs/messages";
+    SortBy,
+    SpriteNameInAtlas,
+    SpritePacker,
+    TrimMode,
+    StringUtil,
+    MESSAGE_TYPE
+} from "gdu-common";
 
 // n i d e p z r w h m c s x B S I A M L D t T g C
 // o O l f F

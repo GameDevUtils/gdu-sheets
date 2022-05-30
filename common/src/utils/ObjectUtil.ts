@@ -1,5 +1,5 @@
 
-export default class ObjectUtil {
+export class ObjectUtil {
 
     static isDeepEqual = (a:any, b:any) : boolean => {
         if(('string|number|boolean'.includes(typeof a)) && a === b) return true;

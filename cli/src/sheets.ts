@@ -20,9 +20,7 @@ import HelpCommand from './commands/help';
 
 import 'colors';
 import path from "path";
-import {APPLICATION_VERSION} from "gdu-common/build/utils/AppUtil";
-import LogUtil, {LogTo} from "gdu-common/build/utils/LogUtil";
-import {MESSAGE_TYPE} from "gdu-common/build/objs/messages";
+import { LogUtil, MESSAGE_TYPE, APPLICATION_VERSION } from "gdu-common";
 
 (() => {
     LogUtil.OutputModule = console;

@@ -2,12 +2,10 @@ import {FileParts} from '../objs/files';
 import LogUtil from "./LogUtil";
 import {MESSAGE_TYPE} from "../objs/messages";
 import {ImageFormat} from "../objs/projects";
-import {ReadStream} from "fs";
 import {Buffer} from "buffer";
 import ndarray, {NdArray} from "ndarray";
-import {Readable} from "stream";
 
-export default class FileUtil {
+export class FileUtil {
     static get EMPTY_FILEPARTS() : FileParts
     {
         return {
@@ -59,7 +57,7 @@ export default class FileUtil {
         if(typeof data === 'string') {
             if (preamble && data.indexOf(preamble) === 0) {
                 LogUtil.LogMessage(MESSAGE_TYPE.DEBUG, 'Processing image data as dataUrl string.')
-                result = ndarray(Buffer.from(data.substring(preamble.length), 'base64').valueOf());
+                result = ndarray(Buffer.from(data.substring(preamble.length), 'base64').valueOf() as Uint8Array);
             } else {
                 LogUtil.LogMessage(MESSAGE_TYPE.WARN, 'Invalid dataUrl.')
             }

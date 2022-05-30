@@ -12,15 +12,8 @@ export default class EditProjectCommand extends CommandModuleEx {
         this._handlerResult = new ValidatedResult();
     }
 
-    static setFlowValues = (self: any, commandName: string, readFirst: boolean = false, cullImages: boolean = false, packImages: boolean = false) => {
-        self.commandName = commandName;
-        self.readFirst = readFirst;
-        self._cullImages = cullImages;
-        self._packImages = packImages;
-    };
-
     handler(args: Arguments): void {
-        EditProjectCommand.setFlowValues(this, 'edit', true);
+        CommandModuleEx.setFlowValues(this, 'edit', true);
         super.handler(args);
     }
 

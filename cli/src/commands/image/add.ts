@@ -11,15 +11,8 @@ export default class AddImagesCommand extends CommandModuleEx {
         this._handlerResult = new ValidatedResult();
     }
 
-    static setFlowValues = (self: any, commandName: string, readFirst: boolean = false, cullImages: boolean = false, packImages: boolean = false) => {
-        self.commandName = commandName;
-        self.readFirst = readFirst;
-        self._cullImages = cullImages;
-        self._packImages = packImages;
-    };
-
     handler(args: Arguments): void {
-        AddImagesCommand.setFlowValues(this, 'add', true);
+        CommandModuleEx.setFlowValues(this, 'add', true);
         super.handler(args);
     }
 

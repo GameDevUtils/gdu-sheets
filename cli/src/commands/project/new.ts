@@ -12,15 +12,8 @@ export default class NewProjectCommandModule extends CommandModuleEx {
         this._handlerResult = new ValidatedResult();
     }
 
-    static setFlowValues = (self: any, commandName: string, readFirst: boolean = false, cullImages: boolean = false, packImages: boolean = false) => {
-        self.commandName = commandName;
-        self.readFirst = readFirst;
-        self._cullImages = cullImages;
-        self._packImages = packImages;
-    };
-
     handler(args: Arguments): void {
-        NewProjectCommandModule.setFlowValues(this, 'new');
+        CommandModuleEx.setFlowValues(this, 'new');
         super.handler(args);
     }
 
