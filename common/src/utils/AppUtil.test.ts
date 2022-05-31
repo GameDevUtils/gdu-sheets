@@ -1,4 +1,4 @@
-import AppUtil, {APPLICATION_VERSION} from "./AppUtil";
+import {AppUtil, APPLICATION_VERSION} from "./AppUtil";
 
 describe("AppUtil", () => {
 

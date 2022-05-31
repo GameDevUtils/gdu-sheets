@@ -3,7 +3,7 @@ import ImageUtil_ImageParser from "./ImageUtil._base";
 import {ImageProps} from "../objs/images";
 import {NdArray} from "ndarray";
 import {Buffer} from "buffer";
-import LogUtil from "./LogUtil";
+import {LogUtil} from "./LogUtil";
 import {MESSAGE_TYPE} from "../objs/messages";
 
 export default class ImageUtil_BMP extends ImageUtil_ImageParser {

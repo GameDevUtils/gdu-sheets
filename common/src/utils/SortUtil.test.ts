@@ -1,10 +1,10 @@
-import SortUtil from "./SortUtil";
+import {SortUtil} from "./SortUtil";
 import {ImageItem} from "../objs/images";
 import {PackMode} from "./PackUtil";
 import ImageUtil_ImageParser from "./ImageUtil._base";
 import {SortBy} from "../objs/projects";
-import ImageUtil from "./ImageUtil";
-import ProjectUtil from "./ProjectUtil";
+import {ImageUtil} from "./ImageUtil";
+import {ProjectUtil} from "./ProjectUtil";
 
 describe("SortUtil", () => {
 

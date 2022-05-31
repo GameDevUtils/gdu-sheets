@@ -1,9 +1,10 @@
 import {FileParts} from '../objs/files';
-import LogUtil from "./LogUtil";
+import {LogUtil} from "./LogUtil";
 import {MESSAGE_TYPE} from "../objs/messages";
 import {ImageFormat} from "../objs/projects";
 import {Buffer} from "buffer";
 import ndarray, {NdArray} from "ndarray";
+import {ImageUtil} from "./ImageUtil";
 
 export class FileUtil {
     static get EMPTY_FILEPARTS() : FileParts
@@ -18,9 +19,9 @@ export class FileUtil {
         } as FileParts;
     }
 
-    static getFileParts(path: string) : FileParts | undefined {
+    static getFileParts(path: string) : FileParts {
         const fileparts = FileUtil.EMPTY_FILEPARTS;
-// console.log(`path = '${path}'`)
+
         if(path && path.length && path.lastIndexOf('.') > 0) {
             fileparts.isValid = false;
 
@@ -46,24 +47,25 @@ export class FileUtil {
             LogUtil.LogMessage(MESSAGE_TYPE.WARN, `Invalid path or filename '${fileparts.pathfull}'.`);
         }
 
-        return undefined;
+        return fileparts;
     }
 
-    static getFileBytes(data?: Uint8Array | string, preamble?: string) : NdArray | undefined {
-        const array : Uint8Array | undefined = data as Uint8Array;
+    static getFileBytes(data: Uint8Array | string, imageFormat: ImageFormat) : NdArray {
+        const preamble = ImageUtil.PREAMBLE_TEMPLATE.replace(/xxx/g, ImageFormat[imageFormat].toLowerCase());
 
-        let result: NdArray | undefined = undefined;
+        let result: NdArray;
 
         if(typeof data === 'string') {
             if (preamble && data.indexOf(preamble) === 0) {
-                LogUtil.LogMessage(MESSAGE_TYPE.DEBUG, 'Processing image data as dataUrl string.')
+                LogUtil.LogMessage(MESSAGE_TYPE.DEBUG, 'Processing image data as dataUrl string.');
                 result = ndarray(Buffer.from(data.substring(preamble.length), 'base64').valueOf() as Uint8Array);
             } else {
-                LogUtil.LogMessage(MESSAGE_TYPE.WARN, 'Invalid dataUrl.')
+                LogUtil.LogMessage(MESSAGE_TYPE.WARN, 'Invalid dataUrl.');
+                result = ndarray([]);
             }
-        } else if(array && array.length != undefined) {
-            LogUtil.LogMessage(MESSAGE_TYPE.DEBUG, 'Processing image data as Uint8Array.')
-            result = ndarray(array);
+        } else {
+            LogUtil.LogMessage(MESSAGE_TYPE.DEBUG, 'Processing image data as Uint8Array.');
+            result = ndarray(data as Uint8Array);
         }
 
         return result;

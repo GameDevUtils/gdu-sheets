@@ -3,7 +3,7 @@ import {ImageProps} from "../objs/images";
 import {NdArray} from "ndarray";
 import {Buffer} from "buffer";
 import DecodeGIF from "decode-gif";
-import LogUtil from "./LogUtil";
+import {LogUtil} from "./LogUtil";
 import {MESSAGE_TYPE} from "../objs/messages";
 
 export default class ImageUtil_GIF extends ImageUtil_ImageParser {

@@ -20,9 +20,15 @@ import ImageUtil_JPG from "./ImageUtil._jpg";
 import ImageUtil_PNG from "./ImageUtil._png";
 import {FileUtil} from "./FileUtil";
 import ndarray from "ndarray";
+import {Buffer} from "buffer";
+import {FileParts} from "..";
 
 export interface Images {
     [key: string]: ImageItem;
+}
+
+export interface Args {
+    [key: string]: string | number | boolean | undefined;
 }
 
 export class ProjectUtil {
@@ -236,7 +242,7 @@ export class ProjectUtil {
             }
 
             LogUtil.LogMessage(MESSAGE_TYPE.DEBUG, '  serializing the data ...');
-            result = JSON.stringify(project);
+            result = JSON.stringify(project, null, 2);
             // result = JSON.stringify(project,(key, value) => {
             //     return value === undefined ? null : value;
             // });
@@ -341,7 +347,8 @@ export class ProjectUtil {
 
     public static booleanToYesNo = (value: boolean | undefined, defValue: YesNo = YesNo.NO) : YesNo => {
         let result = defValue;
-        switch(value ?? false) {
+        switch(value) {
+            case undefined: result = defValue; break;
             case false: result = YesNo.NO; break;
             case true: result = YesNo.YES; break;
         }
@@ -386,42 +393,98 @@ export class ProjectUtil {
 
     public static populateImageFrames = (project: Project) : Project => {
         const keys = Object.keys(project.images);
-
         for(const key of keys) {
             const imageItem = project.images[key];
-            let imageParser: ImageUtil_ImageParser;
-            if(imageItem?.src && imageItem?.filetype) {
-                switch(imageItem.filetype) {
-                    case ImageFormat.BMP:
-                        imageParser = new ImageUtil_BMP(ImageFormat.BMP, imageItem.src);
-                        break;
-                    case ImageFormat.GIF:
-                        imageParser = new ImageUtil_GIF(ImageFormat.GIF, imageItem.src);
-                        break;
-                    case ImageFormat.JPG:
-                        // case 'jpeg':
-                        imageParser = new ImageUtil_JPG(ImageFormat.JPG, imageItem.src);
-                        break;
-                    case ImageFormat.PNG:
-                        imageParser = new ImageUtil_PNG(ImageFormat.PNG, imageItem.src);
-                        break;
-                }
-                const imageItemWithFrames = imageParser?.buildImageItem(
-                    FileUtil.getFileParts(imageItem.fullpath ?? '') ?? FileUtil.EMPTY_FILEPARTS,
-                    FileUtil.getFileBytes(imageItem.src, `data:image/${ImageFormat[imageItem.filetype].toLowerCase()};base64,`) ?? ndarray([]),
-                );
-                if(imageItemWithFrames) {
-                    imageItem.frames = [] as ImageFrame[];
-                    for (let i = 0; i < imageItemWithFrames.frames.length; i++) {
-                        const frame = imageItemWithFrames.frames[i];
-                        imageItem.frames.push(frame ?? ImageUtil.EMPTY_IMAGE_FRAME);
-
+            if(imageItem) {
+                let imageParser: ImageUtil_ImageParser | undefined= undefined;
+                if(imageItem.src && imageItem.filetype && imageItem.fullpath) {
+                    switch(imageItem.filetype) {
+                        case ImageFormat.BMP:
+                            imageParser = new ImageUtil_BMP(ImageFormat.BMP, imageItem.src);
+                            break;
+                        case ImageFormat.GIF:
+                            imageParser = new ImageUtil_GIF(ImageFormat.GIF, imageItem.src);
+                            break;
+                        case ImageFormat.JPG:
+                            // case 'jpeg':
+                            imageParser = new ImageUtil_JPG(ImageFormat.JPG, imageItem.src);
+                            break;
+                        case ImageFormat.PNG:
+                            imageParser = new ImageUtil_PNG(ImageFormat.PNG, imageItem.src);
+                            break;
                     }
-                    imageItem.populateFrameDataComplete = true;
-                    project.images[key] = imageItem;
+                    if(imageParser) {
+                        const imageItemWithFrames = imageParser.buildImageItem(
+                            FileUtil.getFileParts(imageItem.fullpath),
+                            FileUtil.getFileBytes(imageItem.src, imageItem.filetype)
+                        );
+                        if(imageItemWithFrames) {
+                            imageItem.frames = [] as ImageFrame[];
+                            for (let i = 0; i < imageItemWithFrames.frames.length; i++) {
+                                const frame = imageItemWithFrames.frames[i];
+                                imageItem.frames.push(frame); // ?? ImageUtil.EMPTY_IMAGE_FRAME);
+                            }
+                            imageItem.populateFrameDataComplete = true;
+                            project.images[key] = imageItem;
+                        }
+                    }
                 }
             }
         }
         return project;
     };
+
+    public static mergeArgsIntoProject = (project: Project, args: Args) => {
+        project.options.name = args.name as string ?? project.options.name;
+        project.options.imageFormat = ProjectUtil.stringToImageFormat(args.imageFormat as string, project.options.imageFormat);
+        project.options.dataFormat = ProjectUtil.stringToDataFormat(args.dataFormat as string, project.options.dataFormat);
+        project.options.nameInSheet = ProjectUtil.stringToSpriteNameInAtlas(args.nameInSheet as string, project.options.nameInSheet);
+
+        project.options.spritePacker = ProjectUtil.stringToSpritePacker(args.spritePacker as string, project.options.spritePacker);
+        project.options.sortBy = ProjectUtil.stringToSortBy(args.sortBy as string, project.options.sortBy);
+        project.options.allowRotate = ProjectUtil.booleanToYesNo(args.allowRotate as boolean, project.options.allowRotate);
+
+        project.options.width = args.width as number ?? project.options.width;
+        project.options.height = args.height as number ?? project.options.height;
+        project.options.sizeMode = ProjectUtil.stringToSizeMode(args.sizeMode as string, project.options.sizeMode);
+        project.options.constraint = ProjectUtil.stringToConstraint(args.constraint as string, project.options.constraint);
+        project.options.forceSquare = ProjectUtil.booleanToYesNo(args.forceSquare as boolean, project.options.forceSquare);
+        project.options.includeAt2x = ProjectUtil.booleanToYesNo(args.include2x as boolean, project.options.includeAt2x);
+
+        project.options.borderPadding = args.borderPadding as number ?? project.options.borderPadding;
+        project.options.shapePadding = args.shapePadding as number ?? project.options.shapePadding;
+        project.options.innerPadding = args.innerPadding as number ?? project.options.innerPadding;
+
+        project.options.cleanAlpha = ProjectUtil.booleanToYesNo(args.cleanAlpha as boolean, project.options.cleanAlpha);
+        project.options.colorMask = ProjectUtil.booleanToYesNo(args.colorMask as boolean, project.options.colorMask);
+        project.options.aliasSprites = ProjectUtil.booleanToYesNo(args.aliasSprites as boolean, project.options.aliasSprites);
+        project.options.debugMode = ProjectUtil.booleanToYesNo(args.debugMode as boolean, project.options.debugMode);
+        project.options.trimMode = ProjectUtil.stringToTrimMode(args.trimMode as string, project.options.trimMode);
+        project.options.trimThreshold = args.trimThreshold as number ?? project.options.trimThreshold;
+
+        project.options.animatedGif = ProjectUtil.stringToAnimatedGif(args.animatedGif as string, project.options.animatedGif);
+        project.options.compressProject = ProjectUtil.booleanToYesNo(args.compressProject as boolean, project.options.compressProject);
+
+        return project;
+    };
+
+    public static mergeSingleImageIntoProject = (project: Project, fullpath: string, buffer: Buffer) => {
+        const imageItem = ImageUtil.EMPTY_IMAGE_ITEM;
+        const fileParts = FileUtil.getFileParts(fullpath);
+        imageItem.filename = fileParts.filename;
+        imageItem.fullpath = fileParts.pathfull;
+        const filetype = fileParts.filetype;
+        if(filetype) {
+            imageItem.filetype = ProjectUtil.stringToImageFormat(filetype);
+            imageItem.src =
+                ImageUtil.PREAMBLE_TEMPLATE.replace(/xxx/g, (filetype).toLocaleLowerCase()) +
+                // Buffer.from(fs.readFileSync(fullpath)).toString('base64');
+                buffer.toString('base64');
+        }
+        imageItem.frames = [] as ImageFrame[];
+        imageItem.populateFrameDataComplete = false;
+        imageItem.isEmpty = false;
+        project.images[fullpath] = imageItem;
+    }
+
 }

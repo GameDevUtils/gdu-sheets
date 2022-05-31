@@ -1,11 +1,9 @@
 import {Arguments, CommandBuilder, CommandModule} from "yargs";
 import ArgsUtil, {ValidatedResult} from "../utils/ArgsUtil";
 import fs from "fs";
-import CommandModuleEx_NoCheck from "./CommandModuleEx.no-check";
+// import CommandModuleEx_NoCheck from "./CommandModuleEx.no-check";
 import {Buffer} from "buffer";
-import {
-    FileUtil, ProjectUtil, LogUtil, MESSAGE_TYPE,
-    APPLICATION_VERSION, StringUtil } from "gdu-common";
+import {FileUtil, ProjectUtil, LogUtil, MESSAGE_TYPE, APPLICATION_VERSION, Args} from "gdu-common";
 
 
 export default class CommandModuleEx implements CommandModule<{}, unknown> {
@@ -81,7 +79,8 @@ export default class CommandModuleEx implements CommandModule<{}, unknown> {
                 }
             }
 
-            CommandModuleEx_NoCheck.mergeArgsIntoProject(project, args);
+            const argsForMerge = Object.assign({}, args) as Args;
+            ProjectUtil.mergeArgsIntoProject(project, argsForMerge);
 
             if(this.cullImages) {
                 const cullByFullPath = args.removeByFullPath;
@@ -111,7 +110,18 @@ export default class CommandModuleEx implements CommandModule<{}, unknown> {
                 });
             } else {
                 LogUtil.LogMessage(MESSAGE_TYPE.DEBUG, 'Merging images into project ...')
-                CommandModuleEx_NoCheck.mergeImagesIntoProject(project, this.handlerResult._images);
+
+                // CommandModuleEx_NoCheck.mergeImagesIntoProject(project, this.handlerResult._images);
+                const images = this.handlerResult._images;
+                if(images && images.length) {
+                    images.forEach((path) => {
+                        if(fs.existsSync(path)) {
+                            ProjectUtil.mergeSingleImageIntoProject(
+                                project, path, Buffer.from(fs.readFileSync(path)));
+                        }
+                    });
+                }
+
                 LogUtil.LogMessage(MESSAGE_TYPE.DEBUG, 'Success.')
             }
 

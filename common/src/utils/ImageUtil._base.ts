@@ -6,7 +6,7 @@ import {ImageFormat} from "../objs/projects";
 import {ImageFrame, ImageItem, ImageProps} from "../objs/images";
 import {FileParts} from "../objs/files";
 import {MESSAGE_TYPE} from "../objs/messages";
-import LogUtil from "./LogUtil";
+import {LogUtil} from "./LogUtil";
 import {v4 as UUID} from 'uuid';
 import {createHash} from 'crypto';
 

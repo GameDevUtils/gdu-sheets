@@ -1,5 +1,5 @@
 import {MESSAGE_TYPE} from "../objs/messages";
-import LogUtil, {LogTo} from "./LogUtil";
+import {LogUtil, LogTo} from "./LogUtil";
 
 describe("LogUtil", () => {
 

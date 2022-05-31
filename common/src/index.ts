@@ -1,10 +1,12 @@
+/* istanbul ignore file */
+
 export { AppUtil, APPLICATION_VERSION, Version } from "./utils/AppUtil";
 export { FileUtil } from "./utils/FileUtil";
 export { ImageUtil } from "./utils/ImageUtil";
 export { LogUtil, LogTo, LogFunction } from "./utils/LogUtil";
 export { ObjectUtil } from "./utils/ObjectUtil";
 export { PackMode } from "./utils/PackUtil";
-export { ProjectUtil, Images } from "./utils/ProjectUtil";
+export { ProjectUtil, Images, Args } from "./utils/ProjectUtil";
 export { SortUtil, SortOptions } from "./utils/SortUtil";
 export { StringUtil } from './utils/StringUtil';
 
