@@ -30,6 +30,11 @@ export default {
   //   "/node_modules/"
   // ],
 
+  coveragePathIgnorePatterns: [
+    "/node_modules/",
+    "/build/"
+  ],
+
   // Indicates which provider should be used to instrument code for coverage
   // coverageProvider: "babel",
 

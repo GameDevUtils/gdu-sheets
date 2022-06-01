@@ -3,43 +3,60 @@ import {Arguments} from "yargs";
 
 describe("remove image(s) command", () => {
 
-    const IMAGES = [
-        "../public/logo192.png",
-        "../public/favicon260.png",
-        "../public/android-chrome-192x192.png",
-        "../public/mstile-150x150.png"];
+    // const IMAGES = [
+    //     "../_assets/sprites/PNG/Characters/platformChar_happy.png",
+    //     "../_assets/sprites/PNG/Characters/platformChar_climb2.png",
+    //     "../_assets/sprites/PNG/Characters/platformChar_duck.png",
+    //     "../_assets/sprites/PNG/Characters/platformChar_walk1.png",
+    //     "../_assets/sprites/PNG/Characters/platformChar_walk2.png",
+    // ]
 
-    // let mockConsole : jest.MockedFunction<any>;
-    //
-    // beforeAll(() => {
-    //     mockConsole = jest.spyOn(console, 'log');
-    // });
-    //
-    // beforeEach(() => {
-    //     mockConsole.mockReset();
-    // });
-    //
-    // afterAll(() => {
-    //     mockConsole.mockRestore();
-    // });
+    let mockConsoleLog : jest.MockedFunction<any>;
+    let mockConsoleDebug : jest.MockedFunction<any>;
+    let mockConsoleWarn : jest.MockedFunction<any>;
+    // let mockConsoleError : jest.MockedFunction<any>;
+
+    beforeAll(() => {
+        mockConsoleLog = jest.spyOn(console, 'log');
+        mockConsoleDebug = jest.spyOn(console, 'debug');
+        mockConsoleWarn = jest.spyOn(console, 'warn');
+        // mockConsoleError = jest.spyOn(console, 'error');
+    });
+
+    beforeEach(() => {
+        mockConsoleLog.mockReset();
+        mockConsoleDebug.mockReset();
+        mockConsoleWarn.mockReset();
+        // mockConsoleError.mockReset();
+    });
+
+    afterAll(() => {
+        mockConsoleLog.mockRestore();
+        mockConsoleDebug.mockRestore();
+        mockConsoleWarn.mockRestore();
+        // mockConsoleError.mockRestore();
+    });
 
     test("should process remove commands.", () => {
         const remove = new RemoveCommandModule();
         const args  = {
             _: ["remove"],
-            $0: "gdu-sheets",
-            "path": "./build/index.js",
+            $0: "sheets",
+            "path": "../_assets/projects/test-with-images.sheets",
             "images": [
-                "../public/logo192.png",
-                "../public/favicon260.png",
-                "../public/android-chrome-192x192.png",
-                "../public/mstile-150x150.png"]
+                "../_assets/sprites/PNG/Characters/platformChar_walk1.png",
+                "../_assets/sprites/PNG/Characters/platformChar_walk2.png",
+            ],
+            console: true,
+            "removeByFullPath": true,
         } as Arguments<{}>;
 
-        expect(remove.command).toBe("remove <path> [images..]");
+        expect(remove.command).toEqual("remove <path> [images..]");
+        // expect(mockConsoleError).toHaveBeenCalledTimes(0);
         remove.handler(args);
-        expect(remove.handlerResult.command).toBe("remove");
-        // expect(mockConsole).toHaveBeenCalledTimes(1);
+        expect(remove.handlerResult.command).toEqual("remove");
+        expect(remove.handlerResult.images.length).toEqual(2);
+        // expect(mockConsoleError).toHaveBeenCalledTimes(2);
     });
 
 });

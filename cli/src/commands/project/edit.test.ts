@@ -21,14 +21,12 @@ describe("edit command", () => {
     test("should process edit commands.", () => {
         const edit = new EditCommandModule();
         const argv  = {
-            _: ["edit", "proj1 ../public/logo192.png"],
+            _: ["edit", "proj1"],
             $0: "sheets",
             "path": "./build/sheets.js",
             "images": [
-                "../public/logo192.png",
-                "../public/favicon260.png",
-                "../public/android-chrome-192x192.png",
-                "../public/mstile-150x150.png"]
+                "../_assets/sprites/BMP/sheet.bmp",
+                "../favicon260.png"]
         } as Arguments<{}>;
 
 

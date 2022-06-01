@@ -20,8 +20,8 @@
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx,.json",
     "lint-fix": "eslint . --ext .js,.jsx,.ts,.tsx,.json --fix",
     "test": "jest",
-    "watch": "jest --watch",
-    "watch-all": "jest --watchAll --coverage"
+    "watch": "jest --watchAll --coverage",
+    "licenses": "license-report --output=table --only=prod"
   },
   "keywords": [],
   "author": "Joseph B. Hall (@groundh0g)",

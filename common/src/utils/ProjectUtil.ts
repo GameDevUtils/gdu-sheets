@@ -272,6 +272,7 @@ export class ProjectUtil {
             //     return value === null ? 'undefined' : value;
             //     // return value;
             // }), result);
+// console.error(data);
         } catch (err) {
             LogUtil.LogMessage(MESSAGE_TYPE.ERROR, 'There was an error parsing the project file.', err);
         }

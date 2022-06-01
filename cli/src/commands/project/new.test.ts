@@ -3,37 +3,42 @@ import {Arguments} from "yargs";
 
 describe("new command", () => {
 
-    // let mockConsole : jest.MockedFunction<any>;
-    //
-    // beforeAll(() => {
-    //     mockConsole = jest.spyOn(console, 'log');
-    // });
-    //
-    // beforeEach(() => {
-    //     mockConsole.mockReset();
-    // });
-    //
-    // afterAll(() => {
-    //     mockConsole.mockRestore();
-    // });
+    const IMAGES = [
+        "../_assets/sprites/PNG/Characters/platformChar_happy.png",
+        "../_assets/sprites/PNG/Characters/platformChar_climb2.png",
+        "../_assets/sprites/PNG/Characters/platformChar_duck.png",
+        "../_assets/sprites/PNG/Characters/platformChar_walk1.png",
+        "../_assets/sprites/PNG/Characters/platformChar_walk2.png",
+    ]
+
+    let mockConsole : jest.MockedFunction<any>;
+
+    beforeAll(() => {
+        mockConsole = jest.spyOn(console, 'log');
+    });
+
+    beforeEach(() => {
+        mockConsole.mockReset();
+    });
+
+    afterAll(() => {
+        mockConsole.mockRestore();
+    });
 
     test("should process new commands.", () => {
-        const newProj = new NewProjectCommandModule();
+        const commandModule = new NewProjectCommandModule();
         const args  = {
             _: ["new"],
             $0: "sheets",
-            "path": "./build/sheets.js",
-            "images": [
-                "../public/logo192.png",
-                "../public/favicon260.png",
-                "../public/android-chrome-192x192.png",
-                "../public/mstile-150x150.png"]
+            "path": "../_assets/projects/test-with-images.sheets",
+            "images": IMAGES,
+            "console": true,
         } as Arguments<{}>;
 
-        expect(newProj.command).toBe("new <path> [images..]");
-        newProj.handler(args);
-        expect(newProj.handlerResult.command).toBe("new");
-        // expect(mockConsole).toHaveBeenCalledTimes(1);
+        expect(commandModule.command).toBe("new <path> [images..]");
+        commandModule.handler(args);
+        expect(commandModule.handlerResult.command).toBe("new");
+        expect(mockConsole).toHaveBeenCalledTimes(1);
     });
 
 });

@@ -1,5 +1,5 @@
 import {Arguments} from 'yargs';
-import {LICENSE} from "gdu-common/build/objs/content";
+import {LICENSE} from "gdu-common";
 import CommandModuleEx from "../project/CommandModuleEx";
 import ArgsUtil, {ValidatedResult} from "../utils/ArgsUtil";
 

@@ -17,8 +17,7 @@
     "build": "tsc -d && tsc -m commonjs",
     "lint": "npx eslint . --ext .js,.jsx,.ts,.tsx",
     "test": "jest",
-    "watch": "jest --watch --coverage",
-    "watch-all": "jest --watchAll --coverage",
+    "watch": "jest --watchAll --coverage",
     "licenses": "license-report --output=table --only=prod"
   },
   "keywords": [],
