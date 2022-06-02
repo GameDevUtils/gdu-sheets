@@ -31,6 +31,33 @@ export interface Args {
     [key: string]: string | number | boolean | undefined;
 }
 
+export type SerializableProjectOptions = {
+    name: string,
+    imageFormat: string,
+    dataFormat: string,
+    nameInSheet: string,
+    spritePacker: string,
+    sortBy: string,
+    allowRotate: string,
+    width: number,
+    height: number,
+    sizeMode: string,
+    constraint: string,
+    forceSquare: string,
+    includeAt2x: string,
+    borderPadding: number,
+    shapePadding: number,
+    innerPadding: number,
+    cleanAlpha: string,
+    colorMask: string,
+    aliasSprites: string,
+    debugMode: string,
+    trimMode: string,
+    trimThreshold: number,
+    animatedGif: string,
+    compressProject: string,
+};
+
 export class ProjectUtil {
 
     public static getDefaultProject(version?: APPLICATION_VERSION) : Project {
@@ -194,7 +221,7 @@ export class ProjectUtil {
     }
 
     public static mergeProjectOptions(target?: Project, source?: Project, version?: APPLICATION_VERSION) : ProjectOptions {
-        return ProjectUtil.mergeOptions(target ? target.options : undefined, source ? source.options : undefined, version);
+        return ProjectUtil.mergeOptions(target ? target.options as ProjectOptions : undefined, source ? source.options as ProjectOptions: undefined, version);
     }
 
     public static mergeProjects(target?: Project, source?: Project, version?: APPLICATION_VERSION) : Project {
@@ -225,7 +252,36 @@ export class ProjectUtil {
         return result;
     }
 
-    public static serialize = (project: Project, version?: APPLICATION_VERSION) : string => {
+    public static serializableProjectOptions(options: ProjectOptions) : SerializableProjectOptions {
+        return {
+            name: options.name as string,
+            imageFormat: ImageFormat[options.imageFormat as ImageFormat],
+            dataFormat: DataFormat[options.dataFormat as DataFormat],
+            nameInSheet: SpriteNameInAtlas[options.nameInSheet as SpriteNameInAtlas],
+            spritePacker: SpritePacker[options.spritePacker as SpritePacker],
+            sortBy: SortBy[options.sortBy as SortBy],
+            allowRotate: YesNo[options.allowRotate as YesNo],
+            width: options.width as number,
+            height: options.height as number,
+            sizeMode: SizeMode[options.sizeMode as SizeMode],
+            constraint: Constraint[options.constraint as Constraint],
+            forceSquare: YesNo[options.forceSquare as YesNo],
+            includeAt2x: YesNo[options.includeAt2x as YesNo],
+            borderPadding: options.borderPadding as number,
+            shapePadding: options.shapePadding as number,
+            innerPadding: options.innerPadding as number,
+            cleanAlpha: YesNo[options.cleanAlpha as YesNo],
+            colorMask: YesNo[options.colorMask as YesNo],
+            aliasSprites: YesNo[options.aliasSprites as YesNo],
+            debugMode: YesNo[options.debugMode as YesNo],
+            trimMode: TrimMode[options.trimMode as TrimMode],
+            trimThreshold: options.trimThreshold as number,
+            animatedGif: AnimatedGif[options.animatedGif as AnimatedGif],
+            compressProject: YesNo[options.compressProject as YesNo],
+        };
+    }
+
+    public static serialize(project: Project, version?: APPLICATION_VERSION) : string {
         const imageFrames : { [key: string]: ImageFrame[] } = { };
         let result = '';
 
@@ -241,6 +297,11 @@ export class ProjectUtil {
                 });
             }
 
+            LogUtil.LogMessage(MESSAGE_TYPE.DEBUG, '  preserving options ...');
+            const savedOptions = project.options;
+            // @ts-ignore
+            project.options = ProjectUtil.serializableProjectOptions(project.options);
+
             LogUtil.LogMessage(MESSAGE_TYPE.DEBUG, '  serializing the data ...');
             result = JSON.stringify(project, null, 2);
             // result = JSON.stringify(project,(key, value) => {
@@ -253,6 +314,7 @@ export class ProjectUtil {
                     project.images[key].frames = imageFrames[key]; // ?? [];
                 });
             }
+            project.options = savedOptions;
         } catch(err) {
             /* istanbul ignore next */
             LogUtil.LogMessage(MESSAGE_TYPE.ERROR, 'There was an error serializing the project.', err);
@@ -437,34 +499,34 @@ export class ProjectUtil {
 
     public static mergeArgsIntoProject = (project: Project, args: Args) => {
         project.options.name = args.name as string ?? project.options.name;
-        project.options.imageFormat = ProjectUtil.stringToImageFormat(args.imageFormat as string, project.options.imageFormat);
-        project.options.dataFormat = ProjectUtil.stringToDataFormat(args.dataFormat as string, project.options.dataFormat);
-        project.options.nameInSheet = ProjectUtil.stringToSpriteNameInAtlas(args.nameInSheet as string, project.options.nameInSheet);
+        project.options.imageFormat = ProjectUtil.stringToImageFormat(args.imageFormat as string, project.options.imageFormat as ImageFormat);
+        project.options.dataFormat = ProjectUtil.stringToDataFormat(args.dataFormat as string, project.options.dataFormat as DataFormat);
+        project.options.nameInSheet = ProjectUtil.stringToSpriteNameInAtlas(args.nameInSheet as string, project.options.nameInSheet as SpriteNameInAtlas);
 
-        project.options.spritePacker = ProjectUtil.stringToSpritePacker(args.spritePacker as string, project.options.spritePacker);
-        project.options.sortBy = ProjectUtil.stringToSortBy(args.sortBy as string, project.options.sortBy);
-        project.options.allowRotate = ProjectUtil.booleanToYesNo(args.allowRotate as boolean, project.options.allowRotate);
+        project.options.spritePacker = ProjectUtil.stringToSpritePacker(args.spritePacker as string, project.options.spritePacker as SpritePacker);
+        project.options.sortBy = ProjectUtil.stringToSortBy(args.sortBy as string, project.options.sortBy as SortBy);
+        project.options.allowRotate = ProjectUtil.booleanToYesNo(args.allowRotate as boolean, project.options.allowRotate as YesNo);
 
         project.options.width = args.width as number ?? project.options.width;
         project.options.height = args.height as number ?? project.options.height;
-        project.options.sizeMode = ProjectUtil.stringToSizeMode(args.sizeMode as string, project.options.sizeMode);
-        project.options.constraint = ProjectUtil.stringToConstraint(args.constraint as string, project.options.constraint);
-        project.options.forceSquare = ProjectUtil.booleanToYesNo(args.forceSquare as boolean, project.options.forceSquare);
-        project.options.includeAt2x = ProjectUtil.booleanToYesNo(args.include2x as boolean, project.options.includeAt2x);
+        project.options.sizeMode = ProjectUtil.stringToSizeMode(args.sizeMode as string, project.options.sizeMode as SizeMode);
+        project.options.constraint = ProjectUtil.stringToConstraint(args.constraint as string, project.options.constraint as Constraint);
+        project.options.forceSquare = ProjectUtil.booleanToYesNo(args.forceSquare as boolean, project.options.forceSquare as YesNo);
+        project.options.includeAt2x = ProjectUtil.booleanToYesNo(args.include2x as boolean, project.options.includeAt2x as YesNo);
 
         project.options.borderPadding = args.borderPadding as number ?? project.options.borderPadding;
         project.options.shapePadding = args.shapePadding as number ?? project.options.shapePadding;
         project.options.innerPadding = args.innerPadding as number ?? project.options.innerPadding;
 
-        project.options.cleanAlpha = ProjectUtil.booleanToYesNo(args.cleanAlpha as boolean, project.options.cleanAlpha);
-        project.options.colorMask = ProjectUtil.booleanToYesNo(args.colorMask as boolean, project.options.colorMask);
-        project.options.aliasSprites = ProjectUtil.booleanToYesNo(args.aliasSprites as boolean, project.options.aliasSprites);
-        project.options.debugMode = ProjectUtil.booleanToYesNo(args.debugMode as boolean, project.options.debugMode);
-        project.options.trimMode = ProjectUtil.stringToTrimMode(args.trimMode as string, project.options.trimMode);
+        project.options.cleanAlpha = ProjectUtil.booleanToYesNo(args.cleanAlpha as boolean, project.options.cleanAlpha as YesNo);
+        project.options.colorMask = ProjectUtil.booleanToYesNo(args.colorMask as boolean, project.options.colorMask as YesNo);
+        project.options.aliasSprites = ProjectUtil.booleanToYesNo(args.aliasSprites as boolean, project.options.aliasSprites as YesNo);
+        project.options.debugMode = ProjectUtil.booleanToYesNo(args.debugMode as boolean, project.options.debugMode as YesNo);
+        project.options.trimMode = ProjectUtil.stringToTrimMode(args.trimMode as string, project.options.trimMode as TrimMode);
         project.options.trimThreshold = args.trimThreshold as number ?? project.options.trimThreshold;
 
-        project.options.animatedGif = ProjectUtil.stringToAnimatedGif(args.animatedGif as string, project.options.animatedGif);
-        project.options.compressProject = ProjectUtil.booleanToYesNo(args.compressProject as boolean, project.options.compressProject);
+        project.options.animatedGif = ProjectUtil.stringToAnimatedGif(args.animatedGif as string, project.options.animatedGif as AnimatedGif);
+        project.options.compressProject = ProjectUtil.booleanToYesNo(args.compressProject as boolean, project.options.compressProject as YesNo);
 
         return project;
     };

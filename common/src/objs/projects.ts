@@ -1,4 +1,5 @@
 import {ImageItem} from "./images";
+import {SerializableProjectOptions} from "../utils/ProjectUtil";
 
 export enum ImageFormat {
     PNG = 1,
@@ -198,7 +199,7 @@ export type Project = {
     application: string | undefined,
     version: string | undefined,
     url: string | undefined,
-    options: ProjectOptions,
+    options: ProjectOptions | SerializableProjectOptions,
     images: { [key: string]: ImageItem },
     isEmpty: boolean  | undefined,
 };
