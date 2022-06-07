@@ -19,9 +19,11 @@ export default class NewProjectCommandModule extends CommandModuleEx {
 
     static get helpText(): string {
         return `
-Create a new project file with the default options, or specify options 
-and values to override the defaults. This command also provides a means 
-to specify images to be included within the project, using a glob pattern.
+Create a new project file with the default options, 
+or specify options and values to override the 
+defaults. This command also provides a means to 
+specify images to be included within the project, 
+using a glob pattern.
 
 Examples:
   sheets new ~/Documents/myProject.sheets

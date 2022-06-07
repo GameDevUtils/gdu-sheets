@@ -19,10 +19,9 @@ export default class AddImagesCommand extends CommandModuleEx {
 
     static get helpText(): string {
         return `
-Add images to an existing project by specifying 
-images to be included within the project, using a 
-glob pattern. Also supported is overriding existing
-options and values. 
+Add images to an existing project by specifying images 
+to be included within the project, using a glob pattern. 
+Also supported is overriding existing options and values.
 
 Examples:
   sheets add proj1 fighter.gif mage.gif ranger.gif

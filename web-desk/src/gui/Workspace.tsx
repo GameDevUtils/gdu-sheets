@@ -14,10 +14,12 @@ type MyState = {
 
 export class Workspace extends Component<MyProps, MyState> {
     render() {
-        let className = "workspacePanel" + (this.props.settingsPanelHidden ? " settingsPanelHidden" : "");
-        className += (this.props.resourcesPanelHidden ? " resourcesPanelHidden" : "");
+        let className = "workspacePanel" +
+            (this.props.settingsPanelHidden ? " settingsPanelHidden" : "") +
+            (this.props.resourcesPanelHidden ? " resourcesPanelHidden" : "");
         return (
             <div className={className}>
+                {/*<div id="divSprites" style={{ width: "1024px", height: "1024px"}}> </div>*/}
                 <div id="divSprites"> </div>
             </div>
         );

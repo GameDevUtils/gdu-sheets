@@ -48,52 +48,40 @@ export class SettingsPanelLeft extends Component<SettingsProps, SettingsState> {
 
                         <div className="row config-input-row">
                             <div className="col-3 config-label config-label-two-line">Project Name</div>
-                            <div className="col-8 config-input">
+                            <div className="col-9 config-input">
                                 <input id="txtName" type="text" className="form-control" placeholder="Untitled" />
-                            </div>
-                            <div className="col-1 config-input">
-                                <i className="fa fa-question-circle" title="Project filename."> </i>
                             </div>
                         </div>
 
                         <div className="row config-input-row">
                             <div className="col-3 config-label config-label-two-line">Image Format</div>
-                            <div className="col-8 config-input">
+                            <div className="col-9 config-input">
                                 <select id="ddlImage" className="form-control" defaultValue="PNG">
                                     <option value="GIF">GIF</option>
                                     <option value="JPG">JPG</option>
                                     <option value="PNG">PNG &deg;</option>
                                 </select>
                             </div>
-                            <div className="col-1 config-input">
-                                <i className="fa fa-question-circle" title="Format to save generated image."> </i>
-                            </div>
                         </div>
 
                         <div className="row config-input-row">
                             <div className="col-3 config-label config-label-two-line">Data Format</div>
-                            <div className="col-8 config-input">
+                            <div className="col-9 config-input">
                                 <select id="ddlData" className="form-control" defaultValue="XML">
                                     <option value="CSS">CSS</option>
                                     <option value="JSON">JSON</option>
                                     <option value="XML">XML &deg;</option>
                                 </select>
                             </div>
-                            <div className="col-1 config-input">
-                                <i className="fa fa-question-circle" title="Format to save sprite atlas data."> </i>
-                            </div>
                         </div>
 
                         <div className="row config-input-row">
                             <div className="col-3 config-label config-label-two-line">Name in Atlas</div>
-                            <div className="col-8 config-input">
+                            <div className="col-9 config-input">
                                 <select id="ddlExtension" className="form-control" defaultValue="Strip Extension">
                                     <option value="Strip Extension">Strip Extension &deg;</option>
                                     <option value="Keep Extension">Keep Extension</option>
                                 </select>
-                            </div>
-                            <div className="col-1 config-input">
-                                <i className="fa fa-question-circle" title="Format of filename in atlas."> </i>
                             </div>
                         </div>
 
@@ -114,20 +102,17 @@ export class SettingsPanelLeft extends Component<SettingsProps, SettingsState> {
 
                         <div className="row config-input-row">
                             <div className="col-3 config-label config-label-two-line">Sprite Packer</div>
-                            <div className="col-8 config-input">
+                            <div className="col-9 config-input">
                                 <select id="ddlPacker" className="form-control" defaultValue="JoeRects">
                                     <option value="Basic">Basic</option>
                                     <option value="JoeRects">JoeRects &deg;</option>
                                 </select>
                             </div>
-                            <div className="col-1 config-input">
-                                <i className="fa fa-question-circle" title="Algorithm to arrange sprites in atlas."> </i>
-                            </div>
                         </div>
 
                         <div className="row config-input-row">
                             <div className="col-3 config-label config-label-two-line">Sort by Property</div>
-                            <div className="col-8 config-input">
+                            <div className="col-9 config-input">
                                 <select id="ddlSort" className="form-control" defaultValue="AREA_DESC">
                                     <option value="AREA">AREA</option>
                                     <option value="AREA_DESC">AREA_DESC &deg;</option>
@@ -139,21 +124,15 @@ export class SettingsPanelLeft extends Component<SettingsProps, SettingsState> {
                                     <option value="WIDTH_DESC">WIDTH_DESC</option>
                                 </select>
                             </div>
-                            <div className="col-1 config-input">
-                                <i className="fa fa-question-circle" title="Sort key, when available."> </i>
-                            </div>
                         </div>
 
                         <div className="row config-input-row">
                             <div className="col-3 config-label config-label-two-line">Allow Rotate</div>
-                            <div className="col-8 config-input">
+                            <div className="col-9 config-input">
                                 <select id="ddlRotate" className="form-control" defaultValue="No">
                                     <option value="No">No &deg;</option>
                                     <option value="Yes">Yes</option>
                                 </select>
-                            </div>
-                            <div className="col-1 config-input">
-                                <i className="fa fa-question-circle" title="Allow algorithm to rotate sprites. Not yet implemented."> </i>
                             </div>
                         </div>
 
@@ -174,7 +153,7 @@ export class SettingsPanelLeft extends Component<SettingsProps, SettingsState> {
 
                         <div className="row config-input-row">
                             <div className="col-3 config-label">Width</div>
-                            <div className="col-8 config-input">
+                            <div className="col-9 config-input">
                                 <select id="ddlWidth" className="form-control" defaultValue="1024">
                                     <option value="16">16</option>
                                     <option value="32">32</option>
@@ -189,14 +168,11 @@ export class SettingsPanelLeft extends Component<SettingsProps, SettingsState> {
                                     <option value="16384">16384</option>
                                 </select>
                             </div>
-                            <div className="col-1 config-input">
-                                <i className="fa fa-question-circle" title="The width or max width of the atlas."> </i>
-                            </div>
                         </div>
 
                         <div className="row config-input-row">
                             <div className="col-3 config-label">Height</div>
-                            <div className="col-8 config-input">
+                            <div className="col-9 config-input">
                                 <select id="ddlHeight" className="form-control" defaultValue="1024">
                                     <option value="16">16</option>
                                     <option value="32">32</option>
@@ -211,60 +187,45 @@ export class SettingsPanelLeft extends Component<SettingsProps, SettingsState> {
                                     <option value="16384">16384</option>
                                 </select>
                             </div>
-                            <div className="col-1 config-input">
-                                <i className="fa fa-question-circle" title="The height or max height of the atlas."> </i>
-                            </div>
                         </div>
 
                         <div className="row config-input-row">
                             <div className="col-3 config-label config-label-two-line">Size Mode</div>
-                            <div className="col-8 config-input">
+                            <div className="col-9 config-input">
                                 <select id="ddlSizeMode" className="form-control" defaultValue="Max Size">
                                     <option value="Fixed Size">Fixed Size</option>
                                     <option value="Max Size">Max Size &deg;</option>
                                 </select>
                             </div>
-                            <div className="col-1 config-input">
-                                <i className="fa fa-question-circle" title="How to interpret the width and height values."> </i>
-                            </div>
                         </div>
 
                         <div className="row config-input-row">
                             <div className="col-3 config-label">Constraint</div>
-                            <div className="col-8 config-input">
+                            <div className="col-9 config-input">
                                 <select id="ddlConstraint" className="form-control" defaultValue="Power of Two">
                                     <option value="Any Size">Any Size</option>
                                     <option value="Power of Two">Power of Two &deg;</option>
                                 </select>
                             </div>
-                            <div className="col-1 config-input">
-                                <i className="fa fa-question-circle" title="Optional constraint on width and height."> </i>
-                            </div>
                         </div>
 
                         <div className="row config-input-row">
                             <div className="col-3 config-label config-label-two-line">Force Square</div>
-                            <div className="col-8 config-input">
+                            <div className="col-9 config-input">
                                 <select id="ddlForceSquare" className="form-control" defaultValue="No">
                                     <option value="Yes">Yes</option>
                                     <option value="No">No &deg;</option>
                                 </select>
                             </div>
-                            <div className="col-1 config-input">
-                                <i className="fa fa-question-circle" title="Force the width and height be equal."> </i>
-                            </div>
                         </div>
 
                         <div className="row config-input-row">
                             <div className="col-3 config-label config-label-two-line">Include @2x</div>
-                            <div className="col-8 config-input">
+                            <div className="col-9 config-input">
                                 <select id="ddlAt2x" className="form-control" defaultValue="No">
                                     <option value="Yes">Yes</option>
                                     <option value="No">No &deg;</option>
                                 </select>
-                            </div>
-                            <div className="col-1 config-input">
-                                <i className="fa fa-question-circle" title="Save the sprites as @2x, then save again at half resolution."> </i>
                             </div>
                         </div>
 
@@ -285,40 +246,31 @@ export class SettingsPanelLeft extends Component<SettingsProps, SettingsState> {
 
                         <div className="row config-input-row">
                             <div className="col-3 config-label config-label-two-line">Border Padding</div>
-                            <div className="col-8 config-input">
+                            <div className="col-9 config-input">
                                 <div className="input-group">
                                     <input id="txtBorderPadding" type="text" className="form-control" placeholder="2" />
                                     <span className="input-group-text"><i className="fa fa-arrows-alt-v"> </i></span>
                                 </div>
                             </div>
-                            <div className="col-1 config-input">
-                                <i className="fa fa-question-circle" title="Transparent area surrounding the atlas."> </i>
-                            </div>
                         </div>
 
                         <div className="row config-input-row">
                             <div className="col-3 config-label config-label-two-line">Shape Padding</div>
-                            <div className="col-8 config-input">
+                            <div className="col-9 config-input">
                                 <div className="input-group">
                                     <input id="txtShapePadding" type="text" className="form-control" placeholder="2" />
                                     <span className="input-group-text"><i className="fa fa-arrows-alt-v"> </i></span>
                                 </div>
                             </div>
-                            <div className="col-1 config-input">
-                                <i className="fa fa-question-circle" title="Transparent area around each sprite."> </i>
-                            </div>
                         </div>
 
                         <div className="row config-input-row">
                             <div className="col-3 config-label config-label-two-line">Inner Padding</div>
-                            <div className="col-8 config-input">
+                            <div className="col-9 config-input">
                                 <div className="input-group">
                                     <input id="txtInnerPadding" type="text" className="form-control" placeholder="0" />
                                     <span className="input-group-text"><i className="fa fa-arrows-alt-v"> </i></span>
                                 </div>
-                            </div>
-                            <div className="col-1 config-input">
-                                <i className="fa fa-question-circle" title="Transparent area within sprite bounds (sprite inclusive)."> </i>
                             </div>
                         </div>
 
@@ -339,79 +291,61 @@ export class SettingsPanelLeft extends Component<SettingsProps, SettingsState> {
 
                         <div className="row config-input-row">
                             <div className="col-3 config-label config-label-two-line">Clean Alpha</div>
-                            <div className="col-8 config-input">
+                            <div className="col-9 config-input">
                                 <select id="ddlCleanAlpha" className="form-control" defaultValue="No">
                                     <option value="Yes">Yes</option>
                                     <option value="No">No &deg;</option>
                                 </select>
                             </div>
-                            <div className="col-1 config-input">
-                                <i className="fa fa-question-circle" title="Make fully-transparent pixels #00000000 to aid compression."> </i>
-                            </div>
                         </div>
 
                         <div className="row config-input-row">
                             <div className="col-3 config-label config-label-two-line">Color Mask</div>
-                            <div className="col-8 config-input">
+                            <div className="col-9 config-input">
                                 <select id="ddlColorMask" className="form-control" defaultValue="No">
                                     <option value="Yes">Yes</option>
                                     <option value="No">No &deg;</option>
                                 </select>
                             </div>
-                            <div className="col-1 config-input">
-                                <i className="fa fa-question-circle" title="Use the top-left pixel color as a transparency mask for the sprite."> </i>
-                            </div>
                         </div>
 
                         <div className="row config-input-row">
                             <div className="col-3 config-label config-label-two-line">Alias Sprites</div>
-                            <div className="col-8 config-input">
+                            <div className="col-9 config-input">
                                 <select id="ddlAliasSprites" className="form-control" defaultValue="No">
                                     <option value="Yes">Yes</option>
                                     <option value="No">No &deg;</option>
                                 </select>
                             </div>
-                            <div className="col-1 config-input">
-                                <i className="fa fa-question-circle" title="Aid compression by merging duplicate sprites. Not yet implemented."> </i>
-                            </div>
                         </div>
 
                         <div className="row config-input-row">
                             <div className="col-3 config-label config-label-two-line">Debug Mode</div>
-                            <div className="col-8 config-input">
+                            <div className="col-9 config-input">
                                 <select id="ddlDebugMode" className="form-control" defaultValue="No">
                                     <option value="Yes">Yes</option>
                                     <option value="No">No &deg;</option>
                                 </select>
                             </div>
-                            <div className="col-1 config-input">
-                                <i className="fa fa-question-circle" title="Render bounding rectangle for sprite."> </i>
-                            </div>
                         </div>
 
                         <div className="row config-input-row">
                             <div className="col-3 config-label config-label-two-line">Trim Mode</div>
-                            <div className="col-8 config-input">
+                            <div className="col-9 config-input">
                                 <select id="ddlTrimMode" className="form-control" defaultValue="None">
                                     <option value="None">None &deg;</option>
                                     <option value="Trim">Trim</option>
                                 </select>
                             </div>
-                            <div className="col-1 config-input">
-                                <i className="fa fa-question-circle" title="Eliminate as much unused, transparent border as possible."> </i>
-                            </div>
                         </div>
 
                         <div className="row config-input-row">
                             <div className="col-3 config-label config-label-two-line">Trim Threshold</div>
-                            <div className="col-8 config-input">
+                            <div className="col-9 config-input">
                                 <div className="input-group">
                                     <input id="txtTrimThreshold" type="text" className="form-control" placeholder="1" />
                                     <span className="input-group-text"><i className="fa fa-arrows-alt-v"> </i></span>
                                 </div>
-                            </div>
-                            <div className="col-1 config-input">
-                                <i className="fa fa-question-circle" title="The alpha threshold for trimming."> </i>
                             </div>
                         </div>
 
@@ -432,27 +366,21 @@ export class SettingsPanelLeft extends Component<SettingsProps, SettingsState> {
 
                         <div className="row config-input-row">
                             <div className="col-3 config-label config-label-two-line">Animated GIF</div>
-                            <div className="col-8 config-input">
+                            <div className="col-9 config-input">
                                 <select id="ddlAnimatedGIF" className="form-control" defaultValue="Use First Frame">
                                     <option value="Use First Frame">Use First Frame &deg;</option>
                                     <option value="Extract Frames">Extract Frames</option>
                                 </select>
                             </div>
-                            <div className="col-1 config-input">
-                                <i className="fa fa-question-circle" title="For animated GIFs, use the first frame or use all frames (as separate sprites)."> </i>
-                            </div>
                         </div>
 
                         <div className="row config-input-row">
                             <div className="col-3 config-label config-label-two-line">Compress Project</div>
-                            <div className="col-8 config-input">
+                            <div className="col-9 config-input">
                                 <select id="ddlZipProject" className="form-control" defaultValue="No">
                                     <option value="Yes">Yes</option>
                                     <option value="No">No &deg;</option>
                                 </select>
-                            </div>
-                            <div className="col-1 config-input">
-                                <i className="fa fa-question-circle" title="Optionally ZIP the project file."> </i>
                             </div>
                         </div>
 

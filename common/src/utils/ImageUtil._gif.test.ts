@@ -11,7 +11,7 @@ describe("GIF image helper", () => {
         const img = new ImageUtil_GIF(ImageFormat.GIF, imageDataURL);
         const imageItem = img.buildImageItem(
             FileUtil.getFileParts('./sprites/hero/happy.gif'),
-            FileUtil.getFileBytes(imageDataURL, ImageFormat.GIF)
+            FileUtil.getFileBytes(imageDataURL, 'gif')
         );
 
         expect(imageItem?.isEmpty).toEqual(true);
@@ -22,7 +22,7 @@ describe("GIF image helper", () => {
         const gif = new ImageUtil_GIF(ImageFormat.GIF, imageDataURL);
         const imageItem = gif.buildImageItem(
             FileUtil.getFileParts('./sprites/hero/happy.gif'),
-            FileUtil.getFileBytes(imageDataURL, ImageFormat.GIF)
+            FileUtil.getFileBytes(imageDataURL, 'gif')
         );
 
         expect(imageItem?.isEmpty).toEqual(true);
@@ -33,7 +33,7 @@ describe("GIF image helper", () => {
         const gif = new ImageUtil_GIF(ImageFormat.GIF, imageDataURL);
         const imageItem = gif.buildImageItem(
             FileUtil.getFileParts('./sprites/hero/happy.gif'),
-            FileUtil.getFileBytes(imageDataURL, ImageFormat.GIF)
+            FileUtil.getFileBytes(imageDataURL, 'gif')
         );
 
         expect(imageItem?.isEmpty).toEqual(true);
@@ -44,7 +44,7 @@ describe("GIF image helper", () => {
         const gif = new ImageUtil_GIF(ImageFormat.GIF, imageDataURL);
         const imageItem = gif.buildImageItem(
             FileUtil.getFileParts('./sprites/hero/happy.gif'),
-            FileUtil.getFileBytes(imageDataURL, ImageFormat.GIF)
+            FileUtil.getFileBytes(imageDataURL, 'gif')
         );
 
         expect(imageItem?.frames?.length).toEqual(6);

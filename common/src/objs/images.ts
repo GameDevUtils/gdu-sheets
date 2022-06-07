@@ -29,7 +29,7 @@ export type ImageFrame = {
 export type ImageItem = {
     filename: string | undefined, // filename only, e.g. 'walk-01.png' (must be unique?? v0.2.0 likely, v0.3.0 TBD)
     fullpath: string | undefined, // path from pwd, e.g. './mage/walking/walk-01.png' (must be unique!!)
-    filetype: ImageFormat | undefined, // detected file type
+    filetype: string | undefined, // detected file type
     src: string | undefined, // base64, data uri
     frames: ImageFrame[], // used for animated GIF sources, length === 1 for other images
     populateFrameDataComplete: boolean | undefined, // the ImageItem is ready for use

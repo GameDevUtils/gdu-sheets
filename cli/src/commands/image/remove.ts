@@ -6,7 +6,7 @@ import {Arguments} from "yargs";
 export default class RemoveImagesCommand extends CommandModuleEx {
     constructor() {
         super();
-        this._command = "remove <path> [images..]";
+        this._command = "remove <path> <images..>";
         this._describe = "remove image(s) from project";
         this._builder = undefined;
         this._handlerResult = new ValidatedResult();
@@ -19,10 +19,9 @@ export default class RemoveImagesCommand extends CommandModuleEx {
 
     static get helpText(): string {
         return `
-Remove images from an existing project by 
-specifying images to be removed using a 
-glob pattern. Also suported is overriding 
-existing options and values. 
+Remove images from an existing project by specifying 
+images to be removed using a glob pattern. Also 
+supported is overriding existing options and values.
 
 Examples:
   sheets remove proj1 fighter.gif mage.gif ranger.gif

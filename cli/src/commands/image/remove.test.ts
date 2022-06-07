@@ -42,7 +42,7 @@ describe("remove image(s) command", () => {
         const args  = {
             _: ["remove"],
             $0: "sheets",
-            "path": "../_assets/projects/test-with-images.sheets",
+            "path": "../_assets/projects/test-new-with-images.sheets",
             "images": [
                 "../_assets/sprites/PNG/Characters/platformChar_walk1.png",
                 "../_assets/sprites/PNG/Characters/platformChar_walk2.png",

@@ -16,7 +16,7 @@ import {
 } from "gdu-common";
 
 // n i d e p z r w h m c s x B S I A M L D t T g C
-// o O l f F
+// o O l N P f F
 
 class OptionValues {
     constructor(init?: { alias1?: string, alias2?: string, group?: string, default?: string | number | boolean, describe?: string, type?: string, hidden: boolean, choices?: string[] }) {
@@ -347,7 +347,7 @@ export default class Options {
 
         argv.option('o', {
             alias: 'console',
-            group: 'CLI-Only',
+            group: 'CLI-Only:',
             default: false,
             describe: 'output to console',
             type: 'boolean',
@@ -355,7 +355,7 @@ export default class Options {
 
         argv.option('O', {
             alias: 'overwrite',
-            group: 'CLI-Only',
+            group: 'CLI-Only:',
             default: false,
             describe: 'overwrite existing file, if any',
             type: 'boolean'
@@ -363,27 +363,45 @@ export default class Options {
 
         argv.option('l', {
             alias: 'log-level',
-            group: 'CLI-Only',
+            group: 'CLI-Only:',
             default: MESSAGE_TYPE[MESSAGE_TYPE.WARN],
             describe: 'set logging level, default: WARN',
             type: 'string',
             choices: Options.getEnumNames(MESSAGE_TYPE)
         });
 
-        argv.option('f', {
+        argv.option('N', {
             alias: 'remove-by-filename',
-            group: 'CLI-Only',
+            group: 'CLI-Only:',
             default: undefined,
             describe: 'remove images by filename only',
+            type: 'boolean',
+            conflicts: ['P']
+        });
+
+        argv.option('P', {
+            alias: 'remove-by-full-path',
+            group: 'CLI-Only:',
+            default: true,
+            describe: 'remove images by full path',
+            type: 'boolean',
+            conflicts: ['N']
+        });
+
+        argv.option('f', {
+            alias: 'publish-as-files',
+            group: 'CLI-Only:',
+            default: undefined,
+            describe: 'publish to files',
             type: 'boolean',
             conflicts: ['F']
         });
 
         argv.option('F', {
-            alias: 'remove-by-full-path',
-            group: 'CLI-Only',
+            alias: 'publish-as-zip',
+            group: 'CLI-Only:',
             default: true,
-            describe: 'remove images by full path',
+            describe: 'publish as ZIP',
             type: 'boolean',
             conflicts: ['f']
         });

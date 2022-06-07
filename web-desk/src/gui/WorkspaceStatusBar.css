@@ -1,12 +1,12 @@
 .workspaceStatusBar {
     position: absolute;
     bottom: 0;
-    left: 300px;
-    right: 300px;
+    left: 0;
+    right: 0;
     height: 40px;
 
     line-height: 40px;
-    padding-left: 10px;
+    padding-left: 25px;
     padding-right: 270px;
 
     border-top: 1px solid black;
@@ -17,8 +17,8 @@
     position: absolute;
 
     bottom: 7px;
-    width: 200px;
-    right: 5px;
+    width: 265px;
+    right: 25px;
     height: 25px;
 
     border-radius: .4em;

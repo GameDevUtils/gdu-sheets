@@ -1,7 +1,6 @@
 import {Arguments, CommandBuilder, CommandModule} from "yargs";
 import ArgsUtil, {ValidatedResult} from "../utils/ArgsUtil";
 import fs from "fs";
-// import CommandModuleEx_NoCheck from "./CommandModuleEx.no-check";
 import {Buffer} from "buffer";
 import {FileUtil, ProjectUtil, LogUtil, MESSAGE_TYPE, APPLICATION_VERSION, Args} from "gdu-common";
 
@@ -100,12 +99,10 @@ export default class CommandModuleEx implements CommandModule<{}, unknown> {
                         this.handlerResult._images.forEach((img) => {
                             if(img.endsWith(fileParts?.filename ?? '')) {
                                 found = img;
+                                delete project.images[found];
+                                LogUtil.LogMessage(MESSAGE_TYPE.DEBUG, '  ${found}')
                             }
                         });
-                        if(found.length > 0) {
-                            LogUtil.LogMessage(MESSAGE_TYPE.DEBUG, '  ${found}')
-                            delete project.images[found];
-                        }
                     }
                 });
             } else {

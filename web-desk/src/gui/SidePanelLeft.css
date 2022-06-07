@@ -1,5 +1,6 @@
 .sidePanelLeft {
     left: 0;
+    bottom: 40px;
     border-right: 1px solid black;
 }
 

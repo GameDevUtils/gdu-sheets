@@ -237,86 +237,86 @@ describe("ProjectUtil", () => {
         expect(combined["bar"]).toStrictEqual(images2["bar"]);
     });
 
-    test("stringToImageFormat", () => {
-        expect(ProjectUtil.stringToImageFormat("foo")).toEqual(ImageFormat.PNG);
-        expect(ProjectUtil.stringToImageFormat("bmp")).toEqual(ImageFormat.BMP);
-        expect(ProjectUtil.stringToImageFormat("gif")).toEqual(ImageFormat.GIF);
-        expect(ProjectUtil.stringToImageFormat("jpg")).toEqual(ImageFormat.JPG);
-        expect(ProjectUtil.stringToImageFormat("png")).toEqual(ImageFormat.PNG);
-    });
-
-    test("stringToDataFormat", () => {
-        expect(ProjectUtil.stringToDataFormat("foo")).toEqual(DataFormat.XML);
-        expect(ProjectUtil.stringToDataFormat("css")).toEqual(DataFormat.CSS);
-        expect(ProjectUtil.stringToDataFormat("json")).toEqual(DataFormat.JSON);
-        expect(ProjectUtil.stringToDataFormat("xml")).toEqual(DataFormat.XML);
-    });
-
-    test("stringToSpriteNameInAtlas", () => {
-        expect(ProjectUtil.stringToSpriteNameInAtlas("foo")).toEqual(SpriteNameInAtlas.StripExtension);
-        expect(ProjectUtil.stringToSpriteNameInAtlas("KeepExtension")).toEqual(SpriteNameInAtlas.KeepExtension);
-        expect(ProjectUtil.stringToSpriteNameInAtlas("StripExtension")).toEqual(SpriteNameInAtlas.StripExtension);
-    });
-
-    test("stringToDataFormat", () => {
-        expect(ProjectUtil.stringToSpritePacker("foo")).toEqual(SpritePacker.JoeRects);
-        expect(ProjectUtil.stringToSpritePacker("Basic")).toEqual(SpritePacker.Basic);
-        expect(ProjectUtil.stringToSpritePacker("JoeRects")).toEqual(SpritePacker.JoeRects);
-    });
-
-    test("stringToSortBy", () => {
-        expect(ProjectUtil.stringToSortBy("foo")).toEqual(SortBy.AREA_DESC);
-        expect(ProjectUtil.stringToSortBy("AREA")).toEqual(SortBy.AREA);
-        expect(ProjectUtil.stringToSortBy("AREA_DESC")).toEqual(SortBy.AREA_DESC);
-        expect(ProjectUtil.stringToSortBy("HEIGHT")).toEqual(SortBy.HEIGHT);
-        expect(ProjectUtil.stringToSortBy("HEIGHT_DESC")).toEqual(SortBy.HEIGHT_DESC);
-        expect(ProjectUtil.stringToSortBy("LONGER_SIDE")).toEqual(SortBy.LONGER_SIDE);
-        expect(ProjectUtil.stringToSortBy("LONGER_SIDE_DESC")).toEqual(SortBy.LONGER_SIDE_DESC);
-        expect(ProjectUtil.stringToSortBy("NAME")).toEqual(SortBy.NAME);
-        expect(ProjectUtil.stringToSortBy("NAME_DESC")).toEqual(SortBy.NAME_DESC);
-        expect(ProjectUtil.stringToSortBy("PATH")).toEqual(SortBy.PATH);
-        expect(ProjectUtil.stringToSortBy("PATH_DESC")).toEqual(SortBy.PATH_DESC);
-        expect(ProjectUtil.stringToSortBy("PERIMETER")).toEqual(SortBy.PERIMETER);
-        expect(ProjectUtil.stringToSortBy("PERIMETER_DESC")).toEqual(SortBy.PERIMETER_DESC);
-        expect(ProjectUtil.stringToSortBy("SHORTER_SIDE")).toEqual(SortBy.SHORTER_SIDE);
-        expect(ProjectUtil.stringToSortBy("SHORTER_SIDE_DESC")).toEqual(SortBy.SHORTER_SIDE_DESC);
-        expect(ProjectUtil.stringToSortBy("SIDE_DIFF")).toEqual(SortBy.SIDE_DIFF);
-        expect(ProjectUtil.stringToSortBy("SIDE_DIFF_DESC")).toEqual(SortBy.SIDE_DIFF_DESC);
-        expect(ProjectUtil.stringToSortBy("SIDE_RATIO")).toEqual(SortBy.SIDE_RATIO);
-        expect(ProjectUtil.stringToSortBy("SIDE_RATIO_DESC")).toEqual(SortBy.SIDE_RATIO_DESC);
-        expect(ProjectUtil.stringToSortBy("WIDTH")).toEqual(SortBy.WIDTH);
-        expect(ProjectUtil.stringToSortBy("WIDTH_DESC")).toEqual(SortBy.WIDTH_DESC);
-    });
-
-    test("booleanToYesNo", () => {
-        expect(ProjectUtil.booleanToYesNo(undefined)).toEqual(YesNo.NO);
-        expect(ProjectUtil.booleanToYesNo(true)).toEqual(YesNo.YES);
-        expect(ProjectUtil.booleanToYesNo(false)).toEqual(YesNo.NO);
-    });
-
-    test("stringToSizeMode", () => {
-        expect(ProjectUtil.stringToSizeMode("foo")).toEqual(SizeMode.MaxSize);
-        expect(ProjectUtil.stringToSizeMode("FixedSize")).toEqual(SizeMode.FixedSize);
-        expect(ProjectUtil.stringToSizeMode("MaxSize")).toEqual(SizeMode.MaxSize);
-    });
-
-    test("stringToConstraint", () => {
-        expect(ProjectUtil.stringToConstraint("foo")).toEqual(Constraint.PowerOfTwo);
-        expect(ProjectUtil.stringToConstraint("AnySize")).toEqual(Constraint.AnySize);
-        expect(ProjectUtil.stringToConstraint("PowerOfTwo")).toEqual(Constraint.PowerOfTwo);
-    });
-
-    test("stringToTrimMode", () => {
-        expect(ProjectUtil.stringToTrimMode("foo")).toEqual(TrimMode.None);
-        expect(ProjectUtil.stringToTrimMode("None")).toEqual(TrimMode.None);
-        expect(ProjectUtil.stringToTrimMode("Trim")).toEqual(TrimMode.Trim);
-    });
-
-    test("stringToAnimatedGif", () => {
-        expect(ProjectUtil.stringToAnimatedGif("foo")).toEqual(AnimatedGif.UseFirstFrame);
-        expect(ProjectUtil.stringToAnimatedGif("ExtractFrames")).toEqual(AnimatedGif.ExtractFrames);
-        expect(ProjectUtil.stringToAnimatedGif("UseFirstFrame")).toEqual(AnimatedGif.UseFirstFrame);
-    });
+    // test("stringToImageFormat", () => {
+    //     expect(ProjectUtil.stringToImageFormat("foo")).toEqual(ImageFormat.PNG);
+    //     expect(ProjectUtil.stringToImageFormat("bmp")).toEqual(ImageFormat.BMP);
+    //     expect(ProjectUtil.stringToImageFormat("gif")).toEqual(ImageFormat.GIF);
+    //     expect(ProjectUtil.stringToImageFormat("jpg")).toEqual(ImageFormat.JPG);
+    //     expect(ProjectUtil.stringToImageFormat("png")).toEqual(ImageFormat.PNG);
+    // });
+    //
+    // test("stringToDataFormat", () => {
+    //     expect(ProjectUtil.stringToDataFormat("foo")).toEqual(DataFormat.XML);
+    //     expect(ProjectUtil.stringToDataFormat("css")).toEqual(DataFormat.CSS);
+    //     expect(ProjectUtil.stringToDataFormat("json")).toEqual(DataFormat.JSON);
+    //     expect(ProjectUtil.stringToDataFormat("xml")).toEqual(DataFormat.XML);
+    // });
+    //
+    // test("stringToSpriteNameInAtlas", () => {
+    //     expect(ProjectUtil.stringToSpriteNameInAtlas("foo")).toEqual(SpriteNameInAtlas.StripExtension);
+    //     expect(ProjectUtil.stringToSpriteNameInAtlas("KeepExtension")).toEqual(SpriteNameInAtlas.KeepExtension);
+    //     expect(ProjectUtil.stringToSpriteNameInAtlas("StripExtension")).toEqual(SpriteNameInAtlas.StripExtension);
+    // });
+    //
+    // test("stringToDataFormat", () => {
+    //     expect(ProjectUtil.stringToSpritePacker("foo")).toEqual(SpritePacker.JoeRects);
+    //     expect(ProjectUtil.stringToSpritePacker("Basic")).toEqual(SpritePacker.Basic);
+    //     expect(ProjectUtil.stringToSpritePacker("JoeRects")).toEqual(SpritePacker.JoeRects);
+    // });
+    //
+    // test("stringToSortBy", () => {
+    //     expect(ProjectUtil.stringToSortBy("foo")).toEqual(SortBy.AREA_DESC);
+    //     expect(ProjectUtil.stringToSortBy("AREA")).toEqual(SortBy.AREA);
+    //     expect(ProjectUtil.stringToSortBy("AREA_DESC")).toEqual(SortBy.AREA_DESC);
+    //     expect(ProjectUtil.stringToSortBy("HEIGHT")).toEqual(SortBy.HEIGHT);
+    //     expect(ProjectUtil.stringToSortBy("HEIGHT_DESC")).toEqual(SortBy.HEIGHT_DESC);
+    //     expect(ProjectUtil.stringToSortBy("LONGER_SIDE")).toEqual(SortBy.LONGER_SIDE);
+    //     expect(ProjectUtil.stringToSortBy("LONGER_SIDE_DESC")).toEqual(SortBy.LONGER_SIDE_DESC);
+    //     expect(ProjectUtil.stringToSortBy("NAME")).toEqual(SortBy.NAME);
+    //     expect(ProjectUtil.stringToSortBy("NAME_DESC")).toEqual(SortBy.NAME_DESC);
+    //     expect(ProjectUtil.stringToSortBy("PATH")).toEqual(SortBy.PATH);
+    //     expect(ProjectUtil.stringToSortBy("PATH_DESC")).toEqual(SortBy.PATH_DESC);
+    //     expect(ProjectUtil.stringToSortBy("PERIMETER")).toEqual(SortBy.PERIMETER);
+    //     expect(ProjectUtil.stringToSortBy("PERIMETER_DESC")).toEqual(SortBy.PERIMETER_DESC);
+    //     expect(ProjectUtil.stringToSortBy("SHORTER_SIDE")).toEqual(SortBy.SHORTER_SIDE);
+    //     expect(ProjectUtil.stringToSortBy("SHORTER_SIDE_DESC")).toEqual(SortBy.SHORTER_SIDE_DESC);
+    //     expect(ProjectUtil.stringToSortBy("SIDE_DIFF")).toEqual(SortBy.SIDE_DIFF);
+    //     expect(ProjectUtil.stringToSortBy("SIDE_DIFF_DESC")).toEqual(SortBy.SIDE_DIFF_DESC);
+    //     expect(ProjectUtil.stringToSortBy("SIDE_RATIO")).toEqual(SortBy.SIDE_RATIO);
+    //     expect(ProjectUtil.stringToSortBy("SIDE_RATIO_DESC")).toEqual(SortBy.SIDE_RATIO_DESC);
+    //     expect(ProjectUtil.stringToSortBy("WIDTH")).toEqual(SortBy.WIDTH);
+    //     expect(ProjectUtil.stringToSortBy("WIDTH_DESC")).toEqual(SortBy.WIDTH_DESC);
+    // });
+    //
+    // test("booleanToYesNo", () => {
+    //     expect(ProjectUtil.booleanToYesNo(undefined)).toEqual(YesNo.NO);
+    //     expect(ProjectUtil.booleanToYesNo(true)).toEqual(YesNo.YES);
+    //     expect(ProjectUtil.booleanToYesNo(false)).toEqual(YesNo.NO);
+    // });
+    //
+    // test("stringToSizeMode", () => {
+    //     expect(ProjectUtil.stringToSizeMode("foo")).toEqual(SizeMode.MaxSize);
+    //     expect(ProjectUtil.stringToSizeMode("FixedSize")).toEqual(SizeMode.FixedSize);
+    //     expect(ProjectUtil.stringToSizeMode("MaxSize")).toEqual(SizeMode.MaxSize);
+    // });
+    //
+    // test("stringToConstraint", () => {
+    //     expect(ProjectUtil.stringToConstraint("foo")).toEqual(Constraint.PowerOfTwo);
+    //     expect(ProjectUtil.stringToConstraint("AnySize")).toEqual(Constraint.AnySize);
+    //     expect(ProjectUtil.stringToConstraint("PowerOfTwo")).toEqual(Constraint.PowerOfTwo);
+    // });
+    //
+    // test("stringToTrimMode", () => {
+    //     expect(ProjectUtil.stringToTrimMode("foo")).toEqual(TrimMode.None);
+    //     expect(ProjectUtil.stringToTrimMode("None")).toEqual(TrimMode.None);
+    //     expect(ProjectUtil.stringToTrimMode("Trim")).toEqual(TrimMode.Trim);
+    // });
+    //
+    // test("stringToAnimatedGif", () => {
+    //     expect(ProjectUtil.stringToAnimatedGif("foo")).toEqual(AnimatedGif.UseFirstFrame);
+    //     expect(ProjectUtil.stringToAnimatedGif("ExtractFrames")).toEqual(AnimatedGif.ExtractFrames);
+    //     expect(ProjectUtil.stringToAnimatedGif("UseFirstFrame")).toEqual(AnimatedGif.UseFirstFrame);
+    // });
 
     // test("", () => {});
     // test("", () => {});

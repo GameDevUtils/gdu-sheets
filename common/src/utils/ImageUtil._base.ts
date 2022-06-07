@@ -103,9 +103,9 @@ export default abstract class ImageUtil_ImageParser {
                     const vals = Object.values(ImageFormat);
                     result.filename = fileparts.filename as string;
                     result.fullpath = fileparts.pathfull as string;
-                    result.filetype = vals[index] as ImageFormat;
+                    result.filetype = vals[index] as string;
 
-                    if(result.filetype === this.ImageFormat) {
+                    if(result.filetype == ImageFormat[this.ImageFormat]) {
                     // // if(result.filetype !== this.ImageFormat) {
                     // //     LogUtil.LogMessage(MESSAGE_TYPE.WARN, `File type mismatch. Expected '${ImageFormat[this.ImageFormat]}', received '${ImageFormat[result.filetype]}'.`);
                     // //     result.fullpath = result.filename = result.filetype = undefined;

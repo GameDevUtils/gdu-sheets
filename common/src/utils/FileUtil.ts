@@ -50,8 +50,8 @@ export class FileUtil {
         return fileparts;
     }
 
-    static getFileBytes(data: Uint8Array | string, imageFormat: ImageFormat) : NdArray {
-        const preamble = ImageUtil.PREAMBLE_TEMPLATE.replace(/xxx/g, ImageFormat[imageFormat].toLowerCase());
+    static getFileBytes(data: Uint8Array | string, imageFormat: string) : NdArray {
+        const preamble = ImageUtil.PREAMBLE_TEMPLATE.replace(/xxx/g, imageFormat.toLowerCase());
 
         let result: NdArray;
 

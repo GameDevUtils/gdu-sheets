@@ -1,6 +1,5 @@
 import ImageUtil_JPG from "./ImageUtil._jpg";
 import {ImageFormat} from "../objs/projects";
-import ndarray from "ndarray";
 import {FileUtil} from "./FileUtil";
 
 describe("JPG image helper", () => {
@@ -10,7 +9,7 @@ describe("JPG image helper", () => {
         const img = new ImageUtil_JPG(ImageFormat.JPG, imageDataURL);
         const imageItem = img.buildImageItem(
             FileUtil.getFileParts('./sprites/hero/happy.jpg'),
-            FileUtil.getFileBytes(imageDataURL, ImageFormat.JPG)
+            FileUtil.getFileBytes(imageDataURL, 'jpg')
         );
 
         expect(imageItem?.isEmpty).toEqual(true);
@@ -21,7 +20,7 @@ describe("JPG image helper", () => {
         const jpg = new ImageUtil_JPG(ImageFormat.JPG, imageDataURL);
         const imageItem = jpg.buildImageItem(
             FileUtil.getFileParts('./sprites/hero/happy.jpg'),
-            FileUtil.getFileBytes(imageDataURL, ImageFormat.JPG)
+            FileUtil.getFileBytes(imageDataURL, 'jpg')
         );
 
         expect(imageItem?.frames?.length).toEqual(1);

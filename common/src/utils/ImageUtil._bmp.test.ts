@@ -10,7 +10,7 @@ describe("BMP image helper", () => {
         const img = new ImageUtil_BMP(ImageFormat.BMP, imageDataURL);
         const imageItem = img.buildImageItem(
             FileUtil.getFileParts('./sprites/hero/happy.bmp'),
-            FileUtil.getFileBytes(imageDataURL, ImageFormat.BMP),
+            FileUtil.getFileBytes(imageDataURL, 'bmp'),
         );
 
         expect(imageItem?.isEmpty).toEqual(true);
@@ -21,7 +21,7 @@ describe("BMP image helper", () => {
         const img = new ImageUtil_BMP(ImageFormat.BMP, imageDataURL);
         const imageItem = img.buildImageItem(
             FileUtil.getFileParts('./sprites/hero/happy.bmp'),
-            FileUtil.getFileBytes(imageDataURL, ImageFormat.BMP),
+            FileUtil.getFileBytes(imageDataURL, 'bmp'),
         );
 
         expect(imageItem?.isEmpty).toEqual(true);
@@ -33,7 +33,7 @@ describe("BMP image helper", () => {
         const img = new ImageUtil_BMP(ImageFormat.BMP, imageDataURL);
         const imageItem = img.buildImageItem(
             FileUtil.getFileParts('./sprites/hero/happy.bmp'),
-            FileUtil.getFileBytes(imageDataURL, ImageFormat.BMP),
+            FileUtil.getFileBytes(imageDataURL, 'bmp'),
         );
 
         expect(imageItem?.frames?.length).toEqual(1);

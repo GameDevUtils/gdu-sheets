@@ -46,7 +46,7 @@ describe("new command", () => {
         const args  = {
             _: ["new"],
             $0: "sheets",
-            "path": "../_assets/projects/test-with-images.sheets",
+            "path": "../_assets/projects/test-new-with-images.sheets",
             "images": IMAGES,
             "console": true,
         } as Arguments<{}>;

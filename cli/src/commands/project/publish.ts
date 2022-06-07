@@ -19,14 +19,14 @@ export default class PublishProjectCommand extends CommandModuleEx {
 
     static get helpText(): string {
         return `
-Publish an existing project, optionally overriding 
-the project settings, adding new images, and 
-specifying an output (file or stdout). 
+Publish an existing project, optionally overriding the 
+project settings, adding new images, and specifying an 
+output. Publishing a project generates the sheet and 
+atlas as separate files in the file system or a ZIP file.
 
 Examples:
-  gdu-sheets publish proj1
-  gdu-sheets publish proj2 --compress-project --output
-  gdu-sheets add ~/proj3.fpsheet proj3
+  gdu-sheets publish proj1.sheets
+  gdu-sheets publish proj2.sheets assets.zip
 `;
     }
 

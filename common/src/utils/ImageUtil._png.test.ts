@@ -10,7 +10,7 @@ describe("PNG image helper", () => {
         const img = new ImageUtil_PNG(ImageFormat.PNG, imageDataURL);
         const imageItem = img.buildImageItem(
             FileUtil.getFileParts('./sprites/hero/happy.png'),
-            FileUtil.getFileBytes(imageDataURL, ImageFormat.PNG)
+            FileUtil.getFileBytes(imageDataURL, 'png')
         );
 
         expect(imageItem?.isEmpty).toEqual(true);
@@ -21,7 +21,7 @@ describe("PNG image helper", () => {
         const png = new ImageUtil_PNG(ImageFormat.PNG, imageDataURL);
         const imageItem = png.buildImageItem(
             FileUtil.getFileParts('./sprites/hero/happy.png'),
-            FileUtil.getFileBytes(imageDataURL, ImageFormat.PNG)
+            FileUtil.getFileBytes(imageDataURL, 'png')
         );
 
         expect(imageItem?.frames?.length).toEqual(1);
