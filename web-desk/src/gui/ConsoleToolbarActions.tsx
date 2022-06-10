@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 
 import './ConsoleToolbarActions.css';
-import './ConsoleToolbarActions.blue.css';
-import './ConsoleToolbarActions.green.css';
-import './ConsoleToolbarActions.red.css';
+import './ConsoleToolbarActions._blue.css';
+import './ConsoleToolbarActions._green.css';
+import './ConsoleToolbarActions._red.css';
 
 import {Button, ButtonGroup, Nav, Navbar} from "react-bootstrap";
 

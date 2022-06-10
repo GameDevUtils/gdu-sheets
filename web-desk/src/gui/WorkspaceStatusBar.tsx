@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import './WorkspaceStatusBar.css';
-import './WorkspaceStatusBar.blue.css';
-import './WorkspaceStatusBar.green.css';
-import './WorkspaceStatusBar.red.css';
+import './WorkspaceStatusBar._blue.css';
+import './WorkspaceStatusBar._green.css';
+import './WorkspaceStatusBar._red.css';
 
 type MyProps = {
     settingsPanelHidden: boolean,

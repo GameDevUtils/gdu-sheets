@@ -1,13 +1,13 @@
 import React, {Component} from 'react';
 import './SidePanel.css';
 import './SidePanelRight.css';
-import './SidePanelRight.blue.css';
-import './SidePanelRight.green.css';
-import './SidePanelRight.red.css';
+import './SidePanelRight._blue.css';
+import './SidePanelRight._green.css';
+import './SidePanelRight._red.css';
 import './ResourcesPanelRight.css';
-import './ResourcesPanelRight.blue.css';
-import './ResourcesPanelRight.green.css';
-import './ResourcesPanelRight.red.css';
+import './ResourcesPanelRight._blue.css';
+import './ResourcesPanelRight._green.css';
+import './ResourcesPanelRight._red.css';
 
 type MyProps = {
     isRightPanelShown: boolean,

@@ -2,9 +2,9 @@ import React, {Component} from 'react';
 
 import './SidePanel.css';
 import './ResourcesToolbar.css';
-import './ResourcesToolbar.blue.css';
-import './ResourcesToolbar.green.css';
-import './ResourcesToolbar.red.css';
+import './ResourcesToolbar._blue.css';
+import './ResourcesToolbar._green.css';
+import './ResourcesToolbar._red.css';
 
 type MyProps = {
     isRightPanelShown: boolean,

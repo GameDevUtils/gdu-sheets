@@ -2,9 +2,9 @@ import React, {Component} from 'react';
 import './SidePanel.css';
 import './SidePanelLeft.css';
 import './SettingsPanelLeft.css';
-import './SettingsPanelLeft.blue.css';
-import './SettingsPanelLeft.green.css';
-import './SettingsPanelLeft.red.css';
+import './SettingsPanelLeft._blue.css';
+import './SettingsPanelLeft._green.css';
+import './SettingsPanelLeft._red.css';
 import icon from './media/icon-512x512.png';
 
 import {SettingsRowTitle} from '../components/SettingsRowTitle';

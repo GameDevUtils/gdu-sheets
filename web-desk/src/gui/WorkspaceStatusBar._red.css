@@ -1,8 +1,8 @@
 div.theme-red .workspaceStatusBar {
-    background: linear-gradient(90deg, darkred, maroon);
+    background: linear-gradient(90deg, crimson, maroon);
     color:white;
 }
 
 div.theme-red #workspaceStatusBarProgressBar {
-    background-color: #aad;
+    background-color: #daa;
 }

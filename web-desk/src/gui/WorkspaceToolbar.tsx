@@ -2,9 +2,9 @@ import React, {Component} from 'react';
 // import { Navbar, Nav, ButtonGroup, Button } from "react-bootstrap";
 import {Button, ButtonGroup, Nav, Navbar} from "react-bootstrap";
 import './WorkspaceToolbar.css';
-import './WorkspaceToolbar.blue.css';
-import './WorkspaceToolbar.green.css';
-import './WorkspaceToolbar.red.css';
+import './WorkspaceToolbar._blue.css';
+import './WorkspaceToolbar._green.css';
+import './WorkspaceToolbar._red.css';
 
 type MyProps = {
     settingsPanelHidden: boolean,

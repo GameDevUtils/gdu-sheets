@@ -10,6 +10,6 @@ div.theme-red .resources-toolbar .custom-pills-color a.nav-link:hover {
 
 div.theme-red .resources-toolbar .custom-pills-color .active a,
 div.theme-red .resources-toolbar .custom-pills-color .active a:hover {
-    background-color: indianred;
+    background-color: lightcoral;
     color: white;
 }

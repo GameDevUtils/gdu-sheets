@@ -2,9 +2,9 @@ import React, {Component} from 'react';
 // import { Navbar, Nav, ButtonGroup, Button } from "react-bootstrap";
 import './SidePanel.css';
 import './Workspace.css';
-import './Workspace.blue.css';
-import './Workspace.green.css';
-import './Workspace.red.css';
+import './Workspace._blue.css';
+import './Workspace._green.css';
+import './Workspace._red.css';
 
 type MyProps = {
     settingsPanelHidden: boolean,
