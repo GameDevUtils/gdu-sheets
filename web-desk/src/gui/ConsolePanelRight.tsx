@@ -2,7 +2,13 @@ import React, {Component} from 'react';
 // import { Navbar, Nav, ButtonGroup, Button } from "react-bootstrap";
 import './SidePanel.css';
 import './SidePanelRight.css';
+import './SidePanelRight.blue.css';
+import './SidePanelRight.green.css';
+import './SidePanelRight.red.css';
 import './ConsolePanelRight.css';
+import './ConsolePanelRight.blue.css';
+import './ConsolePanelRight.green.css';
+import './ConsolePanelRight.red.css';
 
 type MyProps = {
     isRightPanelShown: boolean,

@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import './SettingsRowTitle.css';
+import './SettingsRowTitle.blue.css';
+import './SettingsRowTitle.green.css';
+import './SettingsRowTitle.red.css';
 
 type GroupProps = {
     id: string;

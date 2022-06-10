@@ -6,7 +6,7 @@
     height: 40px;
 
     line-height: 40px;
-    padding-left: 25px;
+    padding-left: 10px;
     padding-right: 270px;
 
     border-top: 1px solid black;
@@ -17,8 +17,8 @@
     position: absolute;
 
     bottom: 7px;
-    width: 265px;
-    right: 25px;
+    width: 280px;
+    right: 15px;
     height: 25px;
 
     border-radius: .4em;
@@ -30,7 +30,7 @@
 }
 
 #workspaceStatusBarProgressBar div.progress-bar {
-    width: 5%;
+    width: 25%;
 }
 
 .settingsPanelHidden {

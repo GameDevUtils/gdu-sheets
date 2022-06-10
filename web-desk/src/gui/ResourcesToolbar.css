@@ -8,20 +8,19 @@
 
     padding: 8px;
 
-    border-left: 1px solid black;
     border-bottom: 1px solid black;
-    background-color: lightgray;
+    background-color: black;
 }
 
 .resources-toolbar .custom-pills-color a.nav-link,
 .resources-toolbar .custom-pills-color a.nav-link:hover {
-    color: black;
+    color: white;
 }
 
 .resources-toolbar .custom-pills-color .active a,
 .resources-toolbar .custom-pills-color .active a:hover {
     color: white;
-    background-color: #777;
+    background-color: cornflowerblue;
 }
 
 .panel-hidden {

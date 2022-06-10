@@ -1,7 +1,10 @@
 import React, {Component} from 'react';
 // import { Navbar, Nav, ButtonGroup, Button } from "react-bootstrap";
-import './ResourcesToolbarActions.css';
 import {Button, ButtonGroup, Nav, Navbar} from "react-bootstrap";
+import './ResourcesToolbarActions.css';
+import './ResourcesToolbarActions.blue.css';
+import './ResourcesToolbarActions.green.css';
+import './ResourcesToolbarActions.red.css';
 
 type MyProps = {
     isRightPanelShown: boolean,

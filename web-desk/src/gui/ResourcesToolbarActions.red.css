@@ -1,0 +1,22 @@
+div.theme-red .resources-toolbar-actions {
+    background: linear-gradient(90deg, darkred, darkred, maroon);
+}
+
+div.theme-red .resources-toolbar-actions .btnGroup a,
+div.theme-red .resources-toolbar-actions .btnGroup button,
+div.theme-red .resources-toolbar-actions button:visited,
+div.theme-red .resources-toolbar-actions button:active,
+div.theme-red .resources-toolbar-actions button:focus,
+div.theme-red .resources-toolbar-actions button:hover,
+div.theme-red .resources-toolbar-actions button:link,
+div.theme-red .resources-toolbar-actions .btnGroupLast button {
+    background: linear-gradient(180deg, #fdd, #daa);
+}
+
+div.theme-red .resources-toolbar-actions .btnGroup a.active,
+div.theme-red .resources-toolbar-actions .btnGroup button.active,
+div.theme-red .resources-toolbar-actions .btnGroupLast a.active,
+div.theme-red .resources-toolbar-actions .btnGroupLast button.active {
+    background-color: maroon;
+    color: black;
+}

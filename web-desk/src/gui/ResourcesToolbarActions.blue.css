@@ -1,0 +1,22 @@
+div.theme-blue .resources-toolbar-actions {
+    background: linear-gradient(90deg, rebeccapurple, rebeccapurple, navy);
+}
+
+div.theme-blue .resources-toolbar-actions .btnGroup a,
+div.theme-blue .resources-toolbar-actions .btnGroup button,
+div.theme-blue .resources-toolbar-actions button:visited,
+div.theme-blue .resources-toolbar-actions button:active,
+div.theme-blue .resources-toolbar-actions button:focus,
+div.theme-blue .resources-toolbar-actions button:hover,
+div.theme-blue .resources-toolbar-actions button:link,
+div.theme-blue .resources-toolbar-actions .btnGroupLast button {
+    background: linear-gradient(180deg, #ddf, #aad);
+}
+
+div.theme-blue .resources-toolbar-actions .btnGroup a.active,
+div.theme-blue .resources-toolbar-actions .btnGroup button.active,
+div.theme-blue .resources-toolbar-actions .btnGroupLast a.active,
+div.theme-blue .resources-toolbar-actions .btnGroupLast button.active {
+    background-color: navy;
+    color: #333;
+}

@@ -1,0 +1,10 @@
+div.theme-red .sprite-entity.selected {
+    background-color: lightgreen;
+    color: black;
+}
+
+div.theme-red .sprite-entity {
+    color: black;
+    background-color: lightpink;
+    border: 2px solid maroon;
+}

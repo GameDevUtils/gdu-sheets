@@ -1,0 +1,5 @@
+div.theme-green .config-title,
+div.theme-green .config-title-error {
+    color: white;
+    background-color: darkgreen;
+}

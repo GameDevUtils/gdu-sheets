@@ -1,0 +1,27 @@
+div.theme-blue .consoleToolbarActions {
+    background: linear-gradient(90deg, rebeccapurple, rebeccapurple, navy);
+}
+
+div.theme-blue .consoleToolbarActions .btnGroup a,
+div.theme-blue .consoleToolbarActions .btnGroup button,
+div.theme-blue .consoleToolbarActions button:visited,
+div.theme-blue .consoleToolbarActions button:active,
+div.theme-blue .consoleToolbarActions button:focus,
+div.theme-blue .consoleToolbarActions button:hover,
+div.theme-blue .consoleToolbarActions button:link,
+div.theme-blue .consoleToolbarActions .btnGroupLast button {
+    background: linear-gradient(180deg, #ddf, #aad);
+    color: black;
+}
+
+div.theme-blue .consoleToolbarActions .btnGroup a.active,
+div.theme-blue .consoleToolbarActions .btnGroup button.active,
+div.theme-blue .consoleToolbarActions .btnGroupLast a.active,
+div.theme-blue .consoleToolbarActions .btnGroupLast button.active {
+    background: linear-gradient(180deg, #ddf, #aad);
+    color: black;
+}
+
+.consoleToolbarActions.panel-hidden {
+    display: none;
+}

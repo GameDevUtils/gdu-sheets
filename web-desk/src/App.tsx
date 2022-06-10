@@ -110,7 +110,7 @@ export default class App extends Component<AppProps, AppState> {
         let resourcesVisible : boolean = this.state.isAppToolbarButtonActive[APPTOOLBAR_BUTTON_RESOURCES];
         let isSpritePillActive : boolean = this.state.isResourcesSpritesPillActive;
         return (
-          <>
+          <div className="theme-bluexx theme-redxx theme-greenxx">
               <AppToolbar
                   handleButtonClick={this.handleAppToolbarButtonClick}
                   isButtonActive={this.state.isAppToolbarButtonActive} />
@@ -148,7 +148,7 @@ export default class App extends Component<AppProps, AppState> {
               <ConsolePanelRight
                   isRightPanelShown={resourcesVisible}
                   isConsolePanelShown={!isSpritePillActive} />
-          </>
+          </div>
         );
     }
 }
