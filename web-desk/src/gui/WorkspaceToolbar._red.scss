@@ -1,5 +1,8 @@
+@import "../_themes/red.scss";
+
 div.theme-red .workspaceToolbar {
-    background: linear-gradient(90deg, crimson, maroon);
+    background-color: $red_toolbar_background;
+    border-color: black;
 }
 
 div.theme-red .workspaceToolbar .btnGroup a,
@@ -10,18 +13,21 @@ div.theme-red .workspaceToolbar button:focus,
 div.theme-red .workspaceToolbar button:hover,
 div.theme-red .workspaceToolbar button:link,
 div.theme-red .workspaceToolbar .btnGroupLast button {
-    background: linear-gradient(180deg, #fdd, #daa);
+    background: linear-gradient(180deg, $red_button_background, $red_button_background);
+    border-color: black;
 }
 
 div.theme-red .workspaceToolbar .btnGroup a.active,
 div.theme-red .workspaceToolbar .btnGroup button.active,
 div.theme-red .workspaceToolbar .btnGroupLast a.active,
 div.theme-red .workspaceToolbar .btnGroupLast button.active {
-    background: linear-gradient(180deg, #fdd, #daa);
+    background: linear-gradient(180deg, $red_button_background, $red_button_background);
+    border-color: black;
 }
 
 div.theme-red .workspaceToolbar select {
     background-image:
             url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPCEtLSBHZW5lcmF0b3I6IEFkb2JlIElsbHVzdHJhdG9yIDI1LjQuMSwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246IDYuMDAgQnVpbGQgMCkgIC0tPgo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkxheWVyXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IgoJIHZpZXdCb3g9IjAgMCAyOTIuNCAyOTIuNCIgc3R5bGU9ImVuYWJsZS1iYWNrZ3JvdW5kOm5ldyAwIDAgMjkyLjQgMjkyLjQ7IiB4bWw6c3BhY2U9InByZXNlcnZlIj4KPHBhdGggZD0iTTI4Nyw2OS40Yy0zLjQtMy41LTguMS01LjUtMTMtNS40SDE4LjRjLTUsMC05LjMsMS44LTEyLjksNS40QzIsNzIuNywwLDc3LjQsMCw4Mi4yYzAsNSwxLjgsOS4zLDUuNCwxMi45bDEyOCwxMjcuOQoJYzMuNiwzLjYsNy44LDUuNCwxMi44LDUuNHM5LjItMS44LDEyLjgtNS40TDI4Nyw5NWMzLjUtMy41LDUuNC03LjgsNS40LTEyLjhzLTEuOS05LjItNS41LTEyLjhMMjg3LDY5LjR6Ii8+Cjwvc3ZnPgo=),
-            linear-gradient(to bottom, #fdd 0%,#daa 100%);
+            linear-gradient(to bottom, $red_button_foreground 0%, w$red_button_foreground 100%);
+    border-color: black;
 }

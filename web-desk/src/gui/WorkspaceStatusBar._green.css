@@ -1,8 +1,0 @@
-div.theme-green .workspaceStatusBar {
-    background: linear-gradient(90deg, forestgreen, darkgreen);
-    color:white;
-}
-
-div.theme-green #workspaceStatusBarProgressBar {
-    background-color: #ada;
-}

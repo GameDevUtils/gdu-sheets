@@ -1,0 +1,12 @@
+@import "../_themes/green.scss";
+
+div.theme-green .sprite-entity.selected {
+    background: yellow;
+    color: black;
+}
+
+div.theme-green .sprite-entity {
+    background: $green_button_background;
+    color: $green_button_foreground;
+    border: 2px solid $green_toolbar_background;
+}

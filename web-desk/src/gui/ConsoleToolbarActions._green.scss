@@ -1,5 +1,7 @@
+@import "../_themes/green.scss";
+
 div.theme-green .consoleToolbarActions {
-    background: linear-gradient(90deg, forestgreen, forestgreen, darkgreen);
+    background: linear-gradient(90deg, $green_toolbar_background, $green_toolbar_background);
 }
 
 div.theme-green .consoleToolbarActions .btnGroup a,
@@ -10,18 +12,18 @@ div.theme-green .consoleToolbarActions button:focus,
 div.theme-green .consoleToolbarActions button:hover,
 div.theme-green .consoleToolbarActions button:link,
 div.theme-green .consoleToolbarActions .btnGroupLast button {
-    background: linear-gradient(180deg, #dfd, #ada);
-    color: black;
+    background: linear-gradient(180deg, $green_button_background, $green_button_background);
+    color: $green_button_foreground;
 }
 
 div.theme-green .consoleToolbarActions .btnGroup a.active,
 div.theme-green .consoleToolbarActions .btnGroup button.active,
 div.theme-green .consoleToolbarActions .btnGroupLast a.active,
 div.theme-green .consoleToolbarActions .btnGroupLast button.active {
-    background: linear-gradient(180deg, #dfd, #ada);
-    color: black;
+    background: linear-gradient(180deg, $green_button_background, $green_button_background);
+    color: $green_button_foreground;
 }
 
-.consoleToolbarActions.panel-hidden {
-    display: none;
-}
+//.consoleToolbarActions.panel-hidden {
+//    display: none;
+//}

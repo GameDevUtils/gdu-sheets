@@ -1,5 +1,7 @@
+@import "../_themes/red.scss";
+
 div.theme-red .resources-toolbar-actions {
-    background: linear-gradient(90deg, crimson, crimson, maroon);
+    background: linear-gradient(90deg, $red_toolbar_background, $red_toolbar_background);
 }
 
 div.theme-red .resources-toolbar-actions .btnGroup a,
@@ -10,13 +12,13 @@ div.theme-red .resources-toolbar-actions button:focus,
 div.theme-red .resources-toolbar-actions button:hover,
 div.theme-red .resources-toolbar-actions button:link,
 div.theme-red .resources-toolbar-actions .btnGroupLast button {
-    background: linear-gradient(180deg, #fdd, #daa);
+    background: linear-gradient(180deg, $red_button_background, $red_button_background);
 }
 
 div.theme-red .resources-toolbar-actions .btnGroup a.active,
 div.theme-red .resources-toolbar-actions .btnGroup button.active,
 div.theme-red .resources-toolbar-actions .btnGroupLast a.active,
 div.theme-red .resources-toolbar-actions .btnGroupLast button.active {
-    background-color: maroon;
-    color: black;
+    background-color: $red_button_background;
+    color: $red_button_foreground;
 }

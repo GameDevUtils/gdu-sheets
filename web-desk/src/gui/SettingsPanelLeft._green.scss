@@ -1,22 +1,24 @@
+@import "../_themes/green.scss";
+
 div.theme-green .config-label {
-    color: white;
+    color: $green_toolbar_foreground;
 }
 
 div.theme-green .sidePanelLeft {
-    background-color: forestgreen;
-    color:white;
+    background-color: $green_toolbar_background;
+    color:$green_toolbar_foreground;
 }
 
 div.theme-green .sidePanelLeft .input-group .input-group-text {
-    background-color: #afa;
+    background-color: $green_button_background;
 }
 
 div.theme-green .sidePanelLeft input {
-    background: linear-gradient(180deg, #dfd, #ada);
+    background: linear-gradient(180deg, $green_toolbar_foreground, $green_toolbar_foreground);
 }
 
 div.theme-green .sidePanelLeft select {
     background-image:
             url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPCEtLSBHZW5lcmF0b3I6IEFkb2JlIElsbHVzdHJhdG9yIDI1LjQuMSwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246IDYuMDAgQnVpbGQgMCkgIC0tPgo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkxheWVyXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IgoJIHZpZXdCb3g9IjAgMCAyOTIuNCAyOTIuNCIgc3R5bGU9ImVuYWJsZS1iYWNrZ3JvdW5kOm5ldyAwIDAgMjkyLjQgMjkyLjQ7IiB4bWw6c3BhY2U9InByZXNlcnZlIj4KPHBhdGggZD0iTTI4Nyw2OS40Yy0zLjQtMy41LTguMS01LjUtMTMtNS40SDE4LjRjLTUsMC05LjMsMS44LTEyLjksNS40QzIsNzIuNywwLDc3LjQsMCw4Mi4yYzAsNSwxLjgsOS4zLDUuNCwxMi45bDEyOCwxMjcuOQoJYzMuNiwzLjYsNy44LDUuNCwxMi44LDUuNHM5LjItMS44LDEyLjgtNS40TDI4Nyw5NWMzLjUtMy41LDUuNC03LjgsNS40LTEyLjhzLTEuOS05LjItNS41LTEyLjhMMjg3LDY5LjR6Ii8+Cjwvc3ZnPgo=),
-            linear-gradient(to bottom, #dfd 0%,#ada 100%);
+            linear-gradient(to bottom, $green_toolbar_foreground 0%, $green_toolbar_foreground 100%);
 }

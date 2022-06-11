@@ -1,12 +1,12 @@
 @import "../_themes/blue.scss";
 
 div.theme-blue .sprite-entity.selected {
-    background-color: lightgreen;
+    background: yellow;
     color: black;
 }
 
 div.theme-blue .sprite-entity {
-    background-color: $blue_button_background;
+    background: $blue_button_background;
     color: $blue_button_foreground;
     border: 2px solid $blue_toolbar_background;
 }

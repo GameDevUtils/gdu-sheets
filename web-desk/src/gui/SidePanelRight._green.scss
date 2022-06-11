@@ -1,0 +1,7 @@
+@import "../_themes/green.scss";
+
+div.theme-green .sidePanelRight {
+    background-color: $green_toolbar_background;
+    color: $green_toolbar_foreground;
+    border-color: black;
+}

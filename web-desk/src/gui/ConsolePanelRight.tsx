@@ -3,12 +3,12 @@ import React, {Component} from 'react';
 import './SidePanel.css';
 import './SidePanelRight.css';
 import './SidePanelRight._blue.scss';
-import './SidePanelRight._green.css';
-import './SidePanelRight._red.css';
+import './SidePanelRight._green.scss';
+import './SidePanelRight._red.scss';
 import './ConsolePanelRight.css';
 import './ConsolePanelRight._blue.scss';
-import './ConsolePanelRight._green.css';
-import './ConsolePanelRight._red.css';
+import './ConsolePanelRight._green.scss';
+import './ConsolePanelRight._red.scss';
 
 type MyProps = {
     isRightPanelShown: boolean,

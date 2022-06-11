@@ -1,0 +1,12 @@
+@import "../_themes/red.scss";
+
+div.theme-red .sprite-entity.selected {
+    background: yellow;
+    color: black;
+}
+
+div.theme-red .sprite-entity {
+    background: $red_button_background;
+    color: $red_button_foreground;
+    border: 2px solid $red_toolbar_background;
+}

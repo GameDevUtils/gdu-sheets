@@ -2,12 +2,12 @@ import React, {Component} from 'react';
 import './SidePanel.css';
 import './SidePanelRight.css';
 import './SidePanelRight._blue.scss';
-import './SidePanelRight._green.css';
-import './SidePanelRight._red.css';
+import './SidePanelRight._green.scss';
+import './SidePanelRight._red.scss';
 import './ResourcesPanelRight.css';
 import './ResourcesPanelRight._blue.scss';
-import './ResourcesPanelRight._green.css';
-import './ResourcesPanelRight._red.css';
+import './ResourcesPanelRight._green.scss';
+import './ResourcesPanelRight._red.scss';
 
 type MyProps = {
     isRightPanelShown: boolean,

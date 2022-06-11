@@ -1,5 +1,7 @@
+@import "../_themes/red.scss";
+
 div.theme-red .consoleToolbarActions {
-    background: linear-gradient(90deg, crimson, crimson, maroon);
+    background: linear-gradient(90deg, $red_toolbar_background, $red_toolbar_background);
 }
 
 div.theme-red .consoleToolbarActions .btnGroup a,
@@ -10,18 +12,18 @@ div.theme-red .consoleToolbarActions button:focus,
 div.theme-red .consoleToolbarActions button:hover,
 div.theme-red .consoleToolbarActions button:link,
 div.theme-red .consoleToolbarActions .btnGroupLast button {
-    background: linear-gradient(180deg, #fdd, #daa);
-    color: black;
+    background: linear-gradient(180deg, $red_button_background, $red_button_background);
+    color: $red_button_foreground;
 }
 
 div.theme-red .consoleToolbarActions .btnGroup a.active,
 div.theme-red .consoleToolbarActions .btnGroup button.active,
 div.theme-red .consoleToolbarActions .btnGroupLast a.active,
 div.theme-red .consoleToolbarActions .btnGroupLast button.active {
-    background: linear-gradient(180deg, #fdd, #daa);
-    color: black;
+    background: linear-gradient(180deg, $red_button_background, $red_button_background);
+    color: $red_button_foreground;
 }
 
-.consoleToolbarActions.panel-hidden {
-    display: none;
-}
+//.consoleToolbarActions.panel-hidden {
+//    display: none;
+//}

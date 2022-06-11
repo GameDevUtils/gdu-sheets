@@ -1,0 +1,11 @@
+@import "../_themes/green.scss";
+
+div.theme-green .workspaceStatusBar {
+    background: linear-gradient(90deg, $green_toolbar_background, $green_toolbar_background);
+    color: $green_toolbar_foreground;
+    border-color: black;
+}
+
+div.theme-green #workspaceStatusBarProgressBar {
+    background-color: $green_button_background;
+}

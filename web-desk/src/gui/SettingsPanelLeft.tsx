@@ -3,8 +3,8 @@ import './SidePanel.css';
 import './SidePanelLeft.css';
 import './SettingsPanelLeft.css';
 import './SettingsPanelLeft._blue.scss';
-import './SettingsPanelLeft._green.css';
-import './SettingsPanelLeft._red.css';
+import './SettingsPanelLeft._green.scss';
+import './SettingsPanelLeft._red.scss';
 import icon from './media/icon-512x512.png';
 
 import {SettingsRowTitle} from '../components/SettingsRowTitle';

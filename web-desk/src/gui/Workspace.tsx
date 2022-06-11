@@ -3,8 +3,8 @@ import React, {Component} from 'react';
 import './SidePanel.css';
 import './Workspace.css';
 import './Workspace._blue.scss';
-import './Workspace._green.css';
-import './Workspace._red.css';
+import './Workspace._green.scss';
+import './Workspace._red.scss';
 
 type MyProps = {
     settingsPanelHidden: boolean,
