@@ -1,15 +1,17 @@
+@import "../_themes/blue.scss";
+
 div.theme-blue .resources-toolbar {
-    background-color: navy;
-    color: white
+    background-color: $blue_toolbar_background;
+    color: $blue_toolbar_foreground;
 }
 
 div.theme-blue .resources-toolbar .custom-pills-color a.nav-link,
 div.theme-blue .resources-toolbar .custom-pills-color a.nav-link:hover {
-    color: white;
+    color: $blue_toolbar_foreground;
 }
 
 div.theme-blue .resources-toolbar .custom-pills-color .active a,
 div.theme-blue .resources-toolbar .custom-pills-color .active a:hover {
-    background-color: cornflowerblue;
-    color: white;
+    background-color: $blue_pill_background;
+    color: $blue_pill_foreground;
 }

@@ -1,0 +1,7 @@
+@import "../_themes/blue.scss";
+
+div.theme-blue .config-title,
+div.theme-blue .config-title-error {
+    background-color: $blue_pill_background;
+    color: $blue_pill_foreground;
+}

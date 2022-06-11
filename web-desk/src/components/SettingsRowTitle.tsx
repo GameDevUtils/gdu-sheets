@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './SettingsRowTitle.css';
-import './SettingsRowTitle._blue.css';
+import './SettingsRowTitle._blue.scss';
 import './SettingsRowTitle._green.css';
 import './SettingsRowTitle._red.css';
 

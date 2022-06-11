@@ -1,0 +1,6 @@
+@import "../_themes/blue.scss";
+
+div.theme-blue .console-line {
+    background-color: $blue_toolbar_background;
+    color: $blue_toolbar_foreground;
+}

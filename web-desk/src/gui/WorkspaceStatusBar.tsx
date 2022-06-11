@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import './WorkspaceStatusBar.css';
-import './WorkspaceStatusBar._blue.css';
+import './WorkspaceStatusBar._blue.scss';
 import './WorkspaceStatusBar._green.css';
 import './WorkspaceStatusBar._red.css';
 

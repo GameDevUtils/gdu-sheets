@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 
 import './SidePanel.css';
 import './ResourcesToolbar.css';
-import './ResourcesToolbar._blue.css';
+import './ResourcesToolbar._blue.scss';
 import './ResourcesToolbar._green.css';
 import './ResourcesToolbar._red.css';
 

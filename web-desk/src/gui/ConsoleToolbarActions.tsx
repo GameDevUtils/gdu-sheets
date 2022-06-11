@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 
 import './ConsoleToolbarActions.css';
-import './ConsoleToolbarActions._blue.css';
+import './ConsoleToolbarActions._blue.scss';
 import './ConsoleToolbarActions._green.css';
 import './ConsoleToolbarActions._red.css';
 
