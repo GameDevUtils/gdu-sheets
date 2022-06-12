@@ -1,0 +1,24 @@
+@import "../_themes/orange.scss";
+
+div.theme-orange .resources-toolbar-actions {
+    background: linear-gradient(90deg, $orange_toolbar_background, $orange_toolbar_background);
+}
+
+div.theme-orange .resources-toolbar-actions .btnGroup a,
+div.theme-orange .resources-toolbar-actions .btnGroup button,
+div.theme-orange .resources-toolbar-actions button:visited,
+div.theme-orange .resources-toolbar-actions button:active,
+div.theme-orange .resources-toolbar-actions button:focus,
+div.theme-orange .resources-toolbar-actions button:hover,
+div.theme-orange .resources-toolbar-actions button:link,
+div.theme-orange .resources-toolbar-actions .btnGroupLast button {
+    background: linear-gradient(180deg, $orange_button_background, $orange_button_background);
+}
+
+div.theme-orange .resources-toolbar-actions .btnGroup a.active,
+div.theme-orange .resources-toolbar-actions .btnGroup button.active,
+div.theme-orange .resources-toolbar-actions .btnGroupLast a.active,
+div.theme-orange .resources-toolbar-actions .btnGroupLast button.active {
+    background-color: $orange_button_background;
+    color: $orange_button_foreground;
+}

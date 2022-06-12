@@ -13,6 +13,7 @@ type MyState = {
 
 export const APPTOOLBAR_BUTTON_SETTINGS: string = "APPTOOLBAR_BUTTON_SETTINGS";
 export const APPTOOLBAR_BUTTON_RESOURCES: string = "APPTOOLBAR_BUTTON_RESOURCES";
+export const APPTOOLBAR_BUTTON_NEW_PROJECT: string = "APPTOOLBAR_BUTTON_NEW_PROJECT";
 
 export class AppToolbar extends Component<MyProps, MyState> {
     render() {
@@ -23,8 +24,8 @@ export class AppToolbar extends Component<MyProps, MyState> {
             <nav className="appToolbar navbar navbar-expand-lg navbar-light">
                 <div className="me-auto navbar-nav">
                     <div id="grpFile" role="group" className="btnGroup btn-group btn-x">
-                        <button type="button" className="btn btn-primary"><i className="fa fa-file"> </i> New</button>
-                        <button type="button" className="btn btn-primary"><i className="fa fa-folder-open"> </i> Open
+                        <button id="btnNewProject" type="button" className="btn btn-primary" onClick={this.props.handleButtonClick}><i className="fa fa-file"> </i> New</button>
+                        <button id="btnOpenProject" type="button" className="btn btn-primary" onClick={this.props.handleButtonClick}><i className="fa fa-folder-open"> </i> Open
                         </button>
                         <button type="button" className="btn btn-primary"><i className="fa fa-file-download"> </i> Save
                         </button>

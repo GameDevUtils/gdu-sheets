@@ -4,6 +4,7 @@ import './SidePanel.css';
 import './ResourcesToolbar.css';
 import './ResourcesToolbar._blue.scss';
 import './ResourcesToolbar._green.scss';
+import './ResourcesToolbar._orange.scss';
 import './ResourcesToolbar._red.scss';
 
 type MyProps = {

@@ -7,10 +7,10 @@
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
     "@types/jest": "^26.0.24",
-    "@types/node": "^12.20.20",
     "@types/react": "^17.0.19",
     "@types/react-dom": "^17.0.9",
     "bootstrap": "^5.1.0",
+    "jquery": "^3.6.0",
     "react": "^17.0.2",
     "react-bootstrap": "^2.0.0-beta.5",
     "react-dom": "^17.0.2",
@@ -20,11 +20,11 @@
     "web-vitals": "^1.1.2"
   },
   "main": "public/electron.js",
-  "scripts-old": {
+  "scripts-old-1": {
     "clean-desk": "rm -rf ./build/",
     "build-desk": "electron-forge make"
   },
-  "scripts": {
+  "scripts-old-2": {
     "start": "react-scripts start",
     "start8088": "PORT=8088 react-scripts start",
     "test": "react-scripts test",
@@ -35,6 +35,14 @@
     "build-web": "react-scripts build",
     "build-desk": "echo \"No npm build script for electron has been written.\"",
     "electron": "wait-on tcp:3000 && electron ."
+  },
+  "scripts": {
+    "start": "react-app-rewired start",
+    "build": "react-app-rewired build",
+    "test": "react-app-rewired test",
+    "eject": "react-app-rewired eject",
+    "electron": "wait-on tcp:3000 && electron .",
+    "dev": "concurrently -k \"BROWSER=none npm start\" \"npm:electron\""
   },
   "eslintConfig": {
     "extends": [
@@ -56,10 +64,23 @@
   },
   "devDependencies": {
     "@types/bootstrap": "^5.1.2",
+    "@types/node": "^17.0.42",
+    "assert": "^2.0.0",
+    "browserify-zlib": "^0.2.0",
+    "buffer": "^6.0.3",
     "concurrently": "^6.2.1",
+    "crypto-browserify": "^3.12.0",
     "electron": "^13.2.1",
     "electron-is-dev": "^2.0.0",
+    "https-browserify": "^1.0.0",
+    "os-browserify": "^0.3.0",
+    "path-browserify": "^1.0.1",
+    "process": "^0.11.10",
+    "react-app-rewired": "^2.2.1",
+    "stream-browserify": "^3.0.0",
+    "stream-http": "^3.2.0",
     "terser-webpack-plugin": "^5.3.3",
+    "url": "^0.11.0",
     "wait-on": "^6.0.0"
   }
 }

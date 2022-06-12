@@ -1,0 +1,29 @@
+@import "../_themes/orange.scss";
+
+div.theme-orange .consoleToolbarActions {
+    background: linear-gradient(90deg, $orange_toolbar_background, $orange_toolbar_background);
+}
+
+div.theme-orange .consoleToolbarActions .btnGroup a,
+div.theme-orange .consoleToolbarActions .btnGroup button,
+div.theme-orange .consoleToolbarActions button:visited,
+div.theme-orange .consoleToolbarActions button:active,
+div.theme-orange .consoleToolbarActions button:focus,
+div.theme-orange .consoleToolbarActions button:hover,
+div.theme-orange .consoleToolbarActions button:link,
+div.theme-orange .consoleToolbarActions .btnGroupLast button {
+    background: linear-gradient(180deg, $orange_button_background, $orange_button_background);
+    color: $orange_button_foreground;
+}
+
+div.theme-orange .consoleToolbarActions .btnGroup a.active,
+div.theme-orange .consoleToolbarActions .btnGroup button.active,
+div.theme-orange .consoleToolbarActions .btnGroupLast a.active,
+div.theme-orange .consoleToolbarActions .btnGroupLast button.active {
+    background: linear-gradient(180deg, $orange_button_background, $orange_button_background);
+    color: $orange_button_foreground;
+}
+
+//.consoleToolbarActions.panel-hidden {
+//    display: none;
+//}

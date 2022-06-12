@@ -1,0 +1,7 @@
+@import "../_themes/orange.scss";
+
+div.theme-orange .config-title,
+div.theme-orange .config-title-error {
+    background-color: $orange_pill_background;
+    color: $orange_pill_foreground;
+}

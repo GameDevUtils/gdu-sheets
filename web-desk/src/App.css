@@ -1,4 +1,9 @@
 div.App {
     /*position:absolute;*/
     /*width: 100%;*/
+    overflow: hidden;
+}
+
+body {
+    overflow: hidden;
 }

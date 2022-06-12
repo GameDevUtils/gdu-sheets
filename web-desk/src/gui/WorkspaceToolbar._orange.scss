@@ -1,0 +1,33 @@
+@import "../_themes/orange.scss";
+
+div.theme-orange .workspaceToolbar {
+    background-color: $orange_toolbar_background;
+    border-color: black;
+}
+
+div.theme-orange .workspaceToolbar .btnGroup a,
+div.theme-orange .workspaceToolbar .btnGroup button,
+div.theme-orange .workspaceToolbar button:visited,
+div.theme-orange .workspaceToolbar button:active,
+div.theme-orange .workspaceToolbar button:focus,
+div.theme-orange .workspaceToolbar button:hover,
+div.theme-orange .workspaceToolbar button:link,
+div.theme-orange .workspaceToolbar .btnGroupLast button {
+    background: linear-gradient(180deg, $orange_button_background, $orange_button_background);
+    border-color: black;
+}
+
+div.theme-orange .workspaceToolbar .btnGroup a.active,
+div.theme-orange .workspaceToolbar .btnGroup button.active,
+div.theme-orange .workspaceToolbar .btnGroupLast a.active,
+div.theme-orange .workspaceToolbar .btnGroupLast button.active {
+    background: linear-gradient(180deg, $orange_button_background, $orange_button_background);
+    border-color: black;
+}
+
+div.theme-orange .workspaceToolbar select {
+    background-image:
+            url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPCEtLSBHZW5lcmF0b3I6IEFkb2JlIElsbHVzdHJhdG9yIDI1LjQuMSwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246IDYuMDAgQnVpbGQgMCkgIC0tPgo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkxheWVyXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IgoJIHZpZXdCb3g9IjAgMCAyOTIuNCAyOTIuNCIgc3R5bGU9ImVuYWJsZS1iYWNrZ3JvdW5kOm5ldyAwIDAgMjkyLjQgMjkyLjQ7IiB4bWw6c3BhY2U9InByZXNlcnZlIj4KPHBhdGggZD0iTTI4Nyw2OS40Yy0zLjQtMy41LTguMS01LjUtMTMtNS40SDE4LjRjLTUsMC05LjMsMS44LTEyLjksNS40QzIsNzIuNywwLDc3LjQsMCw4Mi4yYzAsNSwxLjgsOS4zLDUuNCwxMi45bDEyOCwxMjcuOQoJYzMuNiwzLjYsNy44LDUuNCwxMi44LDUuNHM5LjItMS44LDEyLjgtNS40TDI4Nyw5NWMzLjUtMy41LDUuNC03LjgsNS40LTEyLjhzLTEuOS05LjItNS41LTEyLjhMMjg3LDY5LjR6Ii8+Cjwvc3ZnPgo=),
+            linear-gradient(to bottom, $orange_button_foreground 0%, w$orange_button_foreground 100%);
+    border-color: black;
+}

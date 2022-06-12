@@ -4,6 +4,7 @@ import {Button, ButtonGroup, Nav, Navbar} from "react-bootstrap";
 import './WorkspaceToolbar.css';
 import './WorkspaceToolbar._blue.scss';
 import './WorkspaceToolbar._green.scss';
+import './WorkspaceToolbar._orange.scss';
 import './WorkspaceToolbar._red.scss';
 
 type MyProps = {
@@ -17,8 +18,10 @@ type MyState = {
 
 export class WorkspaceToolbar extends Component<MyProps, MyState> {
     render() {
-        let className = "workspaceToolbar" + (this.props.settingsPanelHidden ? " settingsPanelHidden" : "");
-        className += (this.props.resourcesPanelHidden ? " resourcesPanelHidden" : "");
+        let className =
+            "workspaceToolbar" +
+            (this.props.settingsPanelHidden ? " settingsPanelHidden" : "") +
+            (this.props.resourcesPanelHidden ? " resourcesPanelHidden" : "");
         return (
             <Navbar expand="lg" className={className}>
                 <Nav className="me-auto">

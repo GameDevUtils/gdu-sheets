@@ -4,6 +4,7 @@ import './SidePanel.css';
 import './Workspace.css';
 import './Workspace._blue.scss';
 import './Workspace._green.scss';
+import './Workspace._orange.scss';
 import './Workspace._red.scss';
 
 type MyProps = {
