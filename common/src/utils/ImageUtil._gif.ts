@@ -1,4 +1,4 @@
-import ImageUtil_ImageParser from "./ImageUtil._base";
+import {ImageUtil_ImageParser} from "./ImageUtil._base";
 import {ImageProps} from "../objs/images";
 import {NdArray} from "ndarray";
 import {Buffer} from "buffer";
@@ -6,7 +6,7 @@ import DecodeGIF from "decode-gif";
 import {LogUtil} from "./LogUtil";
 import {MESSAGE_TYPE} from "../objs/messages";
 
-export default class ImageUtil_GIF extends ImageUtil_ImageParser {
+export class ImageUtil_GIF extends ImageUtil_ImageParser {
 
     public parseImageData(data: NdArray) : ImageProps {
         const result = ImageUtil_ImageParser.EMPTY_IMAGE_PROPS;

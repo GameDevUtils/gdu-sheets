@@ -15,10 +15,7 @@ import {ConsolePanelRight} from "./gui/ConsolePanelRight";
 import {ResourcesToolbarActions} from "./gui/ResourcesToolbarActions";
 import {ResourcesPanelRight} from "./gui/ResourcesPanelRight";
 import {PromptToSave} from "./components/PromptToSave";
-import {dialog} from "electron";
 import {APPLICATION_VERSION, Project, ProjectUtil} from "gdu-common";
-//import fs from "fs";
-//import path from "path";
 import {remote} from "electron";
 
 import './App.css';
@@ -88,11 +85,10 @@ export default class App extends Component<AppProps, AppState> {
     }
 
     showOpenProjectDialog() {
-        // const result = dialog.showOpenDialogSync({
         const result = remote.dialog.showOpenDialogSync({
             title: 'Open Project',
             buttonLabel: 'Open Project',
-            filters: [{ name: "", extensions: ['sheet'] }],
+            filters: [{ name: "", extensions: ['sheets', 'sheetz'] }],
             properties: [
                 'openFile',
             ],
@@ -104,11 +100,12 @@ export default class App extends Component<AppProps, AppState> {
             let project = ProjectUtil.DEFAULT_PROJECT;
             const electronFs = remote.require("fs");
             const exists = electronFs.existsSync(projectPath);
+
             if(exists) {
                 const data = fs.readFileSync(projectPath, { flag: 'r'}).toString();
                 project = ProjectUtil.deserialize(data, APPLICATION_VERSION.CURRENT);
             }
-            console.log(JSON.stringify(project, null,2));
+
             this.setState({
                 projectPath: projectPath,
                 project: project,
@@ -154,8 +151,6 @@ export default class App extends Component<AppProps, AppState> {
     }
 
     handleResourcesPillNavClick(e: any) {
-        //let isSpritePillActive = this.state.isResourcesSpritesPillActive
-
         this.setState(prevState => {
             return { isResourcesSpritesPillActive: !prevState.isResourcesSpritesPillActive };
         });
@@ -206,14 +201,14 @@ export default class App extends Component<AppProps, AppState> {
                   isSpritePillActive={isSpritePillActive} />
               <ResourcesPanelRight
                   isRightPanelShown={resourcesVisible}
-                  isSpritePillActive={isSpritePillActive} />
+                  isSpritePillActive={isSpritePillActive}
+                  project={this.state.project} />
               <ConsoleToolbarActions
                   isRightPanelShown={resourcesVisible}
                   isConsolePanelShown={!isSpritePillActive} />
               <ConsolePanelRight
                   isRightPanelShown={resourcesVisible}
                   isConsolePanelShown={!isSpritePillActive} />
-              {/*<PromptToSave show={this.showModal}/>*/}
               <PromptToSave show={this.state.showModal} handleClose={this.toggleShowForPromptToSave} handleSave={this.handleSaveForPromptToSave} />
           </div>
         );

@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, ReactNode} from 'react';
 import './SidePanel.css';
 import './SidePanelRight.css';
 import './SidePanelRight._blue.scss';
@@ -10,10 +10,15 @@ import './ResourcesPanelRight._blue.scss';
 import './ResourcesPanelRight._green.scss';
 import './ResourcesPanelRight._orange.scss';
 import './ResourcesPanelRight._red.scss';
+import {FileUtil, ImageFormat, ImageItem, ImageUtil, Project} from "gdu-common";
+// import {ImageUtil_ImageParser, ImageUtil_BMP, ImageUtil_GIF, ImageUtil_JPG, ImageUtil_PNG} from "gdu-common";
+// import {Buffer} from "buffer";
+// import NdArray from "ndarray";
 
 type MyProps = {
     isRightPanelShown: boolean,
     isSpritePillActive: boolean,
+    project: Project,
 };
 
 type MyState = {
@@ -21,172 +26,51 @@ type MyState = {
 };
 
 export class ResourcesPanelRight extends Component<MyProps, MyState> {
+
+    renderImageItems(): ReactNode[] {
+        const result = [] as ReactNode[];
+        const project = this.props.project;
+
+        if(!!project?.images) {
+            Object.getOwnPropertyNames(this.props.project?.images)
+                .forEach((key, index) => {
+                    const item = this.props.project?.images[key];
+                    if(item) {
+                        const dimensions = ((item.frames?.length ?? 0) > 0) ?
+                            (item.frames[0].width ?? "??") + "x" + (item.frames[0].height ?? "??") : "??x??";
+                        const size: number =
+                            item?.frames?.length ?? 0 > 0 ?
+                            item?.frames[0].data?.length ?? 0 : 0;
+                        const sizeDisplay = size > 999 ?
+                            (Math.max(size / 1024, 0).toPrecision(2)) + "KB" :
+                            (Math.max(size, 0).toPrecision(2)) + " bytes";
+                        result.push(
+                            <div key={key} className="sprite-entity" data-index={index} data-path={item.fullpath}
+                                 title={item.fullpath}>
+                                <div className="sprite-entity-image">
+                                    <img alt={item.filename} src={item.src}
+                                         style={{width: "50px", height: "50px"}}/>
+                                </div>
+                                <div className="sprite-entity-name">{item.filename}</div>
+                                <div
+                                    className="sprite-entity-meta">{dimensions} {(item.filetype ?? "???").toUpperCase()}, {sizeDisplay}<br/><span>{item.fullpath}</span>
+                                </div>
+                            </div>
+                        );
+                    }
+                });
+        }
+        return result;
+    }
+
     render() {
         let className = "sidePanel sidePanelRight" + (this.props.isRightPanelShown && this.props.isSpritePillActive ? "" : " panel-hidden");
+        const imageItems = this.renderImageItems();
         return (
             <div className={className} id="divResourcesPanel">
                 <div className="container-fluid">
 
-                    <div className="sprite-entity">
-                        <div className="sprite-entity-image">
-                            <img alt="amg1_fr2.gif" src="data:image/gif;base64,R0lGODlhIAAgAPcAAAAAAAEAAAIAAAMAAAQAAAUAAAYAAAcAAAgAAAkAAFT/VFT///9UVP9U////VP///wAAABQUFCAgICwsLDg4OERERFBQUGBgYHBwcICAgJCQkKCgoLS0tMjIyODg4P7//yAAADgAAFQAAHAAAIwAAKgAAMQAAP8AAP8cHP84OP9UVP9wcP+MjP+oqP/ExP///yAQADgcAFQsAHA4AIxIAKhUAMRkAP+AAP+MHP+YOP+oVP+0cP/EjP/QqP/gxP///yAgADg4AFRUAHBwAIyMAKioAMTEAP//AP//HP//OP//VP//cP//jP//qP//xP///xAgABw4ACxUADhwAEiMAFSoAGTEAID/AIz/HJj/OKj/VLT/cMT/jND/qOD/xP///wAkAAA8AABYAAB0AACQAACoAADEAAD/ABz/HDj/OFT/VHD/cIz/jKj/qMT/xP///wAgCAA4DABUFABwHACMJACoKADEMAD/QBz/VDj/aFT/fHD/kIz/qKj/vMT/0P///wAgEAA4HABULABwOACMSACWUADEZAD/gBz/jDj/mFT/qHD/tIz/xKj/0MT/4P///wAcHAA4OABUVABwcACMjACoqADExAD//xz//zj//1T//3D//4z//6j//8T//////wAQIAAcOAAsVAA4cABIjABUqABkxACA/xyM/ziY/1So/3C0/4zE/6jQ/8Tg/////wAAIAAAOAAAVAAAcAAAjAAAqAAAxAAA/xwc/zg4/1RU/3Cg/4yM/6jQ/8TE/////xAAIBwAOCwAVDgAcEgAjFQAqGQAxIAA/4wc/5g4/6hU/7Rw/8SM/9Co/+DE/////yAAIDgAOFQAVHAAcIwAjKgAqMQAxP8A//8c//84//9U//9w//+M//+o///E/////yAAEDgAHFQALHAAOIwASKgAVMQAZP8AgP8cjP84mP9UqP9wtP+MxP+o0P/E4P///0AgAEgkAFQoAGAwAGg0AIBAAPYAAPcAAPgAAPkAAPoAAPsAAPwAAP0AAP4AAP8AACwAAAAAIAAgAAAI/gAfCBSoQQOGgQ8AKFyoEKHDhw80dJh4MCGNixgvAoAIUeIHDx04YABAw4SJGydO3DBJYyNHhBI9cAhpoaQJlSlRsnT58gGGiSE3WDCZ8uYJozt7CsTAgYNQmyajSjXRUulSCxZIsryIFWNSpQAwjCSpEYCFplnJVm0IEYAyDBsUtgSwgYMFDx7OxiW50S3PgX7hLtSwoa6HDx+dbtDA1i9Ct8zCcpDL8KxdhlUTMlPGEzIzppQB6OChA+toHaEhc36s7PNkvjps6dCBA8ds2XxbM4vsEDJovjycASA9WjiP3Myc8Wbt7HfL47Z4SOdhazjf3ZvZJtQtmHPL2Tp82/gAjzx5doGeP8fdDfz48OMtsStTvno757B7s88t27K1Mt3nbacQD2Ip9J93JuBFlVsHylefQpNNZ+CBWi0I4G7/LYReQaJJh5pn3vXn4H3i+eASABzOhgOKDLLIIoUKMfbecQkxZKCLGnBQkI6D+dWhdH0d2B1nBRXZlI5FAsDeaKQF2Zpg2dmYY1Mc6gaAbagB9uRk7BXJYZITRvmXb+u1hiKYMTL2X4C9cVZmdozFOeVknLHZJoMU8ojikXQ69tKEeb62EI/3WWVjjDziJRNDVvV2KJ9/PRQQAAA7"/>
-                        </div>
-                        <div className="sprite-entity-name">amg1_bk2</div>
-                        <div className="sprite-entity-meta">64x96 PNG, 36KB<br/>./_assets/sprites/PNG/amg1_bk2.png</div>
-                    </div>
-
-                    <div className="sprite-entity">
-                        <div className="sprite-entity-image">
-                            <img alt="amg1_fr2.gif" src="data:image/gif;base64,R0lGODlhIAAgAPcAAAAAAAEAAAIAAAMAAAQAAAUAAAYAAAcAAAgAAAkAAFT/VFT///9UVP9U////VP///wAAABQUFCAgICwsLDg4OERERFBQUGBgYHBwcICAgJCQkKCgoLS0tMjIyODg4P7//yAAADgAAFQAAHAAAIwAAKgAAMQAAP8AAP8cHP84OP9UVP9wcP+MjP+oqP/ExP///yAQADgcAFQsAHA4AIxIAKhUAMRkAP+AAP+MHP+YOP+oVP+0cP/EjP/QqP/gxP///yAgADg4AFRUAHBwAIyMAKioAMTEAP//AP//HP//OP//VP//cP//jP//qP//xP///xAgABw4ACxUADhwAEiMAFSoAGTEAID/AIz/HJj/OKj/VLT/cMT/jND/qOD/xP///wAkAAA8AABYAAB0AACQAACoAADEAAD/ABz/HDj/OFT/VHD/cIz/jKj/qMT/xP///wAgCAA4DABUFABwHACMJACoKADEMAD/QBz/VDj/aFT/fHD/kIz/qKj/vMT/0P///wAgEAA4HABULABwOACMSACWUADEZAD/gBz/jDj/mFT/qHD/tIz/xKj/0MT/4P///wAcHAA4OABUVABwcACMjACoqADExAD//xz//zj//1T//3D//4z//6j//8T//////wAQIAAcOAAsVAA4cABIjABUqABkxACA/xyM/ziY/1So/3C0/4zE/6jQ/8Tg/////wAAIAAAOAAAVAAAcAAAjAAAqAAAxAAA/xwc/zg4/1RU/3Cg/4yM/6jQ/8TE/////xAAIBwAOCwAVDgAcEgAjFQAqGQAxIAA/4wc/5g4/6hU/7Rw/8SM/9Co/+DE/////yAAIDgAOFQAVHAAcIwAjKgAqMQAxP8A//8c//84//9U//9w//+M//+o///E/////yAAEDgAHFQALHAAOIwASKgAVMQAZP8AgP8cjP84mP9UqP9wtP+MxP+o0P/E4P///0AgAEgkAFQoAGAwAGg0AIBAAPYAAPcAAPgAAPkAAPoAAPsAAPwAAP0AAP4AAP8AACwAAAAAIAAgAAAI/gAfCBSoQQOGgQ8AKFyoEKHDhw80dJh4MCGNixgvAoAIUeIHDx04YABAw4SJGydO3DBJYyNHhBI9cAhpoaQJlSlRsnT58gGGiSE3WDCZ8uYJozt7CsTAgYNQmyajSjXRUulSCxZIsryIFWNSpQAwjCSpEYCFplnJVm0IEYAyDBsUtgSwgYMFDx7OxiW50S3PgX7hLtSwoa6HDx+dbtDA1i9Ct8zCcpDL8KxdhlUTMlPGEzIzppQB6OChA+toHaEhc36s7PNkvjps6dCBA8ds2XxbM4vsEDJovjycASA9WjiP3Myc8Wbt7HfL47Z4SOdhazjf3ZvZJtQtmHPL2Tp82/gAjzx5doGeP8fdDfz48OMtsStTvno757B7s88t27K1Mt3nbacQD2Ip9J93JuBFlVsHylefQpNNZ+CBWi0I4G7/LYReQaJJh5pn3vXn4H3i+eASABzOhgOKDLLIIoUKMfbecQkxZKCLGnBQkI6D+dWhdH0d2B1nBRXZlI5FAsDeaKQF2Zpg2dmYY1Mc6gaAbagB9uRk7BXJYZITRvmXb+u1hiKYMTL2X4C9cVZmdozFOeVknLHZJoMU8ojikXQ69tKEeb62EI/3WWVjjDziJRNDVvV2KJ9/PRQQAAA7"/>
-                        </div>
-                        <div className="sprite-entity-name">amg1_bk2</div>
-                        <div className="sprite-entity-meta">64x96 PNG, 36KB<br/>./_assets/sprites/PNG/amg1_bk2.png</div>
-                    </div>
-
-                    <div className="sprite-entity selected">
-                        <div className="sprite-entity-image">
-                            <img alt="amg1_fr2.gif" src="data:image/gif;base64,R0lGODlhIAAgAPcAAAAAAAEAAAIAAAMAAAQAAAUAAAYAAAcAAAgAAAkAAFT/VFT///9UVP9U////VP///wAAABQUFCAgICwsLDg4OERERFBQUGBgYHBwcICAgJCQkKCgoLS0tMjIyODg4P7//yAAADgAAFQAAHAAAIwAAKgAAMQAAP8AAP8cHP84OP9UVP9wcP+MjP+oqP/ExP///yAQADgcAFQsAHA4AIxIAKhUAMRkAP+AAP+MHP+YOP+oVP+0cP/EjP/QqP/gxP///yAgADg4AFRUAHBwAIyMAKioAMTEAP//AP//HP//OP//VP//cP//jP//qP//xP///xAgABw4ACxUADhwAEiMAFSoAGTEAID/AIz/HJj/OKj/VLT/cMT/jND/qOD/xP///wAkAAA8AABYAAB0AACQAACoAADEAAD/ABz/HDj/OFT/VHD/cIz/jKj/qMT/xP///wAgCAA4DABUFABwHACMJACoKADEMAD/QBz/VDj/aFT/fHD/kIz/qKj/vMT/0P///wAgEAA4HABULABwOACMSACWUADEZAD/gBz/jDj/mFT/qHD/tIz/xKj/0MT/4P///wAcHAA4OABUVABwcACMjACoqADExAD//xz//zj//1T//3D//4z//6j//8T//////wAQIAAcOAAsVAA4cABIjABUqABkxACA/xyM/ziY/1So/3C0/4zE/6jQ/8Tg/////wAAIAAAOAAAVAAAcAAAjAAAqAAAxAAA/xwc/zg4/1RU/3Cg/4yM/6jQ/8TE/////xAAIBwAOCwAVDgAcEgAjFQAqGQAxIAA/4wc/5g4/6hU/7Rw/8SM/9Co/+DE/////yAAIDgAOFQAVHAAcIwAjKgAqMQAxP8A//8c//84//9U//9w//+M//+o///E/////yAAEDgAHFQALHAAOIwASKgAVMQAZP8AgP8cjP84mP9UqP9wtP+MxP+o0P/E4P///0AgAEgkAFQoAGAwAGg0AIBAAPYAAPcAAPgAAPkAAPoAAPsAAPwAAP0AAP4AAP8AACwAAAAAIAAgAAAI/gAfCBSoQQOGgQ8AKFyoEKHDhw80dJh4MCGNixgvAoAIUeIHDx04YABAw4SJGydO3DBJYyNHhBI9cAhpoaQJlSlRsnT58gGGiSE3WDCZ8uYJozt7CsTAgYNQmyajSjXRUulSCxZIsryIFWNSpQAwjCSpEYCFplnJVm0IEYAyDBsUtgSwgYMFDx7OxiW50S3PgX7hLtSwoa6HDx+dbtDA1i9Ct8zCcpDL8KxdhlUTMlPGEzIzppQB6OChA+toHaEhc36s7PNkvjps6dCBA8ds2XxbM4vsEDJovjycASA9WjiP3Myc8Wbt7HfL47Z4SOdhazjf3ZvZJtQtmHPL2Tp82/gAjzx5doGeP8fdDfz48OMtsStTvno757B7s88t27K1Mt3nbacQD2Ip9J93JuBFlVsHylefQpNNZ+CBWi0I4G7/LYReQaJJh5pn3vXn4H3i+eASABzOhgOKDLLIIoUKMfbecQkxZKCLGnBQkI6D+dWhdH0d2B1nBRXZlI5FAsDeaKQF2Zpg2dmYY1Mc6gaAbagB9uRk7BXJYZITRvmXb+u1hiKYMTL2X4C9cVZmdozFOeVknLHZJoMU8ojikXQ69tKEeb62EI/3WWVjjDziJRNDVvV2KJ9/PRQQAAA7"/>
-                        </div>
-                        <div className="sprite-entity-name">amg1_bk2</div>
-                        <div className="sprite-entity-meta">64x96 PNG, 36KB<br/>./_assets/sprites/PNG/amg1_bk2.png</div>
-                    </div>
-
-                    <div className="sprite-entity selected">
-                        <div className="sprite-entity-image">
-                            <img alt="amg1_fr2.gif" src="data:image/gif;base64,R0lGODlhIAAgAPcAAAAAAAEAAAIAAAMAAAQAAAUAAAYAAAcAAAgAAAkAAFT/VFT///9UVP9U////VP///wAAABQUFCAgICwsLDg4OERERFBQUGBgYHBwcICAgJCQkKCgoLS0tMjIyODg4P7//yAAADgAAFQAAHAAAIwAAKgAAMQAAP8AAP8cHP84OP9UVP9wcP+MjP+oqP/ExP///yAQADgcAFQsAHA4AIxIAKhUAMRkAP+AAP+MHP+YOP+oVP+0cP/EjP/QqP/gxP///yAgADg4AFRUAHBwAIyMAKioAMTEAP//AP//HP//OP//VP//cP//jP//qP//xP///xAgABw4ACxUADhwAEiMAFSoAGTEAID/AIz/HJj/OKj/VLT/cMT/jND/qOD/xP///wAkAAA8AABYAAB0AACQAACoAADEAAD/ABz/HDj/OFT/VHD/cIz/jKj/qMT/xP///wAgCAA4DABUFABwHACMJACoKADEMAD/QBz/VDj/aFT/fHD/kIz/qKj/vMT/0P///wAgEAA4HABULABwOACMSACWUADEZAD/gBz/jDj/mFT/qHD/tIz/xKj/0MT/4P///wAcHAA4OABUVABwcACMjACoqADExAD//xz//zj//1T//3D//4z//6j//8T//////wAQIAAcOAAsVAA4cABIjABUqABkxACA/xyM/ziY/1So/3C0/4zE/6jQ/8Tg/////wAAIAAAOAAAVAAAcAAAjAAAqAAAxAAA/xwc/zg4/1RU/3Cg/4yM/6jQ/8TE/////xAAIBwAOCwAVDgAcEgAjFQAqGQAxIAA/4wc/5g4/6hU/7Rw/8SM/9Co/+DE/////yAAIDgAOFQAVHAAcIwAjKgAqMQAxP8A//8c//84//9U//9w//+M//+o///E/////yAAEDgAHFQALHAAOIwASKgAVMQAZP8AgP8cjP84mP9UqP9wtP+MxP+o0P/E4P///0AgAEgkAFQoAGAwAGg0AIBAAPYAAPcAAPgAAPkAAPoAAPsAAPwAAP0AAP4AAP8AACwAAAAAIAAgAAAI/gAfCBSoQQOGgQ8AKFyoEKHDhw80dJh4MCGNixgvAoAIUeIHDx04YABAw4SJGydO3DBJYyNHhBI9cAhpoaQJlSlRsnT58gGGiSE3WDCZ8uYJozt7CsTAgYNQmyajSjXRUulSCxZIsryIFWNSpQAwjCSpEYCFplnJVm0IEYAyDBsUtgSwgYMFDx7OxiW50S3PgX7hLtSwoa6HDx+dbtDA1i9Ct8zCcpDL8KxdhlUTMlPGEzIzppQB6OChA+toHaEhc36s7PNkvjps6dCBA8ds2XxbM4vsEDJovjycASA9WjiP3Myc8Wbt7HfL47Z4SOdhazjf3ZvZJtQtmHPL2Tp82/gAjzx5doGeP8fdDfz48OMtsStTvno757B7s88t27K1Mt3nbacQD2Ip9J93JuBFlVsHylefQpNNZ+CBWi0I4G7/LYReQaJJh5pn3vXn4H3i+eASABzOhgOKDLLIIoUKMfbecQkxZKCLGnBQkI6D+dWhdH0d2B1nBRXZlI5FAsDeaKQF2Zpg2dmYY1Mc6gaAbagB9uRk7BXJYZITRvmXb+u1hiKYMTL2X4C9cVZmdozFOeVknLHZJoMU8ojikXQ69tKEeb62EI/3WWVjjDziJRNDVvV2KJ9/PRQQAAA7"/>
-                        </div>
-                        <div className="sprite-entity-name">amg1_bk2</div>
-                        <div className="sprite-entity-meta">64x96 PNG, 36KB<br/>./_assets/sprites/PNG/amg1_bk2.png</div>
-                    </div>
-
-                    <div className="sprite-entity selected">
-                        <div className="sprite-entity-image">
-                            <img alt="amg1_fr2.gif" src="data:image/gif;base64,R0lGODlhIAAgAPcAAAAAAAEAAAIAAAMAAAQAAAUAAAYAAAcAAAgAAAkAAFT/VFT///9UVP9U////VP///wAAABQUFCAgICwsLDg4OERERFBQUGBgYHBwcICAgJCQkKCgoLS0tMjIyODg4P7//yAAADgAAFQAAHAAAIwAAKgAAMQAAP8AAP8cHP84OP9UVP9wcP+MjP+oqP/ExP///yAQADgcAFQsAHA4AIxIAKhUAMRkAP+AAP+MHP+YOP+oVP+0cP/EjP/QqP/gxP///yAgADg4AFRUAHBwAIyMAKioAMTEAP//AP//HP//OP//VP//cP//jP//qP//xP///xAgABw4ACxUADhwAEiMAFSoAGTEAID/AIz/HJj/OKj/VLT/cMT/jND/qOD/xP///wAkAAA8AABYAAB0AACQAACoAADEAAD/ABz/HDj/OFT/VHD/cIz/jKj/qMT/xP///wAgCAA4DABUFABwHACMJACoKADEMAD/QBz/VDj/aFT/fHD/kIz/qKj/vMT/0P///wAgEAA4HABULABwOACMSACWUADEZAD/gBz/jDj/mFT/qHD/tIz/xKj/0MT/4P///wAcHAA4OABUVABwcACMjACoqADExAD//xz//zj//1T//3D//4z//6j//8T//////wAQIAAcOAAsVAA4cABIjABUqABkxACA/xyM/ziY/1So/3C0/4zE/6jQ/8Tg/////wAAIAAAOAAAVAAAcAAAjAAAqAAAxAAA/xwc/zg4/1RU/3Cg/4yM/6jQ/8TE/////xAAIBwAOCwAVDgAcEgAjFQAqGQAxIAA/4wc/5g4/6hU/7Rw/8SM/9Co/+DE/////yAAIDgAOFQAVHAAcIwAjKgAqMQAxP8A//8c//84//9U//9w//+M//+o///E/////yAAEDgAHFQALHAAOIwASKgAVMQAZP8AgP8cjP84mP9UqP9wtP+MxP+o0P/E4P///0AgAEgkAFQoAGAwAGg0AIBAAPYAAPcAAPgAAPkAAPoAAPsAAPwAAP0AAP4AAP8AACwAAAAAIAAgAAAI/gAfCBSoQQOGgQ8AKFyoEKHDhw80dJh4MCGNixgvAoAIUeIHDx04YABAw4SJGydO3DBJYyNHhBI9cAhpoaQJlSlRsnT58gGGiSE3WDCZ8uYJozt7CsTAgYNQmyajSjXRUulSCxZIsryIFWNSpQAwjCSpEYCFplnJVm0IEYAyDBsUtgSwgYMFDx7OxiW50S3PgX7hLtSwoa6HDx+dbtDA1i9Ct8zCcpDL8KxdhlUTMlPGEzIzppQB6OChA+toHaEhc36s7PNkvjps6dCBA8ds2XxbM4vsEDJovjycASA9WjiP3Myc8Wbt7HfL47Z4SOdhazjf3ZvZJtQtmHPL2Tp82/gAjzx5doGeP8fdDfz48OMtsStTvno757B7s88t27K1Mt3nbacQD2Ip9J93JuBFlVsHylefQpNNZ+CBWi0I4G7/LYReQaJJh5pn3vXn4H3i+eASABzOhgOKDLLIIoUKMfbecQkxZKCLGnBQkI6D+dWhdH0d2B1nBRXZlI5FAsDeaKQF2Zpg2dmYY1Mc6gaAbagB9uRk7BXJYZITRvmXb+u1hiKYMTL2X4C9cVZmdozFOeVknLHZJoMU8ojikXQ69tKEeb62EI/3WWVjjDziJRNDVvV2KJ9/PRQQAAA7"/>
-                        </div>
-                        <div className="sprite-entity-name">amg1_bk2</div>
-                        <div className="sprite-entity-meta">64x96 PNG, 36KB<br/>./_assets/sprites/PNG/amg1_bk2.png</div>
-                    </div>
-
-                    <div className="sprite-entity">
-                        <div className="sprite-entity-image">
-                            <img alt="amg1_fr2.gif" src="data:image/gif;base64,R0lGODlhIAAgAPcAAAAAAAEAAAIAAAMAAAQAAAUAAAYAAAcAAAgAAAkAAFT/VFT///9UVP9U////VP///wAAABQUFCAgICwsLDg4OERERFBQUGBgYHBwcICAgJCQkKCgoLS0tMjIyODg4P7//yAAADgAAFQAAHAAAIwAAKgAAMQAAP8AAP8cHP84OP9UVP9wcP+MjP+oqP/ExP///yAQADgcAFQsAHA4AIxIAKhUAMRkAP+AAP+MHP+YOP+oVP+0cP/EjP/QqP/gxP///yAgADg4AFRUAHBwAIyMAKioAMTEAP//AP//HP//OP//VP//cP//jP//qP//xP///xAgABw4ACxUADhwAEiMAFSoAGTEAID/AIz/HJj/OKj/VLT/cMT/jND/qOD/xP///wAkAAA8AABYAAB0AACQAACoAADEAAD/ABz/HDj/OFT/VHD/cIz/jKj/qMT/xP///wAgCAA4DABUFABwHACMJACoKADEMAD/QBz/VDj/aFT/fHD/kIz/qKj/vMT/0P///wAgEAA4HABULABwOACMSACWUADEZAD/gBz/jDj/mFT/qHD/tIz/xKj/0MT/4P///wAcHAA4OABUVABwcACMjACoqADExAD//xz//zj//1T//3D//4z//6j//8T//////wAQIAAcOAAsVAA4cABIjABUqABkxACA/xyM/ziY/1So/3C0/4zE/6jQ/8Tg/////wAAIAAAOAAAVAAAcAAAjAAAqAAAxAAA/xwc/zg4/1RU/3Cg/4yM/6jQ/8TE/////xAAIBwAOCwAVDgAcEgAjFQAqGQAxIAA/4wc/5g4/6hU/7Rw/8SM/9Co/+DE/////yAAIDgAOFQAVHAAcIwAjKgAqMQAxP8A//8c//84//9U//9w//+M//+o///E/////yAAEDgAHFQALHAAOIwASKgAVMQAZP8AgP8cjP84mP9UqP9wtP+MxP+o0P/E4P///0AgAEgkAFQoAGAwAGg0AIBAAPYAAPcAAPgAAPkAAPoAAPsAAPwAAP0AAP4AAP8AACwAAAAAIAAgAAAI/gAfCBSoQQOGgQ8AKFyoEKHDhw80dJh4MCGNixgvAoAIUeIHDx04YABAw4SJGydO3DBJYyNHhBI9cAhpoaQJlSlRsnT58gGGiSE3WDCZ8uYJozt7CsTAgYNQmyajSjXRUulSCxZIsryIFWNSpQAwjCSpEYCFplnJVm0IEYAyDBsUtgSwgYMFDx7OxiW50S3PgX7hLtSwoa6HDx+dbtDA1i9Ct8zCcpDL8KxdhlUTMlPGEzIzppQB6OChA+toHaEhc36s7PNkvjps6dCBA8ds2XxbM4vsEDJovjycASA9WjiP3Myc8Wbt7HfL47Z4SOdhazjf3ZvZJtQtmHPL2Tp82/gAjzx5doGeP8fdDfz48OMtsStTvno757B7s88t27K1Mt3nbacQD2Ip9J93JuBFlVsHylefQpNNZ+CBWi0I4G7/LYReQaJJh5pn3vXn4H3i+eASABzOhgOKDLLIIoUKMfbecQkxZKCLGnBQkI6D+dWhdH0d2B1nBRXZlI5FAsDeaKQF2Zpg2dmYY1Mc6gaAbagB9uRk7BXJYZITRvmXb+u1hiKYMTL2X4C9cVZmdozFOeVknLHZJoMU8ojikXQ69tKEeb62EI/3WWVjjDziJRNDVvV2KJ9/PRQQAAA7"/>
-                        </div>
-                        <div className="sprite-entity-name">amg1_bk2</div>
-                        <div className="sprite-entity-meta">64x96 PNG, 36KB<br/>./_assets/sprites/PNG/amg1_bk2.png</div>
-                    </div>
-
-                    <div className="sprite-entity selected">
-                        <div className="sprite-entity-image">
-                            <img alt="amg1_fr2.gif" src="data:image/gif;base64,R0lGODlhIAAgAPcAAAAAAAEAAAIAAAMAAAQAAAUAAAYAAAcAAAgAAAkAAFT/VFT///9UVP9U////VP///wAAABQUFCAgICwsLDg4OERERFBQUGBgYHBwcICAgJCQkKCgoLS0tMjIyODg4P7//yAAADgAAFQAAHAAAIwAAKgAAMQAAP8AAP8cHP84OP9UVP9wcP+MjP+oqP/ExP///yAQADgcAFQsAHA4AIxIAKhUAMRkAP+AAP+MHP+YOP+oVP+0cP/EjP/QqP/gxP///yAgADg4AFRUAHBwAIyMAKioAMTEAP//AP//HP//OP//VP//cP//jP//qP//xP///xAgABw4ACxUADhwAEiMAFSoAGTEAID/AIz/HJj/OKj/VLT/cMT/jND/qOD/xP///wAkAAA8AABYAAB0AACQAACoAADEAAD/ABz/HDj/OFT/VHD/cIz/jKj/qMT/xP///wAgCAA4DABUFABwHACMJACoKADEMAD/QBz/VDj/aFT/fHD/kIz/qKj/vMT/0P///wAgEAA4HABULABwOACMSACWUADEZAD/gBz/jDj/mFT/qHD/tIz/xKj/0MT/4P///wAcHAA4OABUVABwcACMjACoqADExAD//xz//zj//1T//3D//4z//6j//8T//////wAQIAAcOAAsVAA4cABIjABUqABkxACA/xyM/ziY/1So/3C0/4zE/6jQ/8Tg/////wAAIAAAOAAAVAAAcAAAjAAAqAAAxAAA/xwc/zg4/1RU/3Cg/4yM/6jQ/8TE/////xAAIBwAOCwAVDgAcEgAjFQAqGQAxIAA/4wc/5g4/6hU/7Rw/8SM/9Co/+DE/////yAAIDgAOFQAVHAAcIwAjKgAqMQAxP8A//8c//84//9U//9w//+M//+o///E/////yAAEDgAHFQALHAAOIwASKgAVMQAZP8AgP8cjP84mP9UqP9wtP+MxP+o0P/E4P///0AgAEgkAFQoAGAwAGg0AIBAAPYAAPcAAPgAAPkAAPoAAPsAAPwAAP0AAP4AAP8AACwAAAAAIAAgAAAI/gAfCBSoQQOGgQ8AKFyoEKHDhw80dJh4MCGNixgvAoAIUeIHDx04YABAw4SJGydO3DBJYyNHhBI9cAhpoaQJlSlRsnT58gGGiSE3WDCZ8uYJozt7CsTAgYNQmyajSjXRUulSCxZIsryIFWNSpQAwjCSpEYCFplnJVm0IEYAyDBsUtgSwgYMFDx7OxiW50S3PgX7hLtSwoa6HDx+dbtDA1i9Ct8zCcpDL8KxdhlUTMlPGEzIzppQB6OChA+toHaEhc36s7PNkvjps6dCBA8ds2XxbM4vsEDJovjycASA9WjiP3Myc8Wbt7HfL47Z4SOdhazjf3ZvZJtQtmHPL2Tp82/gAjzx5doGeP8fdDfz48OMtsStTvno757B7s88t27K1Mt3nbacQD2Ip9J93JuBFlVsHylefQpNNZ+CBWi0I4G7/LYReQaJJh5pn3vXn4H3i+eASABzOhgOKDLLIIoUKMfbecQkxZKCLGnBQkI6D+dWhdH0d2B1nBRXZlI5FAsDeaKQF2Zpg2dmYY1Mc6gaAbagB9uRk7BXJYZITRvmXb+u1hiKYMTL2X4C9cVZmdozFOeVknLHZJoMU8ojikXQ69tKEeb62EI/3WWVjjDziJRNDVvV2KJ9/PRQQAAA7"/>
-                        </div>
-                        <div className="sprite-entity-name">amg1_bk2</div>
-                        <div className="sprite-entity-meta">64x96 PNG, 36KB<br/>./_assets/sprites/PNG/amg1_bk2.png</div>
-                    </div>
-
-                    <div className="sprite-entity">
-                        <div className="sprite-entity-image">
-                            <img alt="amg1_fr2.gif" src="data:image/gif;base64,R0lGODlhIAAgAPcAAAAAAAEAAAIAAAMAAAQAAAUAAAYAAAcAAAgAAAkAAFT/VFT///9UVP9U////VP///wAAABQUFCAgICwsLDg4OERERFBQUGBgYHBwcICAgJCQkKCgoLS0tMjIyODg4P7//yAAADgAAFQAAHAAAIwAAKgAAMQAAP8AAP8cHP84OP9UVP9wcP+MjP+oqP/ExP///yAQADgcAFQsAHA4AIxIAKhUAMRkAP+AAP+MHP+YOP+oVP+0cP/EjP/QqP/gxP///yAgADg4AFRUAHBwAIyMAKioAMTEAP//AP//HP//OP//VP//cP//jP//qP//xP///xAgABw4ACxUADhwAEiMAFSoAGTEAID/AIz/HJj/OKj/VLT/cMT/jND/qOD/xP///wAkAAA8AABYAAB0AACQAACoAADEAAD/ABz/HDj/OFT/VHD/cIz/jKj/qMT/xP///wAgCAA4DABUFABwHACMJACoKADEMAD/QBz/VDj/aFT/fHD/kIz/qKj/vMT/0P///wAgEAA4HABULABwOACMSACWUADEZAD/gBz/jDj/mFT/qHD/tIz/xKj/0MT/4P///wAcHAA4OABUVABwcACMjACoqADExAD//xz//zj//1T//3D//4z//6j//8T//////wAQIAAcOAAsVAA4cABIjABUqABkxACA/xyM/ziY/1So/3C0/4zE/6jQ/8Tg/////wAAIAAAOAAAVAAAcAAAjAAAqAAAxAAA/xwc/zg4/1RU/3Cg/4yM/6jQ/8TE/////xAAIBwAOCwAVDgAcEgAjFQAqGQAxIAA/4wc/5g4/6hU/7Rw/8SM/9Co/+DE/////yAAIDgAOFQAVHAAcIwAjKgAqMQAxP8A//8c//84//9U//9w//+M//+o///E/////yAAEDgAHFQALHAAOIwASKgAVMQAZP8AgP8cjP84mP9UqP9wtP+MxP+o0P/E4P///0AgAEgkAFQoAGAwAGg0AIBAAPYAAPcAAPgAAPkAAPoAAPsAAPwAAP0AAP4AAP8AACwAAAAAIAAgAAAI/gAfCBSoQQOGgQ8AKFyoEKHDhw80dJh4MCGNixgvAoAIUeIHDx04YABAw4SJGydO3DBJYyNHhBI9cAhpoaQJlSlRsnT58gGGiSE3WDCZ8uYJozt7CsTAgYNQmyajSjXRUulSCxZIsryIFWNSpQAwjCSpEYCFplnJVm0IEYAyDBsUtgSwgYMFDx7OxiW50S3PgX7hLtSwoa6HDx+dbtDA1i9Ct8zCcpDL8KxdhlUTMlPGEzIzppQB6OChA+toHaEhc36s7PNkvjps6dCBA8ds2XxbM4vsEDJovjycASA9WjiP3Myc8Wbt7HfL47Z4SOdhazjf3ZvZJtQtmHPL2Tp82/gAjzx5doGeP8fdDfz48OMtsStTvno757B7s88t27K1Mt3nbacQD2Ip9J93JuBFlVsHylefQpNNZ+CBWi0I4G7/LYReQaJJh5pn3vXn4H3i+eASABzOhgOKDLLIIoUKMfbecQkxZKCLGnBQkI6D+dWhdH0d2B1nBRXZlI5FAsDeaKQF2Zpg2dmYY1Mc6gaAbagB9uRk7BXJYZITRvmXb+u1hiKYMTL2X4C9cVZmdozFOeVknLHZJoMU8ojikXQ69tKEeb62EI/3WWVjjDziJRNDVvV2KJ9/PRQQAAA7"/>
-                        </div>
-                        <div className="sprite-entity-name">amg1_bk2</div>
-                        <div className="sprite-entity-meta">64x96 PNG, 36KB<br/>./_assets/sprites/PNG/amg1_bk2.png</div>
-                    </div>
-
-                    <div className="sprite-entity">
-                        <div className="sprite-entity-image">
-                            <img alt="amg1_fr2.gif" src="data:image/gif;base64,R0lGODlhIAAgAPcAAAAAAAEAAAIAAAMAAAQAAAUAAAYAAAcAAAgAAAkAAFT/VFT///9UVP9U////VP///wAAABQUFCAgICwsLDg4OERERFBQUGBgYHBwcICAgJCQkKCgoLS0tMjIyODg4P7//yAAADgAAFQAAHAAAIwAAKgAAMQAAP8AAP8cHP84OP9UVP9wcP+MjP+oqP/ExP///yAQADgcAFQsAHA4AIxIAKhUAMRkAP+AAP+MHP+YOP+oVP+0cP/EjP/QqP/gxP///yAgADg4AFRUAHBwAIyMAKioAMTEAP//AP//HP//OP//VP//cP//jP//qP//xP///xAgABw4ACxUADhwAEiMAFSoAGTEAID/AIz/HJj/OKj/VLT/cMT/jND/qOD/xP///wAkAAA8AABYAAB0AACQAACoAADEAAD/ABz/HDj/OFT/VHD/cIz/jKj/qMT/xP///wAgCAA4DABUFABwHACMJACoKADEMAD/QBz/VDj/aFT/fHD/kIz/qKj/vMT/0P///wAgEAA4HABULABwOACMSACWUADEZAD/gBz/jDj/mFT/qHD/tIz/xKj/0MT/4P///wAcHAA4OABUVABwcACMjACoqADExAD//xz//zj//1T//3D//4z//6j//8T//////wAQIAAcOAAsVAA4cABIjABUqABkxACA/xyM/ziY/1So/3C0/4zE/6jQ/8Tg/////wAAIAAAOAAAVAAAcAAAjAAAqAAAxAAA/xwc/zg4/1RU/3Cg/4yM/6jQ/8TE/////xAAIBwAOCwAVDgAcEgAjFQAqGQAxIAA/4wc/5g4/6hU/7Rw/8SM/9Co/+DE/////yAAIDgAOFQAVHAAcIwAjKgAqMQAxP8A//8c//84//9U//9w//+M//+o///E/////yAAEDgAHFQALHAAOIwASKgAVMQAZP8AgP8cjP84mP9UqP9wtP+MxP+o0P/E4P///0AgAEgkAFQoAGAwAGg0AIBAAPYAAPcAAPgAAPkAAPoAAPsAAPwAAP0AAP4AAP8AACwAAAAAIAAgAAAI/gAfCBSoQQOGgQ8AKFyoEKHDhw80dJh4MCGNixgvAoAIUeIHDx04YABAw4SJGydO3DBJYyNHhBI9cAhpoaQJlSlRsnT58gGGiSE3WDCZ8uYJozt7CsTAgYNQmyajSjXRUulSCxZIsryIFWNSpQAwjCSpEYCFplnJVm0IEYAyDBsUtgSwgYMFDx7OxiW50S3PgX7hLtSwoa6HDx+dbtDA1i9Ct8zCcpDL8KxdhlUTMlPGEzIzppQB6OChA+toHaEhc36s7PNkvjps6dCBA8ds2XxbM4vsEDJovjycASA9WjiP3Myc8Wbt7HfL47Z4SOdhazjf3ZvZJtQtmHPL2Tp82/gAjzx5doGeP8fdDfz48OMtsStTvno757B7s88t27K1Mt3nbacQD2Ip9J93JuBFlVsHylefQpNNZ+CBWi0I4G7/LYReQaJJh5pn3vXn4H3i+eASABzOhgOKDLLIIoUKMfbecQkxZKCLGnBQkI6D+dWhdH0d2B1nBRXZlI5FAsDeaKQF2Zpg2dmYY1Mc6gaAbagB9uRk7BXJYZITRvmXb+u1hiKYMTL2X4C9cVZmdozFOeVknLHZJoMU8ojikXQ69tKEeb62EI/3WWVjjDziJRNDVvV2KJ9/PRQQAAA7"/>
-                        </div>
-                        <div className="sprite-entity-name">amg1_bk2</div>
-                        <div className="sprite-entity-meta">64x96 PNG, 36KB<br/>./_assets/sprites/PNG/amg1_bk2.png</div>
-                    </div>
-
-                    <div className="sprite-entity">
-                        <div className="sprite-entity-image">
-                            <img alt="amg1_fr2.gif" src="data:image/gif;base64,R0lGODlhIAAgAPcAAAAAAAEAAAIAAAMAAAQAAAUAAAYAAAcAAAgAAAkAAFT/VFT///9UVP9U////VP///wAAABQUFCAgICwsLDg4OERERFBQUGBgYHBwcICAgJCQkKCgoLS0tMjIyODg4P7//yAAADgAAFQAAHAAAIwAAKgAAMQAAP8AAP8cHP84OP9UVP9wcP+MjP+oqP/ExP///yAQADgcAFQsAHA4AIxIAKhUAMRkAP+AAP+MHP+YOP+oVP+0cP/EjP/QqP/gxP///yAgADg4AFRUAHBwAIyMAKioAMTEAP//AP//HP//OP//VP//cP//jP//qP//xP///xAgABw4ACxUADhwAEiMAFSoAGTEAID/AIz/HJj/OKj/VLT/cMT/jND/qOD/xP///wAkAAA8AABYAAB0AACQAACoAADEAAD/ABz/HDj/OFT/VHD/cIz/jKj/qMT/xP///wAgCAA4DABUFABwHACMJACoKADEMAD/QBz/VDj/aFT/fHD/kIz/qKj/vMT/0P///wAgEAA4HABULABwOACMSACWUADEZAD/gBz/jDj/mFT/qHD/tIz/xKj/0MT/4P///wAcHAA4OABUVABwcACMjACoqADExAD//xz//zj//1T//3D//4z//6j//8T//////wAQIAAcOAAsVAA4cABIjABUqABkxACA/xyM/ziY/1So/3C0/4zE/6jQ/8Tg/////wAAIAAAOAAAVAAAcAAAjAAAqAAAxAAA/xwc/zg4/1RU/3Cg/4yM/6jQ/8TE/////xAAIBwAOCwAVDgAcEgAjFQAqGQAxIAA/4wc/5g4/6hU/7Rw/8SM/9Co/+DE/////yAAIDgAOFQAVHAAcIwAjKgAqMQAxP8A//8c//84//9U//9w//+M//+o///E/////yAAEDgAHFQALHAAOIwASKgAVMQAZP8AgP8cjP84mP9UqP9wtP+MxP+o0P/E4P///0AgAEgkAFQoAGAwAGg0AIBAAPYAAPcAAPgAAPkAAPoAAPsAAPwAAP0AAP4AAP8AACwAAAAAIAAgAAAI/gAfCBSoQQOGgQ8AKFyoEKHDhw80dJh4MCGNixgvAoAIUeIHDx04YABAw4SJGydO3DBJYyNHhBI9cAhpoaQJlSlRsnT58gGGiSE3WDCZ8uYJozt7CsTAgYNQmyajSjXRUulSCxZIsryIFWNSpQAwjCSpEYCFplnJVm0IEYAyDBsUtgSwgYMFDx7OxiW50S3PgX7hLtSwoa6HDx+dbtDA1i9Ct8zCcpDL8KxdhlUTMlPGEzIzppQB6OChA+toHaEhc36s7PNkvjps6dCBA8ds2XxbM4vsEDJovjycASA9WjiP3Myc8Wbt7HfL47Z4SOdhazjf3ZvZJtQtmHPL2Tp82/gAjzx5doGeP8fdDfz48OMtsStTvno757B7s88t27K1Mt3nbacQD2Ip9J93JuBFlVsHylefQpNNZ+CBWi0I4G7/LYReQaJJh5pn3vXn4H3i+eASABzOhgOKDLLIIoUKMfbecQkxZKCLGnBQkI6D+dWhdH0d2B1nBRXZlI5FAsDeaKQF2Zpg2dmYY1Mc6gaAbagB9uRk7BXJYZITRvmXb+u1hiKYMTL2X4C9cVZmdozFOeVknLHZJoMU8ojikXQ69tKEeb62EI/3WWVjjDziJRNDVvV2KJ9/PRQQAAA7"/>
-                        </div>
-                        <div className="sprite-entity-name">amg1_bk2</div>
-                        <div className="sprite-entity-meta">64x96 PNG, 36KB<br/>./_assets/sprites/PNG/amg1_bk2.png</div>
-                    </div>
-
-                    <div className="sprite-entity">
-                        <div className="sprite-entity-image">
-                            <img alt="amg1_fr2.gif" src="data:image/gif;base64,R0lGODlhIAAgAPcAAAAAAAEAAAIAAAMAAAQAAAUAAAYAAAcAAAgAAAkAAFT/VFT///9UVP9U////VP///wAAABQUFCAgICwsLDg4OERERFBQUGBgYHBwcICAgJCQkKCgoLS0tMjIyODg4P7//yAAADgAAFQAAHAAAIwAAKgAAMQAAP8AAP8cHP84OP9UVP9wcP+MjP+oqP/ExP///yAQADgcAFQsAHA4AIxIAKhUAMRkAP+AAP+MHP+YOP+oVP+0cP/EjP/QqP/gxP///yAgADg4AFRUAHBwAIyMAKioAMTEAP//AP//HP//OP//VP//cP//jP//qP//xP///xAgABw4ACxUADhwAEiMAFSoAGTEAID/AIz/HJj/OKj/VLT/cMT/jND/qOD/xP///wAkAAA8AABYAAB0AACQAACoAADEAAD/ABz/HDj/OFT/VHD/cIz/jKj/qMT/xP///wAgCAA4DABUFABwHACMJACoKADEMAD/QBz/VDj/aFT/fHD/kIz/qKj/vMT/0P///wAgEAA4HABULABwOACMSACWUADEZAD/gBz/jDj/mFT/qHD/tIz/xKj/0MT/4P///wAcHAA4OABUVABwcACMjACoqADExAD//xz//zj//1T//3D//4z//6j//8T//////wAQIAAcOAAsVAA4cABIjABUqABkxACA/xyM/ziY/1So/3C0/4zE/6jQ/8Tg/////wAAIAAAOAAAVAAAcAAAjAAAqAAAxAAA/xwc/zg4/1RU/3Cg/4yM/6jQ/8TE/////xAAIBwAOCwAVDgAcEgAjFQAqGQAxIAA/4wc/5g4/6hU/7Rw/8SM/9Co/+DE/////yAAIDgAOFQAVHAAcIwAjKgAqMQAxP8A//8c//84//9U//9w//+M//+o///E/////yAAEDgAHFQALHAAOIwASKgAVMQAZP8AgP8cjP84mP9UqP9wtP+MxP+o0P/E4P///0AgAEgkAFQoAGAwAGg0AIBAAPYAAPcAAPgAAPkAAPoAAPsAAPwAAP0AAP4AAP8AACwAAAAAIAAgAAAI/gAfCBSoQQOGgQ8AKFyoEKHDhw80dJh4MCGNixgvAoAIUeIHDx04YABAw4SJGydO3DBJYyNHhBI9cAhpoaQJlSlRsnT58gGGiSE3WDCZ8uYJozt7CsTAgYNQmyajSjXRUulSCxZIsryIFWNSpQAwjCSpEYCFplnJVm0IEYAyDBsUtgSwgYMFDx7OxiW50S3PgX7hLtSwoa6HDx+dbtDA1i9Ct8zCcpDL8KxdhlUTMlPGEzIzppQB6OChA+toHaEhc36s7PNkvjps6dCBA8ds2XxbM4vsEDJovjycASA9WjiP3Myc8Wbt7HfL47Z4SOdhazjf3ZvZJtQtmHPL2Tp82/gAjzx5doGeP8fdDfz48OMtsStTvno757B7s88t27K1Mt3nbacQD2Ip9J93JuBFlVsHylefQpNNZ+CBWi0I4G7/LYReQaJJh5pn3vXn4H3i+eASABzOhgOKDLLIIoUKMfbecQkxZKCLGnBQkI6D+dWhdH0d2B1nBRXZlI5FAsDeaKQF2Zpg2dmYY1Mc6gaAbagB9uRk7BXJYZITRvmXb+u1hiKYMTL2X4C9cVZmdozFOeVknLHZJoMU8ojikXQ69tKEeb62EI/3WWVjjDziJRNDVvV2KJ9/PRQQAAA7"/>
-                        </div>
-                        <div className="sprite-entity-name">amg1_bk2</div>
-                        <div className="sprite-entity-meta">64x96 PNG, 36KB<br/>./_assets/sprites/PNG/amg1_bk2.png</div>
-                    </div>
-
-                    <div className="sprite-entity">
-                        <div className="sprite-entity-image">
-                            <img alt="amg1_fr2.gif" src="data:image/gif;base64,R0lGODlhIAAgAPcAAAAAAAEAAAIAAAMAAAQAAAUAAAYAAAcAAAgAAAkAAFT/VFT///9UVP9U////VP///wAAABQUFCAgICwsLDg4OERERFBQUGBgYHBwcICAgJCQkKCgoLS0tMjIyODg4P7//yAAADgAAFQAAHAAAIwAAKgAAMQAAP8AAP8cHP84OP9UVP9wcP+MjP+oqP/ExP///yAQADgcAFQsAHA4AIxIAKhUAMRkAP+AAP+MHP+YOP+oVP+0cP/EjP/QqP/gxP///yAgADg4AFRUAHBwAIyMAKioAMTEAP//AP//HP//OP//VP//cP//jP//qP//xP///xAgABw4ACxUADhwAEiMAFSoAGTEAID/AIz/HJj/OKj/VLT/cMT/jND/qOD/xP///wAkAAA8AABYAAB0AACQAACoAADEAAD/ABz/HDj/OFT/VHD/cIz/jKj/qMT/xP///wAgCAA4DABUFABwHACMJACoKADEMAD/QBz/VDj/aFT/fHD/kIz/qKj/vMT/0P///wAgEAA4HABULABwOACMSACWUADEZAD/gBz/jDj/mFT/qHD/tIz/xKj/0MT/4P///wAcHAA4OABUVABwcACMjACoqADExAD//xz//zj//1T//3D//4z//6j//8T//////wAQIAAcOAAsVAA4cABIjABUqABkxACA/xyM/ziY/1So/3C0/4zE/6jQ/8Tg/////wAAIAAAOAAAVAAAcAAAjAAAqAAAxAAA/xwc/zg4/1RU/3Cg/4yM/6jQ/8TE/////xAAIBwAOCwAVDgAcEgAjFQAqGQAxIAA/4wc/5g4/6hU/7Rw/8SM/9Co/+DE/////yAAIDgAOFQAVHAAcIwAjKgAqMQAxP8A//8c//84//9U//9w//+M//+o///E/////yAAEDgAHFQALHAAOIwASKgAVMQAZP8AgP8cjP84mP9UqP9wtP+MxP+o0P/E4P///0AgAEgkAFQoAGAwAGg0AIBAAPYAAPcAAPgAAPkAAPoAAPsAAPwAAP0AAP4AAP8AACwAAAAAIAAgAAAI/gAfCBSoQQOGgQ8AKFyoEKHDhw80dJh4MCGNixgvAoAIUeIHDx04YABAw4SJGydO3DBJYyNHhBI9cAhpoaQJlSlRsnT58gGGiSE3WDCZ8uYJozt7CsTAgYNQmyajSjXRUulSCxZIsryIFWNSpQAwjCSpEYCFplnJVm0IEYAyDBsUtgSwgYMFDx7OxiW50S3PgX7hLtSwoa6HDx+dbtDA1i9Ct8zCcpDL8KxdhlUTMlPGEzIzppQB6OChA+toHaEhc36s7PNkvjps6dCBA8ds2XxbM4vsEDJovjycASA9WjiP3Myc8Wbt7HfL47Z4SOdhazjf3ZvZJtQtmHPL2Tp82/gAjzx5doGeP8fdDfz48OMtsStTvno757B7s88t27K1Mt3nbacQD2Ip9J93JuBFlVsHylefQpNNZ+CBWi0I4G7/LYReQaJJh5pn3vXn4H3i+eASABzOhgOKDLLIIoUKMfbecQkxZKCLGnBQkI6D+dWhdH0d2B1nBRXZlI5FAsDeaKQF2Zpg2dmYY1Mc6gaAbagB9uRk7BXJYZITRvmXb+u1hiKYMTL2X4C9cVZmdozFOeVknLHZJoMU8ojikXQ69tKEeb62EI/3WWVjjDziJRNDVvV2KJ9/PRQQAAA7"/>
-                        </div>
-                        <div className="sprite-entity-name">amg1_bk2</div>
-                        <div className="sprite-entity-meta">64x96 PNG, 36KB<br/>./_assets/sprites/PNG/amg1_bk2.png</div>
-                    </div>
-
-                    <div className="sprite-entity">
-                        <div className="sprite-entity-image">
-                            <img alt="amg1_fr2.gif" src="data:image/gif;base64,R0lGODlhIAAgAPcAAAAAAAEAAAIAAAMAAAQAAAUAAAYAAAcAAAgAAAkAAFT/VFT///9UVP9U////VP///wAAABQUFCAgICwsLDg4OERERFBQUGBgYHBwcICAgJCQkKCgoLS0tMjIyODg4P7//yAAADgAAFQAAHAAAIwAAKgAAMQAAP8AAP8cHP84OP9UVP9wcP+MjP+oqP/ExP///yAQADgcAFQsAHA4AIxIAKhUAMRkAP+AAP+MHP+YOP+oVP+0cP/EjP/QqP/gxP///yAgADg4AFRUAHBwAIyMAKioAMTEAP//AP//HP//OP//VP//cP//jP//qP//xP///xAgABw4ACxUADhwAEiMAFSoAGTEAID/AIz/HJj/OKj/VLT/cMT/jND/qOD/xP///wAkAAA8AABYAAB0AACQAACoAADEAAD/ABz/HDj/OFT/VHD/cIz/jKj/qMT/xP///wAgCAA4DABUFABwHACMJACoKADEMAD/QBz/VDj/aFT/fHD/kIz/qKj/vMT/0P///wAgEAA4HABULABwOACMSACWUADEZAD/gBz/jDj/mFT/qHD/tIz/xKj/0MT/4P///wAcHAA4OABUVABwcACMjACoqADExAD//xz//zj//1T//3D//4z//6j//8T//////wAQIAAcOAAsVAA4cABIjABUqABkxACA/xyM/ziY/1So/3C0/4zE/6jQ/8Tg/////wAAIAAAOAAAVAAAcAAAjAAAqAAAxAAA/xwc/zg4/1RU/3Cg/4yM/6jQ/8TE/////xAAIBwAOCwAVDgAcEgAjFQAqGQAxIAA/4wc/5g4/6hU/7Rw/8SM/9Co/+DE/////yAAIDgAOFQAVHAAcIwAjKgAqMQAxP8A//8c//84//9U//9w//+M//+o///E/////yAAEDgAHFQALHAAOIwASKgAVMQAZP8AgP8cjP84mP9UqP9wtP+MxP+o0P/E4P///0AgAEgkAFQoAGAwAGg0AIBAAPYAAPcAAPgAAPkAAPoAAPsAAPwAAP0AAP4AAP8AACwAAAAAIAAgAAAI/gAfCBSoQQOGgQ8AKFyoEKHDhw80dJh4MCGNixgvAoAIUeIHDx04YABAw4SJGydO3DBJYyNHhBI9cAhpoaQJlSlRsnT58gGGiSE3WDCZ8uYJozt7CsTAgYNQmyajSjXRUulSCxZIsryIFWNSpQAwjCSpEYCFplnJVm0IEYAyDBsUtgSwgYMFDx7OxiW50S3PgX7hLtSwoa6HDx+dbtDA1i9Ct8zCcpDL8KxdhlUTMlPGEzIzppQB6OChA+toHaEhc36s7PNkvjps6dCBA8ds2XxbM4vsEDJovjycASA9WjiP3Myc8Wbt7HfL47Z4SOdhazjf3ZvZJtQtmHPL2Tp82/gAjzx5doGeP8fdDfz48OMtsStTvno757B7s88t27K1Mt3nbacQD2Ip9J93JuBFlVsHylefQpNNZ+CBWi0I4G7/LYReQaJJh5pn3vXn4H3i+eASABzOhgOKDLLIIoUKMfbecQkxZKCLGnBQkI6D+dWhdH0d2B1nBRXZlI5FAsDeaKQF2Zpg2dmYY1Mc6gaAbagB9uRk7BXJYZITRvmXb+u1hiKYMTL2X4C9cVZmdozFOeVknLHZJoMU8ojikXQ69tKEeb62EI/3WWVjjDziJRNDVvV2KJ9/PRQQAAA7"/>
-                        </div>
-                        <div className="sprite-entity-name">amg1_bk2</div>
-                        <div className="sprite-entity-meta">64x96 PNG, 36KB<br/>./_assets/sprites/PNG/amg1_bk2.png</div>
-                    </div>
-
-                    <div className="sprite-entity">
-                        <div className="sprite-entity-image">
-                            <img alt="amg1_fr2.gif" src="data:image/gif;base64,R0lGODlhIAAgAPcAAAAAAAEAAAIAAAMAAAQAAAUAAAYAAAcAAAgAAAkAAFT/VFT///9UVP9U////VP///wAAABQUFCAgICwsLDg4OERERFBQUGBgYHBwcICAgJCQkKCgoLS0tMjIyODg4P7//yAAADgAAFQAAHAAAIwAAKgAAMQAAP8AAP8cHP84OP9UVP9wcP+MjP+oqP/ExP///yAQADgcAFQsAHA4AIxIAKhUAMRkAP+AAP+MHP+YOP+oVP+0cP/EjP/QqP/gxP///yAgADg4AFRUAHBwAIyMAKioAMTEAP//AP//HP//OP//VP//cP//jP//qP//xP///xAgABw4ACxUADhwAEiMAFSoAGTEAID/AIz/HJj/OKj/VLT/cMT/jND/qOD/xP///wAkAAA8AABYAAB0AACQAACoAADEAAD/ABz/HDj/OFT/VHD/cIz/jKj/qMT/xP///wAgCAA4DABUFABwHACMJACoKADEMAD/QBz/VDj/aFT/fHD/kIz/qKj/vMT/0P///wAgEAA4HABULABwOACMSACWUADEZAD/gBz/jDj/mFT/qHD/tIz/xKj/0MT/4P///wAcHAA4OABUVABwcACMjACoqADExAD//xz//zj//1T//3D//4z//6j//8T//////wAQIAAcOAAsVAA4cABIjABUqABkxACA/xyM/ziY/1So/3C0/4zE/6jQ/8Tg/////wAAIAAAOAAAVAAAcAAAjAAAqAAAxAAA/xwc/zg4/1RU/3Cg/4yM/6jQ/8TE/////xAAIBwAOCwAVDgAcEgAjFQAqGQAxIAA/4wc/5g4/6hU/7Rw/8SM/9Co/+DE/////yAAIDgAOFQAVHAAcIwAjKgAqMQAxP8A//8c//84//9U//9w//+M//+o///E/////yAAEDgAHFQALHAAOIwASKgAVMQAZP8AgP8cjP84mP9UqP9wtP+MxP+o0P/E4P///0AgAEgkAFQoAGAwAGg0AIBAAPYAAPcAAPgAAPkAAPoAAPsAAPwAAP0AAP4AAP8AACwAAAAAIAAgAAAI/gAfCBSoQQOGgQ8AKFyoEKHDhw80dJh4MCGNixgvAoAIUeIHDx04YABAw4SJGydO3DBJYyNHhBI9cAhpoaQJlSlRsnT58gGGiSE3WDCZ8uYJozt7CsTAgYNQmyajSjXRUulSCxZIsryIFWNSpQAwjCSpEYCFplnJVm0IEYAyDBsUtgSwgYMFDx7OxiW50S3PgX7hLtSwoa6HDx+dbtDA1i9Ct8zCcpDL8KxdhlUTMlPGEzIzppQB6OChA+toHaEhc36s7PNkvjps6dCBA8ds2XxbM4vsEDJovjycASA9WjiP3Myc8Wbt7HfL47Z4SOdhazjf3ZvZJtQtmHPL2Tp82/gAjzx5doGeP8fdDfz48OMtsStTvno757B7s88t27K1Mt3nbacQD2Ip9J93JuBFlVsHylefQpNNZ+CBWi0I4G7/LYReQaJJh5pn3vXn4H3i+eASABzOhgOKDLLIIoUKMfbecQkxZKCLGnBQkI6D+dWhdH0d2B1nBRXZlI5FAsDeaKQF2Zpg2dmYY1Mc6gaAbagB9uRk7BXJYZITRvmXb+u1hiKYMTL2X4C9cVZmdozFOeVknLHZJoMU8ojikXQ69tKEeb62EI/3WWVjjDziJRNDVvV2KJ9/PRQQAAA7"/>
-                        </div>
-                        <div className="sprite-entity-name">amg1_bk2</div>
-                        <div className="sprite-entity-meta">64x96 PNG, 36KB<br/>./_assets/sprites/PNG/amg1_bk2.png</div>
-                    </div>
-
-                    <div className="sprite-entity">
-                        <div className="sprite-entity-image">
-                            <img alt="amg1_fr2.gif" src="data:image/gif;base64,R0lGODlhIAAgAPcAAAAAAAEAAAIAAAMAAAQAAAUAAAYAAAcAAAgAAAkAAFT/VFT///9UVP9U////VP///wAAABQUFCAgICwsLDg4OERERFBQUGBgYHBwcICAgJCQkKCgoLS0tMjIyODg4P7//yAAADgAAFQAAHAAAIwAAKgAAMQAAP8AAP8cHP84OP9UVP9wcP+MjP+oqP/ExP///yAQADgcAFQsAHA4AIxIAKhUAMRkAP+AAP+MHP+YOP+oVP+0cP/EjP/QqP/gxP///yAgADg4AFRUAHBwAIyMAKioAMTEAP//AP//HP//OP//VP//cP//jP//qP//xP///xAgABw4ACxUADhwAEiMAFSoAGTEAID/AIz/HJj/OKj/VLT/cMT/jND/qOD/xP///wAkAAA8AABYAAB0AACQAACoAADEAAD/ABz/HDj/OFT/VHD/cIz/jKj/qMT/xP///wAgCAA4DABUFABwHACMJACoKADEMAD/QBz/VDj/aFT/fHD/kIz/qKj/vMT/0P///wAgEAA4HABULABwOACMSACWUADEZAD/gBz/jDj/mFT/qHD/tIz/xKj/0MT/4P///wAcHAA4OABUVABwcACMjACoqADExAD//xz//zj//1T//3D//4z//6j//8T//////wAQIAAcOAAsVAA4cABIjABUqABkxACA/xyM/ziY/1So/3C0/4zE/6jQ/8Tg/////wAAIAAAOAAAVAAAcAAAjAAAqAAAxAAA/xwc/zg4/1RU/3Cg/4yM/6jQ/8TE/////xAAIBwAOCwAVDgAcEgAjFQAqGQAxIAA/4wc/5g4/6hU/7Rw/8SM/9Co/+DE/////yAAIDgAOFQAVHAAcIwAjKgAqMQAxP8A//8c//84//9U//9w//+M//+o///E/////yAAEDgAHFQALHAAOIwASKgAVMQAZP8AgP8cjP84mP9UqP9wtP+MxP+o0P/E4P///0AgAEgkAFQoAGAwAGg0AIBAAPYAAPcAAPgAAPkAAPoAAPsAAPwAAP0AAP4AAP8AACwAAAAAIAAgAAAI/gAfCBSoQQOGgQ8AKFyoEKHDhw80dJh4MCGNixgvAoAIUeIHDx04YABAw4SJGydO3DBJYyNHhBI9cAhpoaQJlSlRsnT58gGGiSE3WDCZ8uYJozt7CsTAgYNQmyajSjXRUulSCxZIsryIFWNSpQAwjCSpEYCFplnJVm0IEYAyDBsUtgSwgYMFDx7OxiW50S3PgX7hLtSwoa6HDx+dbtDA1i9Ct8zCcpDL8KxdhlUTMlPGEzIzppQB6OChA+toHaEhc36s7PNkvjps6dCBA8ds2XxbM4vsEDJovjycASA9WjiP3Myc8Wbt7HfL47Z4SOdhazjf3ZvZJtQtmHPL2Tp82/gAjzx5doGeP8fdDfz48OMtsStTvno757B7s88t27K1Mt3nbacQD2Ip9J93JuBFlVsHylefQpNNZ+CBWi0I4G7/LYReQaJJh5pn3vXn4H3i+eASABzOhgOKDLLIIoUKMfbecQkxZKCLGnBQkI6D+dWhdH0d2B1nBRXZlI5FAsDeaKQF2Zpg2dmYY1Mc6gaAbagB9uRk7BXJYZITRvmXb+u1hiKYMTL2X4C9cVZmdozFOeVknLHZJoMU8ojikXQ69tKEeb62EI/3WWVjjDziJRNDVvV2KJ9/PRQQAAA7"/>
-                        </div>
-                        <div className="sprite-entity-name">amg1_bk2</div>
-                        <div className="sprite-entity-meta">64x96 PNG, 36KB<br/>./_assets/sprites/PNG/amg1_bk2.png</div>
-                    </div>
-
-                    <div className="sprite-entity">
-                        <div className="sprite-entity-image">
-                            <img alt="amg1_fr2.gif" src="data:image/gif;base64,R0lGODlhIAAgAPcAAAAAAAEAAAIAAAMAAAQAAAUAAAYAAAcAAAgAAAkAAFT/VFT///9UVP9U////VP///wAAABQUFCAgICwsLDg4OERERFBQUGBgYHBwcICAgJCQkKCgoLS0tMjIyODg4P7//yAAADgAAFQAAHAAAIwAAKgAAMQAAP8AAP8cHP84OP9UVP9wcP+MjP+oqP/ExP///yAQADgcAFQsAHA4AIxIAKhUAMRkAP+AAP+MHP+YOP+oVP+0cP/EjP/QqP/gxP///yAgADg4AFRUAHBwAIyMAKioAMTEAP//AP//HP//OP//VP//cP//jP//qP//xP///xAgABw4ACxUADhwAEiMAFSoAGTEAID/AIz/HJj/OKj/VLT/cMT/jND/qOD/xP///wAkAAA8AABYAAB0AACQAACoAADEAAD/ABz/HDj/OFT/VHD/cIz/jKj/qMT/xP///wAgCAA4DABUFABwHACMJACoKADEMAD/QBz/VDj/aFT/fHD/kIz/qKj/vMT/0P///wAgEAA4HABULABwOACMSACWUADEZAD/gBz/jDj/mFT/qHD/tIz/xKj/0MT/4P///wAcHAA4OABUVABwcACMjACoqADExAD//xz//zj//1T//3D//4z//6j//8T//////wAQIAAcOAAsVAA4cABIjABUqABkxACA/xyM/ziY/1So/3C0/4zE/6jQ/8Tg/////wAAIAAAOAAAVAAAcAAAjAAAqAAAxAAA/xwc/zg4/1RU/3Cg/4yM/6jQ/8TE/////xAAIBwAOCwAVDgAcEgAjFQAqGQAxIAA/4wc/5g4/6hU/7Rw/8SM/9Co/+DE/////yAAIDgAOFQAVHAAcIwAjKgAqMQAxP8A//8c//84//9U//9w//+M//+o///E/////yAAEDgAHFQALHAAOIwASKgAVMQAZP8AgP8cjP84mP9UqP9wtP+MxP+o0P/E4P///0AgAEgkAFQoAGAwAGg0AIBAAPYAAPcAAPgAAPkAAPoAAPsAAPwAAP0AAP4AAP8AACwAAAAAIAAgAAAI/gAfCBSoQQOGgQ8AKFyoEKHDhw80dJh4MCGNixgvAoAIUeIHDx04YABAw4SJGydO3DBJYyNHhBI9cAhpoaQJlSlRsnT58gGGiSE3WDCZ8uYJozt7CsTAgYNQmyajSjXRUulSCxZIsryIFWNSpQAwjCSpEYCFplnJVm0IEYAyDBsUtgSwgYMFDx7OxiW50S3PgX7hLtSwoa6HDx+dbtDA1i9Ct8zCcpDL8KxdhlUTMlPGEzIzppQB6OChA+toHaEhc36s7PNkvjps6dCBA8ds2XxbM4vsEDJovjycASA9WjiP3Myc8Wbt7HfL47Z4SOdhazjf3ZvZJtQtmHPL2Tp82/gAjzx5doGeP8fdDfz48OMtsStTvno757B7s88t27K1Mt3nbacQD2Ip9J93JuBFlVsHylefQpNNZ+CBWi0I4G7/LYReQaJJh5pn3vXn4H3i+eASABzOhgOKDLLIIoUKMfbecQkxZKCLGnBQkI6D+dWhdH0d2B1nBRXZlI5FAsDeaKQF2Zpg2dmYY1Mc6gaAbagB9uRk7BXJYZITRvmXb+u1hiKYMTL2X4C9cVZmdozFOeVknLHZJoMU8ojikXQ69tKEeb62EI/3WWVjjDziJRNDVvV2KJ9/PRQQAAA7"/>
-                        </div>
-                        <div className="sprite-entity-name">amg1_bk2</div>
-                        <div className="sprite-entity-meta">64x96 PNG, 36KB<br/>./_assets/sprites/PNG/amg1_bk2.png</div>
-                    </div>
-
-                    <div className="sprite-entity">
-                        <div className="sprite-entity-image">
-                            <img alt="amg1_fr2.gif" src="data:image/gif;base64,R0lGODlhIAAgAPcAAAAAAAEAAAIAAAMAAAQAAAUAAAYAAAcAAAgAAAkAAFT/VFT///9UVP9U////VP///wAAABQUFCAgICwsLDg4OERERFBQUGBgYHBwcICAgJCQkKCgoLS0tMjIyODg4P7//yAAADgAAFQAAHAAAIwAAKgAAMQAAP8AAP8cHP84OP9UVP9wcP+MjP+oqP/ExP///yAQADgcAFQsAHA4AIxIAKhUAMRkAP+AAP+MHP+YOP+oVP+0cP/EjP/QqP/gxP///yAgADg4AFRUAHBwAIyMAKioAMTEAP//AP//HP//OP//VP//cP//jP//qP//xP///xAgABw4ACxUADhwAEiMAFSoAGTEAID/AIz/HJj/OKj/VLT/cMT/jND/qOD/xP///wAkAAA8AABYAAB0AACQAACoAADEAAD/ABz/HDj/OFT/VHD/cIz/jKj/qMT/xP///wAgCAA4DABUFABwHACMJACoKADEMAD/QBz/VDj/aFT/fHD/kIz/qKj/vMT/0P///wAgEAA4HABULABwOACMSACWUADEZAD/gBz/jDj/mFT/qHD/tIz/xKj/0MT/4P///wAcHAA4OABUVABwcACMjACoqADExAD//xz//zj//1T//3D//4z//6j//8T//////wAQIAAcOAAsVAA4cABIjABUqABkxACA/xyM/ziY/1So/3C0/4zE/6jQ/8Tg/////wAAIAAAOAAAVAAAcAAAjAAAqAAAxAAA/xwc/zg4/1RU/3Cg/4yM/6jQ/8TE/////xAAIBwAOCwAVDgAcEgAjFQAqGQAxIAA/4wc/5g4/6hU/7Rw/8SM/9Co/+DE/////yAAIDgAOFQAVHAAcIwAjKgAqMQAxP8A//8c//84//9U//9w//+M//+o///E/////yAAEDgAHFQALHAAOIwASKgAVMQAZP8AgP8cjP84mP9UqP9wtP+MxP+o0P/E4P///0AgAEgkAFQoAGAwAGg0AIBAAPYAAPcAAPgAAPkAAPoAAPsAAPwAAP0AAP4AAP8AACwAAAAAIAAgAAAI/gAfCBSoQQOGgQ8AKFyoEKHDhw80dJh4MCGNixgvAoAIUeIHDx04YABAw4SJGydO3DBJYyNHhBI9cAhpoaQJlSlRsnT58gGGiSE3WDCZ8uYJozt7CsTAgYNQmyajSjXRUulSCxZIsryIFWNSpQAwjCSpEYCFplnJVm0IEYAyDBsUtgSwgYMFDx7OxiW50S3PgX7hLtSwoa6HDx+dbtDA1i9Ct8zCcpDL8KxdhlUTMlPGEzIzppQB6OChA+toHaEhc36s7PNkvjps6dCBA8ds2XxbM4vsEDJovjycASA9WjiP3Myc8Wbt7HfL47Z4SOdhazjf3ZvZJtQtmHPL2Tp82/gAjzx5doGeP8fdDfz48OMtsStTvno757B7s88t27K1Mt3nbacQD2Ip9J93JuBFlVsHylefQpNNZ+CBWi0I4G7/LYReQaJJh5pn3vXn4H3i+eASABzOhgOKDLLIIoUKMfbecQkxZKCLGnBQkI6D+dWhdH0d2B1nBRXZlI5FAsDeaKQF2Zpg2dmYY1Mc6gaAbagB9uRk7BXJYZITRvmXb+u1hiKYMTL2X4C9cVZmdozFOeVknLHZJoMU8ojikXQ69tKEeb62EI/3WWVjjDziJRNDVvV2KJ9/PRQQAAA7"/>
-                        </div>
-                        <div className="sprite-entity-name">amg1_bk2</div>
-                        <div className="sprite-entity-meta">64x96 PNG, 36KB<br/>./_assets/sprites/PNG/amg1_bk2.png</div>
-                    </div>
-
-                    <div className="sprite-entity">
-                        <div className="sprite-entity-image">
-                            <img alt="amg1_fr2.gif" src="data:image/gif;base64,R0lGODlhIAAgAPcAAAAAAAEAAAIAAAMAAAQAAAUAAAYAAAcAAAgAAAkAAFT/VFT///9UVP9U////VP///wAAABQUFCAgICwsLDg4OERERFBQUGBgYHBwcICAgJCQkKCgoLS0tMjIyODg4P7//yAAADgAAFQAAHAAAIwAAKgAAMQAAP8AAP8cHP84OP9UVP9wcP+MjP+oqP/ExP///yAQADgcAFQsAHA4AIxIAKhUAMRkAP+AAP+MHP+YOP+oVP+0cP/EjP/QqP/gxP///yAgADg4AFRUAHBwAIyMAKioAMTEAP//AP//HP//OP//VP//cP//jP//qP//xP///xAgABw4ACxUADhwAEiMAFSoAGTEAID/AIz/HJj/OKj/VLT/cMT/jND/qOD/xP///wAkAAA8AABYAAB0AACQAACoAADEAAD/ABz/HDj/OFT/VHD/cIz/jKj/qMT/xP///wAgCAA4DABUFABwHACMJACoKADEMAD/QBz/VDj/aFT/fHD/kIz/qKj/vMT/0P///wAgEAA4HABULABwOACMSACWUADEZAD/gBz/jDj/mFT/qHD/tIz/xKj/0MT/4P///wAcHAA4OABUVABwcACMjACoqADExAD//xz//zj//1T//3D//4z//6j//8T//////wAQIAAcOAAsVAA4cABIjABUqABkxACA/xyM/ziY/1So/3C0/4zE/6jQ/8Tg/////wAAIAAAOAAAVAAAcAAAjAAAqAAAxAAA/xwc/zg4/1RU/3Cg/4yM/6jQ/8TE/////xAAIBwAOCwAVDgAcEgAjFQAqGQAxIAA/4wc/5g4/6hU/7Rw/8SM/9Co/+DE/////yAAIDgAOFQAVHAAcIwAjKgAqMQAxP8A//8c//84//9U//9w//+M//+o///E/////yAAEDgAHFQALHAAOIwASKgAVMQAZP8AgP8cjP84mP9UqP9wtP+MxP+o0P/E4P///0AgAEgkAFQoAGAwAGg0AIBAAPYAAPcAAPgAAPkAAPoAAPsAAPwAAP0AAP4AAP8AACwAAAAAIAAgAAAI/gAfCBSoQQOGgQ8AKFyoEKHDhw80dJh4MCGNixgvAoAIUeIHDx04YABAw4SJGydO3DBJYyNHhBI9cAhpoaQJlSlRsnT58gGGiSE3WDCZ8uYJozt7CsTAgYNQmyajSjXRUulSCxZIsryIFWNSpQAwjCSpEYCFplnJVm0IEYAyDBsUtgSwgYMFDx7OxiW50S3PgX7hLtSwoa6HDx+dbtDA1i9Ct8zCcpDL8KxdhlUTMlPGEzIzppQB6OChA+toHaEhc36s7PNkvjps6dCBA8ds2XxbM4vsEDJovjycASA9WjiP3Myc8Wbt7HfL47Z4SOdhazjf3ZvZJtQtmHPL2Tp82/gAjzx5doGeP8fdDfz48OMtsStTvno757B7s88t27K1Mt3nbacQD2Ip9J93JuBFlVsHylefQpNNZ+CBWi0I4G7/LYReQaJJh5pn3vXn4H3i+eASABzOhgOKDLLIIoUKMfbecQkxZKCLGnBQkI6D+dWhdH0d2B1nBRXZlI5FAsDeaKQF2Zpg2dmYY1Mc6gaAbagB9uRk7BXJYZITRvmXb+u1hiKYMTL2X4C9cVZmdozFOeVknLHZJoMU8ojikXQ69tKEeb62EI/3WWVjjDziJRNDVvV2KJ9/PRQQAAA7"/>
-                        </div>
-                        <div className="sprite-entity-name">amg1_bk2</div>
-                        <div className="sprite-entity-meta">64x96 PNG, 36KB<br/>./_assets/sprites/PNG/amg1_bk2.png</div>
-                    </div>
-
-                    <div className="sprite-entity">
-                        <div className="sprite-entity-image">
-                            <img alt="amg1_fr2.gif" src="data:image/gif;base64,R0lGODlhIAAgAPcAAAAAAAEAAAIAAAMAAAQAAAUAAAYAAAcAAAgAAAkAAFT/VFT///9UVP9U////VP///wAAABQUFCAgICwsLDg4OERERFBQUGBgYHBwcICAgJCQkKCgoLS0tMjIyODg4P7//yAAADgAAFQAAHAAAIwAAKgAAMQAAP8AAP8cHP84OP9UVP9wcP+MjP+oqP/ExP///yAQADgcAFQsAHA4AIxIAKhUAMRkAP+AAP+MHP+YOP+oVP+0cP/EjP/QqP/gxP///yAgADg4AFRUAHBwAIyMAKioAMTEAP//AP//HP//OP//VP//cP//jP//qP//xP///xAgABw4ACxUADhwAEiMAFSoAGTEAID/AIz/HJj/OKj/VLT/cMT/jND/qOD/xP///wAkAAA8AABYAAB0AACQAACoAADEAAD/ABz/HDj/OFT/VHD/cIz/jKj/qMT/xP///wAgCAA4DABUFABwHACMJACoKADEMAD/QBz/VDj/aFT/fHD/kIz/qKj/vMT/0P///wAgEAA4HABULABwOACMSACWUADEZAD/gBz/jDj/mFT/qHD/tIz/xKj/0MT/4P///wAcHAA4OABUVABwcACMjACoqADExAD//xz//zj//1T//3D//4z//6j//8T//////wAQIAAcOAAsVAA4cABIjABUqABkxACA/xyM/ziY/1So/3C0/4zE/6jQ/8Tg/////wAAIAAAOAAAVAAAcAAAjAAAqAAAxAAA/xwc/zg4/1RU/3Cg/4yM/6jQ/8TE/////xAAIBwAOCwAVDgAcEgAjFQAqGQAxIAA/4wc/5g4/6hU/7Rw/8SM/9Co/+DE/////yAAIDgAOFQAVHAAcIwAjKgAqMQAxP8A//8c//84//9U//9w//+M//+o///E/////yAAEDgAHFQALHAAOIwASKgAVMQAZP8AgP8cjP84mP9UqP9wtP+MxP+o0P/E4P///0AgAEgkAFQoAGAwAGg0AIBAAPYAAPcAAPgAAPkAAPoAAPsAAPwAAP0AAP4AAP8AACwAAAAAIAAgAAAI/gAfCBSoQQOGgQ8AKFyoEKHDhw80dJh4MCGNixgvAoAIUeIHDx04YABAw4SJGydO3DBJYyNHhBI9cAhpoaQJlSlRsnT58gGGiSE3WDCZ8uYJozt7CsTAgYNQmyajSjXRUulSCxZIsryIFWNSpQAwjCSpEYCFplnJVm0IEYAyDBsUtgSwgYMFDx7OxiW50S3PgX7hLtSwoa6HDx+dbtDA1i9Ct8zCcpDL8KxdhlUTMlPGEzIzppQB6OChA+toHaEhc36s7PNkvjps6dCBA8ds2XxbM4vsEDJovjycASA9WjiP3Myc8Wbt7HfL47Z4SOdhazjf3ZvZJtQtmHPL2Tp82/gAjzx5doGeP8fdDfz48OMtsStTvno757B7s88t27K1Mt3nbacQD2Ip9J93JuBFlVsHylefQpNNZ+CBWi0I4G7/LYReQaJJh5pn3vXn4H3i+eASABzOhgOKDLLIIoUKMfbecQkxZKCLGnBQkI6D+dWhdH0d2B1nBRXZlI5FAsDeaKQF2Zpg2dmYY1Mc6gaAbagB9uRk7BXJYZITRvmXb+u1hiKYMTL2X4C9cVZmdozFOeVknLHZJoMU8ojikXQ69tKEeb62EI/3WWVjjDziJRNDVvV2KJ9/PRQQAAA7"/>
-                        </div>
-                        <div className="sprite-entity-name">amg1_bk2</div>
-                        <div className="sprite-entity-meta">64x96 PNG, 36KB<br/>./_assets/sprites/PNG/amg1_bk2.png</div>
-                    </div>
-
-                    <div className="sprite-entity">
-                        <div className="sprite-entity-image">
-                            <img alt="amg1_fr2.gif" src="data:image/gif;base64,R0lGODlhIAAgAPcAAAAAAAEAAAIAAAMAAAQAAAUAAAYAAAcAAAgAAAkAAFT/VFT///9UVP9U////VP///wAAABQUFCAgICwsLDg4OERERFBQUGBgYHBwcICAgJCQkKCgoLS0tMjIyODg4P7//yAAADgAAFQAAHAAAIwAAKgAAMQAAP8AAP8cHP84OP9UVP9wcP+MjP+oqP/ExP///yAQADgcAFQsAHA4AIxIAKhUAMRkAP+AAP+MHP+YOP+oVP+0cP/EjP/QqP/gxP///yAgADg4AFRUAHBwAIyMAKioAMTEAP//AP//HP//OP//VP//cP//jP//qP//xP///xAgABw4ACxUADhwAEiMAFSoAGTEAID/AIz/HJj/OKj/VLT/cMT/jND/qOD/xP///wAkAAA8AABYAAB0AACQAACoAADEAAD/ABz/HDj/OFT/VHD/cIz/jKj/qMT/xP///wAgCAA4DABUFABwHACMJACoKADEMAD/QBz/VDj/aFT/fHD/kIz/qKj/vMT/0P///wAgEAA4HABULABwOACMSACWUADEZAD/gBz/jDj/mFT/qHD/tIz/xKj/0MT/4P///wAcHAA4OABUVABwcACMjACoqADExAD//xz//zj//1T//3D//4z//6j//8T//////wAQIAAcOAAsVAA4cABIjABUqABkxACA/xyM/ziY/1So/3C0/4zE/6jQ/8Tg/////wAAIAAAOAAAVAAAcAAAjAAAqAAAxAAA/xwc/zg4/1RU/3Cg/4yM/6jQ/8TE/////xAAIBwAOCwAVDgAcEgAjFQAqGQAxIAA/4wc/5g4/6hU/7Rw/8SM/9Co/+DE/////yAAIDgAOFQAVHAAcIwAjKgAqMQAxP8A//8c//84//9U//9w//+M//+o///E/////yAAEDgAHFQALHAAOIwASKgAVMQAZP8AgP8cjP84mP9UqP9wtP+MxP+o0P/E4P///0AgAEgkAFQoAGAwAGg0AIBAAPYAAPcAAPgAAPkAAPoAAPsAAPwAAP0AAP4AAP8AACwAAAAAIAAgAAAI/gAfCBSoQQOGgQ8AKFyoEKHDhw80dJh4MCGNixgvAoAIUeIHDx04YABAw4SJGydO3DBJYyNHhBI9cAhpoaQJlSlRsnT58gGGiSE3WDCZ8uYJozt7CsTAgYNQmyajSjXRUulSCxZIsryIFWNSpQAwjCSpEYCFplnJVm0IEYAyDBsUtgSwgYMFDx7OxiW50S3PgX7hLtSwoa6HDx+dbtDA1i9Ct8zCcpDL8KxdhlUTMlPGEzIzppQB6OChA+toHaEhc36s7PNkvjps6dCBA8ds2XxbM4vsEDJovjycASA9WjiP3Myc8Wbt7HfL47Z4SOdhazjf3ZvZJtQtmHPL2Tp82/gAjzx5doGeP8fdDfz48OMtsStTvno757B7s88t27K1Mt3nbacQD2Ip9J93JuBFlVsHylefQpNNZ+CBWi0I4G7/LYReQaJJh5pn3vXn4H3i+eASABzOhgOKDLLIIoUKMfbecQkxZKCLGnBQkI6D+dWhdH0d2B1nBRXZlI5FAsDeaKQF2Zpg2dmYY1Mc6gaAbagB9uRk7BXJYZITRvmXb+u1hiKYMTL2X4C9cVZmdozFOeVknLHZJoMU8ojikXQ69tKEeb62EI/3WWVjjDziJRNDVvV2KJ9/PRQQAAA7"/>
-                        </div>
-                        <div className="sprite-entity-name">amg1_bk2</div>
-                        <div className="sprite-entity-meta">64x96 PNG, 36KB<br/>./_assets/sprites/PNG/amg1_bk2.png</div>
-                    </div>
-
+                    {imageItems}
 
                 </div>
             </div>

@@ -18,11 +18,11 @@ import {ImageFrame, ImageItem} from "../objs/images";
 import {LogUtil} from "./LogUtil";
 import {MESSAGE_TYPE} from "../objs/messages";
 import {ImageUtil} from "./ImageUtil";
-import ImageUtil_ImageParser from "./ImageUtil._base";
-import ImageUtil_BMP from "./ImageUtil._bmp";
-import ImageUtil_GIF from "./ImageUtil._gif";
-import ImageUtil_JPG from "./ImageUtil._jpg";
-import ImageUtil_PNG from "./ImageUtil._png";
+import {ImageUtil_ImageParser} from "./ImageUtil._base";
+import {ImageUtil_BMP} from "./ImageUtil._bmp";
+import {ImageUtil_GIF} from "./ImageUtil._gif";
+import {ImageUtil_JPG} from "./ImageUtil._jpg";
+import {ImageUtil_PNG} from "./ImageUtil._png";
 import {FileUtil} from "./FileUtil";
 import {Buffer} from "buffer";
 
@@ -113,34 +113,6 @@ export class ProjectUtil {
     }
 
     public static get EMPTY_OPTIONS() : ProjectOptions { return ProjectUtil.getEmptyOptions(); }
-
-    // result.images = ProjectUtil.mergeProjectImages(target, source, version);
-
-    // static mergeImageFrames(target?: ImageFrame[], source?: ImageFrame[], version?: APPLICATION_VERSION) : ImageFrame[] {
-    //     const result : ImageFrame[] = [];
-    //
-    //     (target ?? source ?? []).forEach((frame, index) => {
-    //         const newFrame = ImageUtil_ImageParser.EMPTY_IMAGE_FRAME;
-    //         const keys = Object.getOwnPropertyNames(frame); // ?? ProjectUtil.getDefaultOptions(version));
-    //
-    //         keys.forEach((key) => {
-    //             const k = key as keyof ImageFrame;
-    //             const tValue = target ? target[index][k] : undefined;
-    //             const sValue = source ? source[index][k] : undefined;
-    //
-    //             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    //             // @ts-ignore
-    //             newFrame[k] = tValue ?? sValue ?? undefined;
-    //         });
-    //         result.push(newFrame);
-    //     });
-    //
-    //     return result;
-    // }
-    //
-    // // static mergeProjectImageFrames(target?: Project, source?: Project, version?: APPLICATION_VERSION) : Images {
-    // //     return ProjectUtil.mergeImageFrames(target?.images?.frames, source?.images, version);
-    // // }
 
     public static mergeImages(target?: Images, source?: Images, version?: APPLICATION_VERSION) : Images {
         const result : Images = { };
@@ -301,7 +273,6 @@ export class ProjectUtil {
             }
         }
 
-        // version = APPLICATION_VERSION.V0_2_0;
         if(version === APPLICATION_VERSION.V0_2_0) {
             switch (result) {
                 case 'UseFirstFrame':
@@ -341,7 +312,6 @@ export class ProjectUtil {
     };
 
     public static serialize(project: Project, version: APPLICATION_VERSION = APPLICATION_VERSION.CURRENT) : string {
-        const imageFrames : { [key: string]: ImageFrame[] } = { };
         let result = '';
 
         try {
@@ -349,11 +319,6 @@ export class ProjectUtil {
 
             if(project.images) {
                 LogUtil.LogMessage(MESSAGE_TYPE.DEBUG, '  preserving frames ...');
-                Object.keys(project.images).forEach((key) => {
-                    imageFrames[key] = project.images[key].frames;
-                    project.images[key].frames = [];
-                    project.images[key].populateFrameDataComplete = false;
-                });
             }
 
             LogUtil.LogMessage(MESSAGE_TYPE.DEBUG, '  preserving options ...');
@@ -366,9 +331,6 @@ export class ProjectUtil {
 
             if(project.images) {
                 LogUtil.LogMessage(MESSAGE_TYPE.DEBUG, '  restoring frames ...')
-                Object.keys(project.images).forEach((key) => {
-                    project.images[key].frames = imageFrames[key]; // ?? [];
-                });
             }
             project.options = savedOptions;
         } catch(err) {
@@ -384,6 +346,7 @@ export class ProjectUtil {
 
         try {
             result = ProjectUtil.mergeProjects(JSON.parse(data), ProjectUtil.getDefaultProject(version), version);
+            result = ProjectUtil.populateImageFrames(result);
         } catch (err) {
             LogUtil.LogMessage(MESSAGE_TYPE.ERROR, 'There was an error parsing the project file.', err);
         }
@@ -391,138 +354,14 @@ export class ProjectUtil {
         return result;
     }
 
-    // public static stringToImageFormat = (value: string, defValue: ImageFormat = ImageFormat.PNG) : ImageFormat => {
-    //     let result = defValue;
-    //     switch(value?.toUpperCase()) {
-    //         case 'BMP': result = ImageFormat.BMP; break;
-    //         case 'GIF': result = ImageFormat.GIF; break;
-    //         case 'JPG': result = ImageFormat.JPG; break;
-    //         case 'PNG': result = ImageFormat.PNG; break;
-    //     }
-    //     return result;
-    // };
-    //
-    // public static stringToDataFormat = (value: string, defValue: DataFormat = DataFormat.XML) : DataFormat => {
-    //     let result = defValue;
-    //     switch(value?.toUpperCase()) {
-    //         case 'CSS': result = DataFormat.CSS; break;
-    //         case 'JSON': result = DataFormat.JSON; break;
-    //         case 'XML': result = DataFormat.XML; break;
-    //     }
-    //     return result;
-    // };
-    //
-    // public static stringToSpriteNameInAtlas = (value: string, defValue: SpriteNameInAtlas = SpriteNameInAtlas.StripExtension) : SpriteNameInAtlas => {
-    //     let result = defValue;
-    //     switch(value?.toUpperCase()) {
-    //         case 'KEEPEXTENSION': result = SpriteNameInAtlas.KeepExtension; break;
-    //         case 'STRIPEXTENSION': result = SpriteNameInAtlas.StripExtension; break;
-    //     }
-    //     return result;
-    // };
-    //
-    // public static stringToSpritePacker = (value: string, defValue: SpritePacker = SpritePacker.JoeRects) : SpritePacker => {
-    //     let result = defValue;
-    //     switch(value?.toUpperCase()) {
-    //         case 'BASIC': result = SpritePacker.Basic; break;
-    //         case 'JOERECTS': result = SpritePacker.JoeRects; break;
-    //     }
-    //     return result;
-    // };
-    //
-    // public static stringToSortBy = (value: string, defValue: SortBy = SortBy.AREA_DESC) : SortBy => {
-    //     let result = defValue;
-    //     switch(value?.toUpperCase()) {
-    //         case 'AREA': result = SortBy.AREA; break;
-    //         case 'HEIGHT': result = SortBy.HEIGHT; break;
-    //         case 'LONGER_SIDE': result = SortBy.LONGER_SIDE; break;
-    //         case 'NAME': result = SortBy.NAME; break;
-    //         case 'PATH': result = SortBy.PATH; break;
-    //         case 'PERIMETER': result = SortBy.PERIMETER; break;
-    //         case 'SHORTER_SIDE': result = SortBy.SHORTER_SIDE; break;
-    //         case 'SIDE_DIFF': result = SortBy.SIDE_DIFF; break;
-    //         case 'SIDE_RATIO': result = SortBy.SIDE_RATIO; break;
-    //         case 'WIDTH': result = SortBy.WIDTH; break;
-    //         // ================================================
-    //         case 'AREA_DESC': result = SortBy.AREA_DESC; break;
-    //         case 'HEIGHT_DESC': result = SortBy.HEIGHT_DESC; break;
-    //         case 'LONGER_SIDE_DESC': result = SortBy.LONGER_SIDE_DESC; break;
-    //         case 'NAME_DESC': result = SortBy.NAME_DESC; break;
-    //         case 'PATH_DESC': result = SortBy.PATH_DESC; break;
-    //         case 'PERIMETER_DESC': result = SortBy.PERIMETER_DESC; break;
-    //         case 'SHORTER_SIDE_DESC': result = SortBy.SHORTER_SIDE_DESC; break;
-    //         case 'SIDE_DIFF_DESC': result = SortBy.SIDE_DIFF_DESC; break;
-    //         case 'SIDE_RATIO_DESC': result = SortBy.SIDE_RATIO_DESC; break;
-    //         case 'WIDTH_DESC': result = SortBy.WIDTH_DESC; break;
-    //     }
-    //     return result;
-    // };
-    //
-    // public static booleanToYesNo = (value: boolean | undefined, defValue: YesNo = YesNo.NO) : YesNo => {
-    //     let result = defValue;
-    //     switch(value) {
-    //         case undefined: result = defValue; break;
-    //         case false: result = YesNo.NO; break;
-    //         case true: result = YesNo.YES; break;
-    //     }
-    //     return result;
-    // };
-    //
-    // public static stringToSizeMode = (value: string, defValue: SizeMode = SizeMode.MaxSize) : SizeMode => {
-    //     let result = defValue;
-    //     switch(value?.toUpperCase()) {
-    //         case 'FIXEDSIZE': result = SizeMode.FixedSize; break;
-    //         case 'MAXSIZE': result = SizeMode.MaxSize; break;
-    //     }
-    //     return result;
-    // };
-    //
-    // public static stringToConstraint = (value: string, defValue: Constraint = Constraint.PowerOfTwo) : Constraint => {
-    //     let result = defValue;
-    //     switch(value?.toUpperCase()) {
-    //         case 'ANYSIZE': result = Constraint.AnySize; break;
-    //         case 'POWEROFTWO': result = Constraint.PowerOfTwo; break;
-    //     }
-    //     return result;
-    // };
-    //
-    // public static stringToTrimMode = (value: string | number | undefined, defValue: TrimMode = TrimMode.None) : TrimMode => {
-    //     let result = defValue;
-    //     switch(typeof value) {
-    //         case 'string':
-    //             // do nothing
-    //             break;
-    //         case 'number':
-    //             value = TrimMode[value];
-    //             break;
-    //         default:
-    //             value = defValue;
-    //             break;
-    //     }
-    //     switch((value as string).toUpperCase()) {
-    //         case 'NONE': result = TrimMode.None; break;
-    //         case 'TRIM': result = TrimMode.Trim; break;
-    //     }
-    //     return result;
-    // };
-    //
-    // public static stringToAnimatedGif = (value: string, defValue: AnimatedGif = AnimatedGif.UseFirstFrame) : AnimatedGif => {
-    //     let result = defValue;
-    //     switch(value?.toUpperCase()) {
-    //         case 'EXTRACTFRAMES': result = AnimatedGif.ExtractFrames; break;
-    //         case 'USEFIRSTFRAME': result = AnimatedGif.UseFirstFrame; break;
-    //     }
-    //     return result;
-    // };
-
     public static populateImageFrames = (project: Project) : Project => {
-        const keys = Object.keys(project.images);
+        const keys = Object.getOwnPropertyNames(project.images);
         for(const key of keys) {
             const imageItem = project.images[key];
             if(imageItem) {
                 let imageParser: ImageUtil_ImageParser | undefined= undefined;
                 if(imageItem.src && imageItem.filetype && imageItem.fullpath) {
-                    switch(imageItem.filetype) {
+                    switch(imageItem.filetype.toLowerCase()) {
                         case 'bmp':
                             imageParser = new ImageUtil_BMP(ImageFormat.BMP, imageItem.src);
                             break;
@@ -530,7 +369,6 @@ export class ProjectUtil {
                             imageParser = new ImageUtil_GIF(ImageFormat.GIF, imageItem.src);
                             break;
                         case 'jpg':
-                            // case 'jpeg':
                             imageParser = new ImageUtil_JPG(ImageFormat.JPG, imageItem.src);
                             break;
                         case 'png':
@@ -539,9 +377,11 @@ export class ProjectUtil {
                     }
                     if(imageParser) {
                         const imageItemWithFrames = imageParser.buildImageItem(
+                            imageParser,
                             FileUtil.getFileParts(imageItem.fullpath),
                             FileUtil.getFileBytes(imageItem.src, imageItem.filetype)
                         );
+
                         if(imageItemWithFrames) {
                             imageItem.frames = [] as ImageFrame[];
                             for (let i = 0; i < imageItemWithFrames.frames.length; i++) {
@@ -596,11 +436,14 @@ export class ProjectUtil {
     public static mergeSingleImageIntoProject = (project: Project, fullpath: string, buffer: Buffer) => {
         const imageItem = ImageUtil.EMPTY_IMAGE_ITEM;
         const fileParts = FileUtil.getFileParts(fullpath);
+
         imageItem.filename = fileParts.filename;
         imageItem.fullpath = fileParts.pathfull;
         const filetype = fileParts.filetype;
+
         if(filetype) {
-            imageItem.filetype = ProjectUtil.sanitizeEnum(ImageFormat, filetype).toLowerCase();
+            // imageItem.filetype = ProjectUtil.sanitizeEnum(ImageFormat, filetype).toLowerCase();
+            imageItem.filetype = filetype.toUpperCase();
             imageItem.src =
                 ImageUtil.PREAMBLE_TEMPLATE.replace(/xxx/g, (filetype).toLocaleLowerCase()) +
                 // Buffer.from(fs.readFileSync(fullpath)).toString('base64');

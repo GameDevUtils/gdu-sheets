@@ -14,9 +14,9 @@ import {
     TrimMode,
     YesNo
 } from "../objs/projects";
-import ImageUtil_PNG from "./ImageUtil._png";
+import {ImageUtil_PNG} from "./ImageUtil._png";
 import {ImageUtil} from "./ImageUtil";
-import ImageUtil_ImageParser from "./ImageUtil._base";
+import {ImageUtil_ImageParser} from "./ImageUtil._base";
 import {Buffer} from "buffer";
 import fs from "fs";
 import path from "path";

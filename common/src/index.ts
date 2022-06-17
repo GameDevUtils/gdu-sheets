@@ -10,8 +10,6 @@ export { ProjectUtil, Images, Args } from "./utils/ProjectUtil";
 export { SortUtil, SortOptions } from "./utils/SortUtil";
 export { StringUtil } from './utils/StringUtil';
 
-// export * as ZipUtil from './utils/ZipUtil';
-
 export { DEVELOPER, LIBS, LICENSE } from './objs/content';
 export { FileParts } from './objs/files';
 export { ImageFrame, ImageProps, ImageItem } from './objs/images';
@@ -20,3 +18,8 @@ export {
     Project, ProjectOptions,
     AnimatedGif, Constraint, DataFormat, ImageFormat, OptionGroup, OptionName,
     SizeMode, SortBy, SpriteNameInAtlas, SpritePacker, TrimMode, YesNo  } from './objs/projects';
+export {ImageUtil_ImageParser} from "./utils/ImageUtil._base"
+export { ImageUtil_BMP } from "./utils/ImageUtil._bmp"
+export { ImageUtil_GIF } from "./utils/ImageUtil._gif"
+export { ImageUtil_JPG } from "./utils/ImageUtil._jpg"
+export { ImageUtil_PNG } from "./utils/ImageUtil._png"
