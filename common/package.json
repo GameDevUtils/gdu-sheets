@@ -47,7 +47,7 @@
   "dependencies": {
     "bmp-js": "^0.1.0",
     "decode-gif": "^1.0.1",
-    "jpeg-js": "^0.4.3",
+    "jpeg-js": "^0.4.4",
     "jszip": "^3.9.1",
     "ndarray": "^1.0.19",
     "pngjs": "^6.0.0",
