@@ -30,11 +30,11 @@ export class AppToolbar extends Component<MyProps, MyState> {
                         <button type="button" className="btn btn-primary"><i className="fa fa-file-download"> </i> Save
                         </button>
                     </div>
-                    <div id="grpSprite" role="group" className="btnGroup btn-group btn-x">
-                        <button type="button" className="btn btn-primary"><i className="fa fa-images"> </i> Add</button>
-                        <button type="button" className="btn btn-primary"><i className="fa fa-times"> </i> Remove
-                        </button>
-                    </div>
+                    {/*<div id="grpSprite" role="group" className="btnGroup btn-group btn-x">*/}
+                    {/*    <button type="button" className="btn btn-primary"><i className="fa fa-images"> </i> Add</button>*/}
+                    {/*    <button type="button" className="btn btn-primary"><i className="fa fa-times"> </i> Remove*/}
+                    {/*    </button>*/}
+                    {/*</div>*/}
                     <div id="grpSheet" role="group" className="btnGroup btn-group btn-x">
                         <button type="button" className="btn btn-primary"><i className="fa fa-sync-alt"> </i> Refresh
                         </button>
