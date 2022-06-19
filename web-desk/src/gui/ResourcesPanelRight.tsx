@@ -10,6 +10,7 @@ import './ResourcesPanelRight._blue.scss';
 import './ResourcesPanelRight._green.scss';
 import './ResourcesPanelRight._orange.scss';
 import './ResourcesPanelRight._red.scss';
+import './ResourcesPanelRight._purple.scss';
 import {FileUtil, ImageFormat, ImageItem, ImageUtil, Project} from "gdu-common";
 // import {ImageUtil_ImageParser, ImageUtil_BMP, ImageUtil_GIF, ImageUtil_JPG, ImageUtil_PNG} from "gdu-common";
 // import {Buffer} from "buffer";
@@ -67,11 +68,9 @@ export class ResourcesPanelRight extends Component<MyProps, MyState> {
         let className = "sidePanel sidePanelRight" + (this.props.isRightPanelShown && this.props.isSpritePillActive ? "" : " panel-hidden");
         const imageItems = this.renderImageItems();
         return (
-            <div className={className} id="divResourcesPanel">
+            <div className={className} id="divResourcesPanel">&nbsp;
                 <div className="container-fluid">
-
                     {imageItems}
-
                 </div>
             </div>
         );

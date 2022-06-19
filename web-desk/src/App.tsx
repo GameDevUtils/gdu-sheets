@@ -32,6 +32,7 @@ type AppState = {
     showModal: boolean,
     project: Project,
     projectPath: string,
+    theme: string;
     isDirty: boolean,
 };
 
@@ -43,6 +44,7 @@ export default class App extends Component<AppProps, AppState> {
         showModal: false,
         project: ProjectUtil.DEFAULT_PROJECT,
         projectPath: '',
+        theme: '',
         isDirty: false,
     };
 
@@ -67,6 +69,8 @@ export default class App extends Component<AppProps, AppState> {
         this.state.projectPath = '';
 
         this.handleAppToolbarButtonClick = this.handleAppToolbarButtonClick.bind(this);
+        this.handleThemeSelected = this.handleThemeSelected.bind(this);
+        this.handleWorkspaceToolbarButtonClick = this.handleWorkspaceToolbarButtonClick.bind(this);
         this.handleSettingsGroupTitleClick = this.handleSettingsGroupTitleClick.bind(this);
         this.handleResourcesPillNavClick = this.handleResourcesPillNavClick.bind(this);
 
@@ -102,7 +106,7 @@ export default class App extends Component<AppProps, AppState> {
             const exists = electronFs.existsSync(projectPath);
 
             if(exists) {
-                const data = fs.readFileSync(projectPath, { flag: 'r'}).toString();
+                const data = electronFs.readFileSync(projectPath, { flag: 'r'}).toString();
                 project = ProjectUtil.deserialize(data, APPLICATION_VERSION.CURRENT);
             }
 
@@ -112,6 +116,16 @@ export default class App extends Component<AppProps, AppState> {
                 isDirty: false,
             });
         }
+    }
+
+    handleThemeSelected(e: any) {
+        this.setState(prevState => {
+            let theme = e?.target?.value;
+            let btn = e?.target?.id ? e?.target : e?.target?.parentElement;
+
+            btn?.blur();
+            return { theme: theme };
+        });
     }
 
     handleAppToolbarButtonClick(e: any) {
@@ -150,6 +164,9 @@ export default class App extends Component<AppProps, AppState> {
         });
     }
 
+    handleWorkspaceToolbarButtonClick(e: any) {
+    }
+
     handleResourcesPillNavClick(e: any) {
         this.setState(prevState => {
             return { isResourcesSpritesPillActive: !prevState.isResourcesSpritesPillActive };
@@ -168,9 +185,10 @@ export default class App extends Component<AppProps, AppState> {
         let settingsVisible : boolean = this.state.isAppToolbarButtonActive[APPTOOLBAR_BUTTON_SETTINGS];
         let resourcesVisible : boolean = this.state.isAppToolbarButtonActive[APPTOOLBAR_BUTTON_RESOURCES];
         let isSpritePillActive : boolean = this.state.isResourcesSpritesPillActive;
+        let theme = "theme-" + this.state.theme;
 
         return (
-          <div className="theme-bluexx theme-redxx theme-greenxx theme-orangexx">
+          <div className={theme}>
               <AppToolbar
                   handleButtonClick={this.handleAppToolbarButtonClick}
                   isButtonActive={this.state.isAppToolbarButtonActive} />
@@ -183,7 +201,9 @@ export default class App extends Component<AppProps, AppState> {
               <div>
                   <WorkspaceToolbar
                       settingsPanelHidden={!settingsVisible}
-                      resourcesPanelHidden={!resourcesVisible} />
+                      resourcesPanelHidden={!resourcesVisible}
+                      handleThemeSelected={this.handleThemeSelected}
+                  />
                   <Workspace
                       settingsPanelHidden={!settingsVisible}
                       resourcesPanelHidden={!resourcesVisible} />

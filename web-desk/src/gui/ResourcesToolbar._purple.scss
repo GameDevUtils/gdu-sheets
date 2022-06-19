@@ -1,0 +1,17 @@
+@import "../_themes/purple.scss";
+
+div.theme-purple .resources-toolbar {
+    background-color: $purple_toolbar_background;
+    color: $purple_toolbar_foreground;
+}
+
+div.theme-purple .resources-toolbar .custom-pills-color a.nav-link,
+div.theme-purple .resources-toolbar .custom-pills-color a.nav-link:hover {
+    color: $purple_toolbar_foreground;
+}
+
+div.theme-purple .resources-toolbar .custom-pills-color .active a,
+div.theme-purple .resources-toolbar .custom-pills-color .active a:hover {
+    background-color: $purple_pill_background;
+    color: $purple_pill_foreground_selected;
+}

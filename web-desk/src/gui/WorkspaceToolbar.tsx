@@ -6,10 +6,12 @@ import './WorkspaceToolbar._blue.scss';
 import './WorkspaceToolbar._green.scss';
 import './WorkspaceToolbar._orange.scss';
 import './WorkspaceToolbar._red.scss';
+import './WorkspaceToolbar._purple.scss';
 
 type MyProps = {
     settingsPanelHidden: boolean,
     resourcesPanelHidden: boolean,
+    handleThemeSelected: any;
 };
 
 type MyState = {
@@ -48,6 +50,18 @@ export class WorkspaceToolbar extends Component<MyProps, MyState> {
                         <Button><i className="fa fa-arrows-alt-v"> </i></Button>
                         <Button><i className="fa fa-expand-alt"> </i></Button>
                     </ButtonGroup>
+
+                    <ButtonGroup id="grpThemes" bsPrefix="btn-x" className="btnGroup btn-group">
+                        <select onChange={this.props.handleThemeSelected} id="ddlTheme" className="form-control" defaultValue="default">
+                            <option value="red">Red</option>
+                            <option value="blue">Blue</option>
+                            <option value="green">Green</option>
+                            <option value="orange">Orange</option>
+                            <option value="purple">Purple</option>
+                            <option value="default">Default</option>
+                        </select>
+                    </ButtonGroup>
+
                 </Nav>
             </Navbar>
         );

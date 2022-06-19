@@ -1,0 +1,29 @@
+@import "../_themes/purple.scss";
+
+div.theme-purple .consoleToolbarActions {
+    background: linear-gradient(90deg, $purple_toolbar_background, $purple_toolbar_background);
+}
+
+div.theme-purple .consoleToolbarActions .btnGroup a,
+div.theme-purple .consoleToolbarActions .btnGroup button,
+div.theme-purple .consoleToolbarActions button:visited,
+div.theme-purple .consoleToolbarActions button:active,
+div.theme-purple .consoleToolbarActions button:focus,
+div.theme-purple .consoleToolbarActions button:hover,
+div.theme-purple .consoleToolbarActions button:link,
+div.theme-purple .consoleToolbarActions .btnGroupLast button {
+    background: linear-gradient(180deg, $purple_button_background, $purple_button_background);
+    color: $purple_button_foreground;
+}
+
+div.theme-purple .consoleToolbarActions .btnGroup a.active,
+div.theme-purple .consoleToolbarActions .btnGroup button.active,
+div.theme-purple .consoleToolbarActions .btnGroupLast a.active,
+div.theme-purple .consoleToolbarActions .btnGroupLast button.active {
+    background: linear-gradient(180deg, $purple_button_background, $purple_button_background);
+    color: $purple_button_foreground;
+}
+
+//.consoleToolbarActions.panel-hidden {
+//    display: none;
+//}

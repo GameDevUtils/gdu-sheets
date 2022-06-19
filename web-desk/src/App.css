@@ -6,4 +6,6 @@ div.App {
 
 body {
     overflow: hidden;
+    background-color: white;
+    color: black;
 }

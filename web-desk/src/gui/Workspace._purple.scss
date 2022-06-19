@@ -1,0 +1,7 @@
+@import "../_themes/purple.scss";
+
+div.theme-purple .workspacePanel {
+    background: linear-gradient(180deg, $purple_workspace_background, $purple_workspace_background);
+    color: $purple_workspace_foreground;
+    border-color: black;
+}

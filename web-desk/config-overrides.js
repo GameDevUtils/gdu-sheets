@@ -12,12 +12,14 @@ module.exports = function override(config) {
     "url": require.resolve("url"),
     "zlib": require.resolve("browserify-zlib"),
     "path": require.resolve("path-browserify"),
+    "fs": require.resolve("browserify-fs"),
   })
   config.resolve.fallback = fallback;
   config.plugins = (config.plugins || []).concat([
     new webpack.ProvidePlugin({
       process: 'process/browser',
       Buffer: ['buffer', 'Buffer'],
+      "React": ["react"],
     })
   ]);
   config.target = 'electron-main';

@@ -1,0 +1,11 @@
+@import "../_themes/purple.scss";
+
+div.theme-purple .workspaceStatusBar {
+    background: linear-gradient(90deg, $purple_toolbar_background, $purple_toolbar_background);
+    color: $purple_toolbar_foreground;
+    border-color: black;
+}
+
+div.theme-purple #workspaceStatusBarProgressBar {
+    background-color: $purple_button_background;
+}

@@ -11,6 +11,7 @@ import './ConsolePanelRight._blue.scss';
 import './ConsolePanelRight._green.scss';
 import './ConsolePanelRight._orange.scss';
 import './ConsolePanelRight._red.scss';
+import './ConsolePanelRight._purple.scss';
 
 type MyProps = {
     isRightPanelShown: boolean,

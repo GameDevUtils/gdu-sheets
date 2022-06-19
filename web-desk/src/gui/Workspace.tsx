@@ -6,6 +6,7 @@ import './Workspace._blue.scss';
 import './Workspace._green.scss';
 import './Workspace._orange.scss';
 import './Workspace._red.scss';
+import './Workspace._purple.scss';
 
 type MyProps = {
     settingsPanelHidden: boolean,

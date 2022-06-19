@@ -6,6 +6,7 @@ import './ResourcesToolbar._blue.scss';
 import './ResourcesToolbar._green.scss';
 import './ResourcesToolbar._orange.scss';
 import './ResourcesToolbar._red.scss';
+import './ResourcesToolbar._purple.scss';
 
 type MyProps = {
     isRightPanelShown: boolean,
@@ -26,7 +27,6 @@ export class ResourcesToolbar extends Component<MyProps, MyState> {
             <div className={classNameNav}>
                 <ul className="nav nav-pills custom-pills-color">
                     <li className={classNameSpritesPill}>
-                        {/*<a className="nav-link" aria-current="page" href="#null"><i className="bi bi-layout-wtf"></i> Sprites</a>*/}
                         <a id="btnResourcesSpritesPill" onClick={this.props.handlePillClick} className="nav-link" aria-current="page" href="#top"><i className="bi bi-images"> </i> Sprites</a>
                     </li>
                     <li className={classNameConsolePill}>

@@ -1,0 +1,7 @@
+@import "../_themes/purple.scss";
+
+div.theme-purple .sidePanelRight {
+    background-color: $purple_toolbar_background;
+    color: $purple_toolbar_foreground;
+    border-color: black;
+}

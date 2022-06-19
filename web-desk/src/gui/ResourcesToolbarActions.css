@@ -31,8 +31,8 @@
     outline: none;
     box-shadow: none;
     -webkit-box-shadow: none;
-    border: 1px solid #ccc;
-    color: #333;
+    border: 1px solid black;
+    color: black;
 }
 
 .resources-toolbar-actions .btnGroup a.active,
@@ -40,9 +40,9 @@
 .resources-toolbar-actions .btnGroupLast a.active,
 .resources-toolbar-actions .btnGroupLast button.active {
     background-color: #ddd;
-    border: 1px solid #bbb;
+    border: 1px solid black;
     background-image: none;
-    color: #333;
+    color: black;
 }
 
 .resources-toolbar-actions.panel-hidden {

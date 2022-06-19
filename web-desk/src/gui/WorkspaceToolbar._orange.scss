@@ -5,6 +5,10 @@ div.theme-orange .workspaceToolbar {
     border-color: black;
 }
 
+#themeOrange {
+    color: $orange_toolbar_background;
+}
+
 div.theme-orange .workspaceToolbar .btnGroup a,
 div.theme-orange .workspaceToolbar .btnGroup button,
 div.theme-orange .workspaceToolbar button:visited,

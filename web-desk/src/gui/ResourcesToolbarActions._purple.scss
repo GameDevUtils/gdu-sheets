@@ -1,0 +1,24 @@
+@import "../_themes/purple.scss";
+
+div.theme-purple .resources-toolbar-actions {
+    background: linear-gradient(90deg, $purple_toolbar_background, $purple_toolbar_background);
+}
+
+div.theme-purple .resources-toolbar-actions .btnGroup a,
+div.theme-purple .resources-toolbar-actions .btnGroup button,
+div.theme-purple .resources-toolbar-actions button:visited,
+div.theme-purple .resources-toolbar-actions button:active,
+div.theme-purple .resources-toolbar-actions button:focus,
+div.theme-purple .resources-toolbar-actions button:hover,
+div.theme-purple .resources-toolbar-actions button:link,
+div.theme-purple .resources-toolbar-actions .btnGroupLast button {
+    background: linear-gradient(180deg, $purple_button_background, $purple_button_background);
+}
+
+div.theme-purple .resources-toolbar-actions .btnGroup a.active,
+div.theme-purple .resources-toolbar-actions .btnGroup button.active,
+div.theme-purple .resources-toolbar-actions .btnGroupLast a.active,
+div.theme-purple .resources-toolbar-actions .btnGroupLast button.active {
+    background-color: $purple_button_background;
+    color: $purple_button_foreground;
+}

@@ -5,6 +5,7 @@ import './ResourcesToolbarActions.css';
 import './ResourcesToolbarActions._blue.scss';
 import './ResourcesToolbarActions._green.scss';
 import './ResourcesToolbarActions._orange.scss';
+import './ResourcesToolbarActions._purple.scss';
 import './ResourcesToolbarActions._red.scss';
 
 type MyProps = {

@@ -6,6 +6,7 @@ import './SettingsPanelLeft._blue.scss';
 import './SettingsPanelLeft._green.scss';
 import './SettingsPanelLeft._orange.scss';
 import './SettingsPanelLeft._red.scss';
+import './SettingsPanelLeft._purple.scss';
 import icon from './media/icon-512x512.png';
 
 import {SettingsRowTitle} from '../components/SettingsRowTitle';

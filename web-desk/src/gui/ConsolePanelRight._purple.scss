@@ -1,0 +1,6 @@
+@import "../_themes/purple.scss";
+
+div.theme-purple .console-line {
+    background-color: $purple_toolbar_background;
+    color: $purple_toolbar_foreground;
+}
