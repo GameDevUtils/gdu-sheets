@@ -11,5 +11,25 @@ else
     cat "${fname1}" | sed -e "s/orange/${foo}/g" > "${fname2}"
   done
 
+  pushd src
+  for i in $(find . -name "*\.ts*" | grep -v -e "\.test\.ts" -e "index\.tsx" -e "\.d\.ts" -e "setupTests" -e "reportWebVitals"); do
+    fname1=$i
+    fname2=$i.bak
+    regexp='orange';
+
+    mv "$fname1" "$fname2"
+    touch "$fname1"
+    while read line; do
+      if [[ $line =~ $regexp ]]; then
+        echo "$line" >> $fname1
+        echo "$line" | sed -e "s/orange/${foo}/g" >> $fname1
+      else
+        echo "$line" >> $fname1
+      fi
+    done < "$fname2"
+    rm "$fname2"
+  done
+  popd
+
   rm "copy-$1.sh"
 fi
