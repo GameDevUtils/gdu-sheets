@@ -16,10 +16,10 @@ import {ResourcesToolbarActions} from "./gui/ResourcesToolbarActions";
 import {ResourcesPanelRight} from "./gui/ResourcesPanelRight";
 import {PromptToSave} from "./components/PromptToSave";
 import {APPLICATION_VERSION, Project, ProjectUtil} from "gdu-common";
-import {remote} from "electron";
+// import {dialog, contextBridge} from "electron";
 
 import './App.css';
-import fs from "fs";
+//import fs from "fs";
 
 type AppProps = {
 
@@ -88,34 +88,35 @@ export default class App extends Component<AppProps, AppState> {
         });
     }
 
+    // TODO: get fs imported so as to support SPA and desktop.
     showOpenProjectDialog() {
-        const result = remote.dialog.showOpenDialogSync({
-            title: 'Open Project',
-            buttonLabel: 'Open Project',
-            filters: [{ name: "", extensions: ['sheets', 'sheetz'] }],
-            properties: [
-                'openFile',
-            ],
-            message: 'Select a project to open.',
-        });
-
-        if(result && result.length > 0 && result[0].length > 0) {
-            const projectPath = result[0];
-            let project = ProjectUtil.DEFAULT_PROJECT;
-            const electronFs = remote.require("fs");
-            const exists = electronFs.existsSync(projectPath);
-
-            if(exists) {
-                const data = electronFs.readFileSync(projectPath, { flag: 'r'}).toString();
-                project = ProjectUtil.deserialize(data, APPLICATION_VERSION.CURRENT);
-            }
-
-            this.setState({
-                projectPath: projectPath,
-                project: project,
-                isDirty: false,
-            });
-        }
+        // const result = dialog.showOpenDialogSync({
+        //     title: 'Open Project',
+        //     buttonLabel: 'Open Project',
+        //     filters: [{ name: "", extensions: ['sheets', 'sheetz'] }],
+        //     properties: [
+        //         'openFile',
+        //     ],
+        //     message: 'Select a project to open.',
+        // });
+        //
+        // if(result && result.length > 0 && result[0].length > 0) {
+        //     // const projectPath = result[0];
+        //     // let project = ProjectUtil.DEFAULT_PROJECT;
+        //     // const electronFs = remote.require("fs");
+        //     // const exists = electronFs.existsSync(projectPath);
+        //     //
+        //     // if(exists) {
+        //     //     const data = electronFs.readFileSync(projectPath, { flag: 'r'}).toString();
+        //     //     project = ProjectUtil.deserialize(data, APPLICATION_VERSION.CURRENT);
+        //     // }
+        //     //
+        //     // this.setState({
+        //     //     projectPath: projectPath,
+        //     //     project: project,
+        //     //     isDirty: false,
+        //     // });
+        // }
     }
 
     handleThemeSelected(e: any) {
