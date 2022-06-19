@@ -19,7 +19,7 @@ else
 
     mv "$fname1" "$fname2"
     touch "$fname1"
-    while read line; do
+    while IFS='' read -r line; do
       if [[ $line =~ $regexp ]]; then
         echo "$line" >> $fname1
         echo "$line" | sed -e "s/orange/${foo}/g" >> $fname1
