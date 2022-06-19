@@ -5,7 +5,7 @@ if [ -z "$1" ];
 then
   echo ERROR: Expected one argument. Received none.
 else
-  push src
+  pushd src
   for i in $(find . | grep orange); do
     fname1=$i
     fname2=$(echo "${fname1}" | sed -e "s/orange/${foo}/g")
@@ -36,4 +36,4 @@ fi
 
 
 ## to clean the generated scss files, run this with "darkly" replaced with the theme you want to clean.
-#for file in $(find . | grep "darkly"); do rm "$file"; done
+#pushd src; for file in $(find . | grep "darkly"); do rm "$file"; done; popd
