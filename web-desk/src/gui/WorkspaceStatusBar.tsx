@@ -5,6 +5,7 @@ import './WorkspaceStatusBar._green.scss';
 import './WorkspaceStatusBar._orange.scss';
 import './WorkspaceStatusBar._red.scss';
 import './WorkspaceStatusBar._purple.scss';
+import './WorkspaceStatusBar._yellow.scss';
 
 type MyProps = {
     settingsPanelHidden: boolean,

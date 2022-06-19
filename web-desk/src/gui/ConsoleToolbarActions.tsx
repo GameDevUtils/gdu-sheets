@@ -6,6 +6,7 @@ import './ConsoleToolbarActions._green.scss';
 import './ConsoleToolbarActions._orange.scss';
 import './ConsoleToolbarActions._red.scss';
 import './ConsoleToolbarActions._purple.scss';
+import './ConsoleToolbarActions._yellow.scss';
 
 import {Button, ButtonGroup, Nav, Navbar} from "react-bootstrap";
 

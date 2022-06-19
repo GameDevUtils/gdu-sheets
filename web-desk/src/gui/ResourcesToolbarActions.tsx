@@ -7,6 +7,7 @@ import './ResourcesToolbarActions._green.scss';
 import './ResourcesToolbarActions._orange.scss';
 import './ResourcesToolbarActions._purple.scss';
 import './ResourcesToolbarActions._red.scss';
+import './ResourcesToolbarActions._yellow.scss';
 
 type MyProps = {
     isRightPanelShown: boolean,

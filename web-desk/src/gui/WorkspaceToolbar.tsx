@@ -7,6 +7,7 @@ import './WorkspaceToolbar._green.scss';
 import './WorkspaceToolbar._orange.scss';
 import './WorkspaceToolbar._red.scss';
 import './WorkspaceToolbar._purple.scss';
+import './WorkspaceToolbar._yellow.scss';
 
 type MyProps = {
     settingsPanelHidden: boolean,
@@ -58,6 +59,7 @@ export class WorkspaceToolbar extends Component<MyProps, MyState> {
                             <option value="green">Green</option>
                             <option value="orange">Orange</option>
                             <option value="purple">Purple</option>
+                            <option value="yellow">Yellow</option>
                             <option value="default">Default</option>
                         </select>
                     </ButtonGroup>

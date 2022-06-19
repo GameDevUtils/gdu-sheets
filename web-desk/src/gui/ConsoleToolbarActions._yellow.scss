@@ -1,0 +1,29 @@
+@import "../_themes/yellow.scss";
+
+div.theme-yellow .consoleToolbarActions {
+    background: linear-gradient(90deg, $yellow_toolbar_background, $yellow_toolbar_background);
+}
+
+div.theme-yellow .consoleToolbarActions .btnGroup a,
+div.theme-yellow .consoleToolbarActions .btnGroup button,
+div.theme-yellow .consoleToolbarActions button:visited,
+div.theme-yellow .consoleToolbarActions button:active,
+div.theme-yellow .consoleToolbarActions button:focus,
+div.theme-yellow .consoleToolbarActions button:hover,
+div.theme-yellow .consoleToolbarActions button:link,
+div.theme-yellow .consoleToolbarActions .btnGroupLast button {
+    background: linear-gradient(180deg, $yellow_button_background, $yellow_button_background);
+    color: $yellow_button_foreground;
+}
+
+div.theme-yellow .consoleToolbarActions .btnGroup a.active,
+div.theme-yellow .consoleToolbarActions .btnGroup button.active,
+div.theme-yellow .consoleToolbarActions .btnGroupLast a.active,
+div.theme-yellow .consoleToolbarActions .btnGroupLast button.active {
+    background: linear-gradient(180deg, $yellow_button_background, $yellow_button_background);
+    color: $yellow_button_foreground;
+}
+
+//.consoleToolbarActions.panel-hidden {
+//    display: none;
+//}

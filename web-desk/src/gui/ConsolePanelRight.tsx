@@ -6,12 +6,15 @@ import './SidePanelRight._blue.scss';
 import './SidePanelRight._green.scss';
 import './SidePanelRight._orange.scss';
 import './SidePanelRight._red.scss';
+import './SidePanelRight._purple.scss';
+import './SidePanelRight._yellow.scss';
 import './ConsolePanelRight.css';
 import './ConsolePanelRight._blue.scss';
 import './ConsolePanelRight._green.scss';
 import './ConsolePanelRight._orange.scss';
 import './ConsolePanelRight._red.scss';
 import './ConsolePanelRight._purple.scss';
+import './ConsolePanelRight._yellow.scss';
 
 type MyProps = {
     isRightPanelShown: boolean,

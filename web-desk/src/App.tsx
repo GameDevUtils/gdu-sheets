@@ -119,11 +119,11 @@ export default class App extends Component<AppProps, AppState> {
     }
 
     handleThemeSelected(e: any) {
-        this.setState(prevState => {
-            let theme = e?.target?.value;
-            let btn = e?.target?.id ? e?.target : e?.target?.parentElement;
+        let theme = e?.target?.value;
+        let btn = e?.target?.id ? e?.target : e?.target?.parentElement;
 
-            btn?.blur();
+        btn?.blur();
+        this.setState(prevState => {
             return { theme: theme };
         });
     }

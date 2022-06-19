@@ -1,0 +1,17 @@
+$yellow_toolbar_background: goldenrod;
+$yellow_toolbar_foreground: white;
+$yellow_button_background: lighten($yellow_toolbar_background, 35%);
+$yellow_button_foreground: black;
+$yellow_pill_background: lighten($yellow_toolbar_background, 15%);
+$yellow_pill_foreground: black;
+$yellow_pill_foreground_selected: black;
+$yellow_workspace_background: lighten($yellow_toolbar_background, 10%);
+$yellow_workspace_foreground: white;
+//$yellow_toolbar_background: #842;
+//$yellow_toolbar_foreground: white;
+//$yellow_button_background: #fca;
+//$yellow_button_foreground: black;
+//$yellow_pill_background: #f95;
+//$yellow_pill_foreground: white;
+//$yellow_workspace_background: #b63;
+//$yellow_workspace_foreground: white;

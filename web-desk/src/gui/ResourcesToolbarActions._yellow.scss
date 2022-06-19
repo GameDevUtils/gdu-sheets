@@ -1,0 +1,24 @@
+@import "../_themes/yellow.scss";
+
+div.theme-yellow .resources-toolbar-actions {
+    background: linear-gradient(90deg, $yellow_toolbar_background, $yellow_toolbar_background);
+}
+
+div.theme-yellow .resources-toolbar-actions .btnGroup a,
+div.theme-yellow .resources-toolbar-actions .btnGroup button,
+div.theme-yellow .resources-toolbar-actions button:visited,
+div.theme-yellow .resources-toolbar-actions button:active,
+div.theme-yellow .resources-toolbar-actions button:focus,
+div.theme-yellow .resources-toolbar-actions button:hover,
+div.theme-yellow .resources-toolbar-actions button:link,
+div.theme-yellow .resources-toolbar-actions .btnGroupLast button {
+    background: linear-gradient(180deg, $yellow_button_background, $yellow_button_background);
+}
+
+div.theme-yellow .resources-toolbar-actions .btnGroup a.active,
+div.theme-yellow .resources-toolbar-actions .btnGroup button.active,
+div.theme-yellow .resources-toolbar-actions .btnGroupLast a.active,
+div.theme-yellow .resources-toolbar-actions .btnGroupLast button.active {
+    background-color: $yellow_button_background;
+    color: $yellow_button_foreground;
+}
