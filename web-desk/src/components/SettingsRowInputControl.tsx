@@ -9,7 +9,7 @@ export enum InputControlType {
     Number,
     ComboBox,
     UNKNOWN,
-};
+}
 
 type InputControlProps = {
     id: string | null | undefined;
@@ -116,10 +116,10 @@ export class SettingsRowInputControl extends Component<InputControlProps, InputC
                 );
                 break;
             case InputControlType.DropDown:
-                result = <div></div>;
+                result = <div> </div>;
                 break;
             case InputControlType.ComboBox:
-                result = <div></div>;
+                result = <div> </div>;
                 break;
             case InputControlType.UNKNOWN:
             default:

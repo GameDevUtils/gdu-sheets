@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {Modal, Button} from "react-bootstrap";
+import {Buffer} from "buffer"
 
 type GroupProps = {
     show: boolean;

@@ -47,12 +47,12 @@ export class SettingsRowTitle extends Component<GroupProps, GroupState> {
         return this.props.title ? (
             <div className="row config-title" id={this.props.id} onClick={this.handleClick}>
                 <div className="col-2"> </div>
-                <div className="col-8">{ this.props.title }</div>
+                <div className="col-8">{this.props.title}</div>
                 <div className={`col-2 bi bi-caret-${caretDirection}-fill title-caret`}> </div>
             </div>
         ) : (
             <div className="row config-title-error">
-                <div className="col-12"><i className="bi bi-exclamation-triangle"> </i> { `Bad title, '${this.props.title}'.` }</div>
+                <div className="col-12"><i className="bi bi-exclamation-triangle"> </i> {`Bad title, '${this.props.title}'.`}</div>
             </div>
         );
     }
