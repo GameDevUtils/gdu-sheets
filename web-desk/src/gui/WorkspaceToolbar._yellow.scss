@@ -17,7 +17,7 @@ div.theme-yellow .workspaceToolbar button:focus,
 div.theme-yellow .workspaceToolbar button:hover,
 div.theme-yellow .workspaceToolbar button:link,
 div.theme-yellow .workspaceToolbar .btnGroupLast button {
-    background: linear-gradient(180deg, $yellow_workspace_toolbar_button_background, $yellow_workspace_toolbar_background);
+    background: linear-gradient(180deg, $yellow_workspace_toolbar_button_background, $yellow_workspace_toolbar_button_background);
     border-color: $yellow_workspace_toolbar_button_border;
 }
 
@@ -32,6 +32,6 @@ div.theme-yellow .workspaceToolbar .btnGroupLast button.active {
 div.theme-yellow .workspaceToolbar select {
     background-image:
             url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPCEtLSBHZW5lcmF0b3I6IEFkb2JlIElsbHVzdHJhdG9yIDI1LjQuMSwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246IDYuMDAgQnVpbGQgMCkgIC0tPgo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkxheWVyXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IgoJIHZpZXdCb3g9IjAgMCAyOTIuNCAyOTIuNCIgc3R5bGU9ImVuYWJsZS1iYWNrZ3JvdW5kOm5ldyAwIDAgMjkyLjQgMjkyLjQ7IiB4bWw6c3BhY2U9InByZXNlcnZlIj4KPHBhdGggZD0iTTI4Nyw2OS40Yy0zLjQtMy41LTguMS01LjUtMTMtNS40SDE4LjRjLTUsMC05LjMsMS44LTEyLjksNS40QzIsNzIuNywwLDc3LjQsMCw4Mi4yYzAsNSwxLjgsOS4zLDUuNCwxMi45bDEyOCwxMjcuOQoJYzMuNiwzLjYsNy44LDUuNCwxMi44LDUuNHM5LjItMS44LDEyLjgtNS40TDI4Nyw5NWMzLjUtMy41LDUuNC03LjgsNS40LTEyLjhzLTEuOS05LjItNS41LTEyLjhMMjg3LDY5LjR6Ii8+Cjwvc3ZnPgo=),
-            linear-gradient(to bottom, $yellow_workspace_toolbar_button_background 0%, $yellow_workspace_toolbar_button_background 100%);
+            linear-gradient(to bottom, $yellow_workspace_toolbar_button_background, $yellow_workspace_toolbar_button_background);
     border-color: $yellow_workspace_toolbar_button_border;
 }
