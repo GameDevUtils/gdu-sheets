@@ -24,7 +24,7 @@ export class WorkspaceStatusBar extends Component<MyProps, MyState> {
             (this.props.resourcesPanelHidden ? " resourcesPanelHidden" : "");
         return (
             <div className={className}>
-                <span id="workspaceStatusBarMessage"><b>STATUS:</b> Ready. | <em>There are unsaved changes.</em></span>
+                <span id="workspaceStatusBarMessage"><span className="statusGreen">&#x25C9;</span> <b>STATUS:</b> Ready. | <em>There are unsaved changes.</em></span>
                 <div className="progress" id="workspaceStatusBarProgressBar">
                     <div className={`progress-bar ${progressBarClassName} progress-bar-striped progress-bar-animated`} role="progressbar"> </div>
                 </div>

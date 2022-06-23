@@ -40,3 +40,8 @@
 .resourcesPanelHidden {
     right: 0;
 }
+
+.statusGreen { color: darkgreen; }
+.statusRed { color: red; }
+.statusYellow { color: goldenrod; }
+.statusNeutral { color: black; }

@@ -11,6 +11,7 @@ $yellow_workspace_foreground: lighten($yellow_base_foreground_dark, 0%);
 $yellow_workspace_border: lighten($yellow_base_foreground_dark, 0%);
 $yellow_workspace_toolbar_background: lighten($yellow_base_background, 0%);
 $yellow_workspace_toolbar_foreground: lighten($yellow_base_foreground_light, 0%);
+$yellow_workspace_toolbar_border: lighten($yellow_base_foreground_dark, 0%);
 $yellow_workspace_toolbar_button_background: lighten($yellow_base_background, 35%);
 $yellow_workspace_toolbar_button_foreground: lighten($yellow_base_foreground_dark, 0%);
 $yellow_workspace_toolbar_button_border: lighten($yellow_base_foreground_dark, 0%);
@@ -27,7 +28,7 @@ $yellow_resources_pillbar_pill_background_selected: lighten($yellow_base_backgro
 $yellow_resources_pillbar_pill_foreground_selected: lighten($yellow_base_foreground_dark, 0%);
 $yellow_resources_pillbar_pill_border_selected: lighten($yellow_base_foreground_dark, 0%);
 $yellow_statusbar_background: lighten($yellow_base_background, 0%);
-$yellow_statusbar_foreground: lighten($yellow_base_foreground_light, 0%);
+$yellow_statusbar_foreground: lighten($yellow_base_foreground_dark, 0%);
 $yellow_statusbar_border: lighten($yellow_base_foreground_dark, 0%);
 $yellow_statusbar_progress_background: lighten($yellow_base_background, 35%);
 $yellow_statusbar_progress_foreground: lighten($yellow_base_foreground_dark, 0%);

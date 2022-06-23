@@ -9,3 +9,8 @@ div.theme-yellow .workspaceStatusBar {
 div.theme-yellow #workspaceStatusBarProgressBar {
     background-color: $yellow_statusbar_progress_background;
 }
+
+div.theme-yellow .statusGreen { color: darkgreen; }
+div.theme-yellow .statusRed { color: darkred; }
+div.theme-yellow .statusYellow { color: goldenrod; }
+div.theme-yellow .statusNeutral { color: black; }

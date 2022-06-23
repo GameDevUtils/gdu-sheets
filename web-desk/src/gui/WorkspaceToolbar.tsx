@@ -49,8 +49,8 @@ export class WorkspaceToolbar extends Component<MyProps, MyState> {
 
                     <ButtonGroup id="grpThemes" bsPrefix="btn-x" className="btnGroup btn-group">
                         <select onChange={this.props.handleThemeSelected} id="ddlTheme" className="form-control" defaultValue="default">
-                            <option value="yellow">Yellow</option>
-                            <option value="default">Default</option>
+                            <option value="yellow">yellow</option>
+                            <option value="default">default</option>
                         </select>
                     </ButtonGroup>
 
