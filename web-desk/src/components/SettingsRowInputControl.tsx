@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import './SettingsRowInputControl.css';
 
-
 export enum InputControlType {
     Title,
     Text,

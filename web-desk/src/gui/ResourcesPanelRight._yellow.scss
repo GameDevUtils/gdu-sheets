@@ -6,7 +6,7 @@ div.theme-yellow .sprite-entity.selected {
 }
 
 div.theme-yellow .sprite-entity {
-    background: $yellow_button_background;
-    color: $yellow_button_foreground;
-    border: 2px solid $yellow_toolbar_background;
+    background: $yellow_resources_toolbar_button_background;
+    color: $yellow_resources_toolbar_button_foreground;
+    border: 2px solid $yellow_base_foreground_dark;
 }

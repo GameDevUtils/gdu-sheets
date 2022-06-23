@@ -1,7 +1,0 @@
-@import "../_themes/blue.scss";
-
-div.theme-blue .workspacePanel {
-    background: linear-gradient(180deg, $blue_workspace_background, $blue_workspace_background);
-    color: $blue_workspace_foreground;
-    border-color: black;
-}

@@ -3,5 +3,5 @@
 div.theme-yellow .workspacePanel {
     background: linear-gradient(180deg, $yellow_workspace_background, $yellow_workspace_background);
     color: $yellow_workspace_foreground;
-    border-color: black;
+    border-color: $yellow_workspace_border;
 }

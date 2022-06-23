@@ -210,7 +210,8 @@ export default class App extends Component<AppProps, AppState> {
                       resourcesPanelHidden={!resourcesVisible} />
                   <WorkspaceStatusBar
                       settingsPanelHidden={!settingsVisible}
-                      resourcesPanelHidden={!resourcesVisible} />
+                      resourcesPanelHidden={!resourcesVisible}
+                      theme={this.state.theme} />
               </div>
 
               <ResourcesToolbar

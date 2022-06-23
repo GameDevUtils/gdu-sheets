@@ -5,28 +5,28 @@ if [ -z "$1" ];
 then
   echo ERROR: Expected one argument. Received none.
   echo Usage:
-  echo "  ./copy-orange.sh themeName"
+  echo "  ./copy-yellow.sh themeName"
 else
   pushd src
-  for i in $(find . | grep orange); do
+  for i in $(find . | grep yellow); do
     fname1=$i
-    fname2=$(echo "${fname1}" | sed -e "s/orange/${foo}/g")
-    cat "${fname1}" | sed -e "s/orange/${foo}/g" > "${fname2}"
-    cat "../copy-orange-newline-for-eof.txt" >> "${fname2}"
+    fname2=$(echo "${fname1}" | sed -e "s/yellow/${foo}/g")
+    cat "${fname1}" | sed -e "s/yellow/${foo}/g" > "${fname2}"
+    cat "../copy-yellow-newline-for-eof.txt" >> "${fname2}"
   done
 
   for i in $(find . -name "*\.ts*" | grep -v -e "\.test\.ts" -e "index\.tsx" -e "\.d\.ts" -e "setupTests" -e "reportWebVitals"); do
     fname1=$i
     fname2=$i.bak
-    regexp='orange';
+    regexp='yellow';
 
     mv "$fname1" "$fname2"
-    cat "../copy-orange-newline-for-eof.txt" >> "${fname2}"
+    cat "../copy-yellow-newline-for-eof.txt" >> "${fname2}"
     touch "$fname1"
     while IFS='' read -r line; do
       if [[ $line =~ $regexp ]]; then
         echo "$line" >> $fname1
-        echo "$line" | sed -e "s/orange/${foo}/g" >> $fname1
+        echo "$line" | sed -e "s/yellow/${foo}/g" >> $fname1
       else
         echo "$line" >> $fname1
       fi

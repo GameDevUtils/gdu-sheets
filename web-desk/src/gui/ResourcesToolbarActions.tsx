@@ -2,11 +2,6 @@ import React, {Component} from 'react';
 // import { Navbar, Nav, ButtonGroup, Button } from "react-bootstrap";
 import {Button, ButtonGroup, Nav, Navbar} from "react-bootstrap";
 import './ResourcesToolbarActions.css';
-import './ResourcesToolbarActions._blue.scss';
-import './ResourcesToolbarActions._green.scss';
-import './ResourcesToolbarActions._orange.scss';
-import './ResourcesToolbarActions._purple.scss';
-import './ResourcesToolbarActions._red.scss';
 import './ResourcesToolbarActions._yellow.scss';
 
 type MyProps = {

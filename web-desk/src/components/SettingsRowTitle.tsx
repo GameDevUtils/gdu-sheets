@@ -1,10 +1,5 @@
 import React, { Component } from 'react';
 import './SettingsRowTitle.css';
-import './SettingsRowTitle._blue.scss';
-import './SettingsRowTitle._green.scss';
-import './SettingsRowTitle._orange.scss';
-import './SettingsRowTitle._red.scss';
-import './SettingsRowTitle._purple.scss';
 import './SettingsRowTitle._yellow.scss';
 
 type GroupProps = {

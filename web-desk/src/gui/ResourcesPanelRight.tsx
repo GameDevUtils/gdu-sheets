@@ -1,18 +1,8 @@
 import React, {Component, ReactNode} from 'react';
 import './SidePanel.css';
 import './SidePanelRight.css';
-import './SidePanelRight._blue.scss';
-import './SidePanelRight._green.scss';
-import './SidePanelRight._orange.scss';
-import './SidePanelRight._red.scss';
-import './SidePanelRight._purple.scss';
 import './SidePanelRight._yellow.scss';
 import './ResourcesPanelRight.css';
-import './ResourcesPanelRight._blue.scss';
-import './ResourcesPanelRight._green.scss';
-import './ResourcesPanelRight._orange.scss';
-import './ResourcesPanelRight._red.scss';
-import './ResourcesPanelRight._purple.scss';
 import './ResourcesPanelRight._yellow.scss';
 import {FileUtil, ImageFormat, ImageItem, ImageUtil, Project} from "gdu-common";
 // import {ImageUtil_ImageParser, ImageUtil_BMP, ImageUtil_GIF, ImageUtil_JPG, ImageUtil_PNG} from "gdu-common";

@@ -5,7 +5,7 @@ if [ -z "$1" ];
 then
   echo ERROR: Expected one argument. Received none.
   echo Usage:
-  echo "  ./copy-orange-revert.sh themeName"
+  echo "  ./copy-yellow-revert.sh themeName"
 else
   pushd src
 

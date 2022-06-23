@@ -2,11 +2,6 @@ import React, {Component} from 'react';
 // import { Navbar, Nav, ButtonGroup, Button } from "react-bootstrap";
 import './SidePanel.css';
 import './Workspace.css';
-import './Workspace._blue.scss';
-import './Workspace._green.scss';
-import './Workspace._orange.scss';
-import './Workspace._red.scss';
-import './Workspace._purple.scss';
 import './Workspace._yellow.scss';
 
 type MyProps = {
