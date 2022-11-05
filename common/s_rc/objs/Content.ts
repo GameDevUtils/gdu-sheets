@@ -1,5 +1,9 @@
 
-export const LICENSE = `
+export default class Content {
+
+// ------------------------------
+
+public static LICENSE = `
 Copyright (c) 2016-${new Date().getFullYear()} Joseph B. Hall [@groundh0g]
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -21,10 +25,21 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 `;
 
-export const LIBS = `
+// ------------------------------
+
+public static LIBS = `
 The following open source and public domain projects helped make this 
 application possible.
 
+ * bmp-js - a JavaScript encoder/decoder for BMP files
+ * decode-gif - a JavaScript decoder for GIF files, supports animation
+ * jpeg-js - a JavaScript encoder/decoder for JPG files
+ * pngjs - a JavaScript encoder/decoder for PNG files
+ * save-pixels - a library to save ndarray data to an image file
+ * ndarray - multidimensional arrays for JavaScript
+ * uuid - a JavaScript implementation of RFC4122 UUIDs
+ * jszip - a JavaScript encoder/decoder for ZIP files
+ * ----------------------
  * base64 - a base64 encoder / decoder, compatible with atob() and btoa()
  * Blob - W3C Blob interface for browsers that do not support it
  * Bootstrap - a framework for faster and easier web development
@@ -34,7 +49,6 @@ application possible.
  * Jekyll Bootstrap - The definitive Jekyll blogging framework
  * jQuery - a fast, small, and feature-rich JavaScript library
  * json2 - JSON feature for browsers that do not support it
- * jszip - create, read, and edit .zip files with Javascript
  * libgif.js - a modified version of @buzzfeed's & @shachaf's GIF parser
  * libgifparser.js - my lib, based on @buzzfeed's SuperGIF
  * object-keys.js - Object.keys for browsers that do not support it
@@ -43,7 +57,9 @@ application possible.
  * MaxRectsBinPack.cpp - my JavaScript port of C++ source by Jukka Jylänki
 `;
 
-export const DEVELOPER = `
+// ------------------------------
+
+public static DEVELOPER = `
 Joe Hall has been a professional software developer for more than 30 years.
 
 He worked as a programmer for Microsoft and IBM and he was the software 
@@ -64,3 +80,4 @@ see his artistic creations, you'll understand why he makes his living as a
 programmer.
 `;
 
+}

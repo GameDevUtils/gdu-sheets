@@ -16,6 +16,8 @@ import AboutDeveloperCommand from './commands/about/developer';
 import AboutLicenseCommand from './commands/about/license';
 import AboutLibsCommand from './commands/about/libs';
 
+import SliceCommand from "./commands/slice";
+
 import HelpCommand from './commands/help';
 
 import 'colors';
@@ -44,6 +46,8 @@ import { LogUtil, MESSAGE_TYPE, APPLICATION_VERSION } from "gdu-common";
         .command(new AboutDeveloperCommand())
         .command(new AboutLicenseCommand())
         .command(new AboutLibsCommand())
+
+        .command(new SliceCommand())
 
         .command(new HelpCommand())
 

@@ -1,7 +1,7 @@
-const webpack = require('webpack');
+var webpack = require('webpack');
 
 module.exports = function override(config) {
-  const fallback = config.resolve.fallback || {};
+  var fallback = config.resolve.fallback || {};
   Object.assign(fallback, {
     "crypto": require.resolve("crypto-browserify"),
     "stream": require.resolve("stream-browserify"),
@@ -12,16 +12,16 @@ module.exports = function override(config) {
     "url": require.resolve("url"),
     "zlib": require.resolve("browserify-zlib"),
     "path": require.resolve("path-browserify"),
-    "fs": require.resolve("browserify-fs"),
+    "fs": require.resolve("browserify-fs")
   })
   config.resolve.fallback = fallback;
   config.plugins = (config.plugins || []).concat([
     new webpack.ProvidePlugin({
       process: 'process/browser',
       Buffer: ['buffer', 'Buffer'],
-      "React": ["react"],
+      "React": ['react']
     })
   ]);
-  config.target = 'electron-main';
+  config.target = 'browserslist';
   return config;
 }

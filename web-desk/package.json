@@ -3,7 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "bable-loader": "^0.0.1-security",
     "bootstrap": "^5.1.0",
+    "browserify": "^17.0.0",
     "jquery": "^3.6.0",
     "ndarray": "^1.0.19",
     "react": "^17.0.2",
@@ -37,7 +39,10 @@
     "test": "react-app-rewired test",
     "eject": "react-app-rewired eject",
     "electron": "wait-on tcp:3000 && electron .",
-    "dev": "concurrently -k \"BROWSER=none npm start\" \"npm:electron\""
+    "dev": "concurrently -k \"BROWSER=none npm start\" \"npm:electron\"",
+    "clean-web": "rm -rf ./build/",
+    "clean-desk": "echo \"No npm clean script for electron has been written.\"",
+    "build-web": "react-app-rewired build"
   },
   "eslintConfig": {
     "extends": [

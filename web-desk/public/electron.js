@@ -1,41 +1,100 @@
 const path = require('path');
 
-const { app, BrowserWindow, Menu, shell, dialog, autoUpdater, MessageBoxOptions } = require('electron');
+const { app, BrowserWindow, Menu, shell, dialog, autoUpdater, ipcMain, MessageBoxOptions } = require('electron');
 const isDev = require('electron-is-dev');
 
-let template = [{
-    label: 'Edit',
+function setTheme(item, win, themeName) {
+    // win.webContents.send('update-theme', themeName);
+}
+
+let template = [
+    {
+    label: '&File',
     submenu: [{
-        label: 'undo',
-        accelerator: 'CmdOrCtrl+Z',
-        role: 'undo'
+        label: '&New',
+        accelerator: 'CmdOrCtrl+N',
+        role: 'newProject'
     }, {
-        label: 'redo',
-        accelerator: 'Shift+CmdOrCtrl+Z',
-        role: 'redo'
+        label: 'New Window',
+        accelerator: 'Shift+CmdOrCtrl+N',
+        role: 'newWindowProject'
+    }, {
+        label: '&Open...',
+        accelerator: 'CmdOrCtrl+O',
+        role: 'openProject'
+    }, {
+        label: '&Save',
+        accelerator: 'CmdOrCtrl+S',
+        role: 'saveProject'
+    }, {
+        label: 'Save &As...',
+        accelerator: 'Shift+CmdOrCtrl+S',
+        role: 'saveAsProject'
+    }, {
+        label: 'Open &Recent',
+        accelerator: 'CmdOrCtrl+R',
+        submenu: [
+
+        ]
     }, {
         type: 'separator'
     }, {
-        label: 'cut',
-        accelerator: 'CmdOrCtrl+X',
-        role: 'cut'
-    }, {
-        label: 'copy',
-        accelerator: 'CmdOrCtrl+C',
-        role: 'copy'
-    }, {
-        label: 'paste',
-        accelerator: 'CmdOrCtrl+V',
-        role: 'paste'
-    }, {
-        label: 'select all',
-        accelerator: 'CmdOrCtrl+A',
-        role: 'selectall'
+        label: '&Close',
+        accelerator: 'CmdOrCtrl+W',
+        role: 'close'
     }]
 }, {
-    label: 'view',
+    label: 'Edit',
+    submenu: [
+        { label: 'Undo', role: 'undo' },
+        { label: 'Redo', role: 'redo' },
+        { type: 'separator' },
+        { label: 'Cut', role: 'cut' },
+        { label: 'Copy', role: 'copy' },
+        { label: 'Paste', role: 'paste' },
+        { label: 'Select All', role: 'selectall' },
+    ]
+}, {
+    label: 'View',
     submenu: [{
-        label: 'overload',
+        label: 'Theme',
+        submenu: [
+            {
+                label: 'Default',
+                click: (item, win) => { setTheme(item, win, 'default'); },
+            },
+            {
+                label: 'Monochrome',
+                submenu: [
+                    { label: 'yellow', click: (item, win) => { setTheme(item, win, 'yellow'); } },
+                    { label: 'default', click: (item, win) => { setTheme(item, win, 'default'); } },
+                ],
+            },
+            {
+                label: 'Bootswatch',
+                submenu: [
+                    { label: 'Minty', click: (item, win) => { setTheme(item, win, 'minty'); } },
+                    { label: 'Slate', click: (item, win) => { setTheme(item, win, 'slate'); } },
+                ],
+            },
+        ],
+        accelerator: 'CmdOrCtrl+R',
+        click: function (item, focusedWindow) {
+            if (focusedWindow) {
+                if (focusedWindow.id === 1) {
+                    BrowserWindow.getAllWindows().forEach(function (win) {
+                        if (win.id > 1) {
+                            win.close()
+                        }
+                    })
+                }
+                focusedWindow.reload()
+            }
+        }
+    }, {
+        type: 'separator'
+    }, {
+        label: 'Overload',
         accelerator: 'CmdOrCtrl+R',
         click: function (item, focusedWindow) {
             if (focusedWindow) {
@@ -51,7 +110,7 @@ let template = [{
             }
         }
     }, {
-        label: 'switch full screen',
+        label: 'Full Screen',
         accelerator: (function () {
             if (process.platform === 'darwin') {
                 return 'Ctrl+Command+F'
@@ -65,7 +124,7 @@ let template = [{
             }
         }
     }, {
-        label: 'switch developer tools',
+        label: 'Developer Tools',
         accelerator: (function () {
             if (process.platform === 'darwin') {
                 return 'Alt+Command+I'
@@ -81,7 +140,7 @@ let template = [{
     }, {
         type: 'separator'
     }, {
-        label: 'application menu demonstration',
+        label: 'App Menu Demo',
         click: function (item, focusedWindow) {
             if (focusedWindow) {
                 const options = {
@@ -97,20 +156,20 @@ let template = [{
         }
     }]
 }, {
-    label: 'window',
+    label: 'Window',
     role: 'window',
     submenu: [{
-        label: 'minimize',
+        label: 'Minimize',
         accelerator: 'CmdOrCtrl+M',
         role: 'minimize'
     }, {
-        label: 'close',
+        label: 'Close',
         accelerator: 'CmdOrCtrl+W',
         role: 'close'
     }, {
         type: 'separator'
     }, {
-        label: 'reopen the window',
+        label: 'Reopen Window',
         accelerator: 'CmdOrCtrl+Shift+T',
         enabled: false,
         key: 'reopenMenuItem',
@@ -119,7 +178,7 @@ let template = [{
         }
     }]
 }, {
-    label: 'help',
+    label: 'Help',
     role: 'help',
     submenu: [{
         label: 'learn more',
@@ -139,18 +198,18 @@ function addUpdateMenuItems (items, position) {
         label: `Version ${version}`,
         enabled: false
     }, {
-        label: 'checking for updates ...',
+        label: 'Checking for updates ...',
         enabled: false,
         key: 'checkingForUpdate'
     }, {
-        label: 'check for updates',
+        label: 'Check for Updates',
         visible: false,
         key: 'checkForUpdate',
         click: function () {
             autoUpdater.checkForUpdates();
         }
     }, {
-        label: 'restart and install the update',
+        label: 'Restart and Install the Update',
         enabled: true,
         visible: true,
         key: 'restartToUpdate',
@@ -224,7 +283,6 @@ if (process.platform === 'darwin') {
 
     //Window menu
     template[3].submenu.push({
-        
         type: 'separator'
     }, {
         label: 'pre all',
@@ -266,6 +324,9 @@ app.on('window-all-closed', function () {
 
 
 function createWindow() {
+
+    app.dock.setIcon(`${__dirname}/icons/mac/GameDevUtils.png`);
+
     // Create the browser window.
     const win = new BrowserWindow({
         width: 800,
@@ -275,10 +336,13 @@ function createWindow() {
             enableRemoteModule: true,
             nodeIntegration: true,
             contextIsolation: false,
+            // preload: path.join(__dirname, 'preload.js'),
         },
     });
+            // icon: `${__dirname}/icons/mac/GameDevUtils.png`,
 
     win.webContents.on('did-finish-load', () => {
+        win.setIcon(`${path.join(__dirname, '/icons/mac/GameDevUtils.png')}`);
         win.maximize();
         win.show();
 
@@ -286,6 +350,7 @@ function createWindow() {
         if (isDev) {
             win.webContents.openDevTools({ mode: 'detach' });
         }
+        // win.setIcon(`${__dirname}/icons/mac/GameDevUtils.png`);
     });
 
     // and load the index.html of the app.
@@ -305,6 +370,9 @@ function createWindow() {
 app.on('ready', () => {
     const menu = Menu.buildFromTemplate(template);
     Menu.setApplicationMenu(menu);
+
+    app.dock.setIcon(`${path.join(__dirname, '../public/icons/mac/GameDevUtils.png')}`);
+
 
     //app.setName("GDU - Sprite Sheets")
     createWindow();

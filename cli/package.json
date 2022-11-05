@@ -46,6 +46,7 @@
     "@types/glob": "^7.2.0",
     "colors": "^1.4.0",
     "ndarray": "^1.0.19",
+    "ndarray-pixels": "^1.0.0",
     "yargs": "^17.1.1"
   }
 }

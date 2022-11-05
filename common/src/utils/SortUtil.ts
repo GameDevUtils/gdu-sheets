@@ -1,7 +1,7 @@
-import {ImageFrame} from "../objs/images";
-import {Project, SortBy} from "../objs/projects";
+import {ImageFrame} from "..";
+import {Project, SortBy} from "..";
 import {PackMode} from "./PackUtil";
-import {Images} from "./ProjectUtil";
+import {Images} from "./ImageItem";
 
 export type SortOptions = {
     packMode: PackMode,
@@ -40,7 +40,7 @@ export class SortUtil {
             const image = project.images[imgKey];
 
             if(image && image.frames.length) {
-                image.frames.forEach((frame, indexFrame) => {
+                image.frames.forEach((frame: any, indexFrame: number) => {
                     sortableFrames.push({
                         filename: image.filename,
                         fullpath: image.fullpath,

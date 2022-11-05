@@ -1,15 +1,19 @@
-import {ImageUtil_ImageParser} from "./ImageUtil._base";
-import {ImageProps} from "../objs/images";
+// import * as ImageUtil_ImageParser from "./ImageUtil._base";
 import {NdArray} from "ndarray";
 import {Buffer} from "buffer";
 import DecodeGIF from "decode-gif";
 import {LogUtil} from "./LogUtil";
-import {MESSAGE_TYPE} from "../objs/messages";
+import {ImageFormat, ImageProps, ImageUtil_ImageParser, MESSAGE_TYPE} from "..";
+import {ReadStream} from "fs";
 
 export class ImageUtil_GIF extends ImageUtil_ImageParser {
 
-    public parseImageData(data: NdArray) : ImageProps {
-        const result = ImageUtil_ImageParser.EMPTY_IMAGE_PROPS;
+    constructor(data?: Blob | ReadStream | Buffer | Uint8Array | string) {
+        super(ImageFormat.GIF, data);
+    }
+
+    public parseImageData(data: NdArray) : any {
+        const result = ImageProps.EMPTY_IMAGE_PROPS;
         let img;
 
         try {

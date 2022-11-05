@@ -1,9 +1,9 @@
-import {FileParts} from '../objs/files';
-import {LogUtil} from "./LogUtil";
-import {MESSAGE_TYPE} from "../objs/messages";
-import {Buffer} from "buffer";
-import ndarray, {NdArray} from "ndarray";
-import {ImageUtil} from "./ImageUtil";
+import {FileParts, ImageItem} from '..';
+import {LogUtil} from './LogUtil';
+import {MESSAGE_TYPE} from '..';
+import {Buffer} from 'buffer';
+import ndarray, {NdArray} from 'ndarray';
+// import {ImageUtil} from './ImageUtil';
 
 export class FileUtil {
     static get EMPTY_FILEPARTS() : FileParts
@@ -41,7 +41,7 @@ export class FileUtil {
     }
 
     static getFileBytes(data: Uint8Array | string, imageFormat: string) : NdArray {
-        const preamble = ImageUtil.PREAMBLE_TEMPLATE.replace(/xxx/g, imageFormat.toLowerCase());
+        const preamble = ImageItem.PREAMBLE_TEMPLATE.replace(/xxx/g, imageFormat.toLowerCase());
 
         let result: NdArray;
 

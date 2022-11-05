@@ -406,6 +406,22 @@ export default class Options {
             conflicts: ['f']
         });
 
+        // option = Options.makeOption(
+        //     OptionName.CompressProject,
+        //     OptionGroup.Advanced,
+        //     'zip project file',
+        //     'boolean',
+        //     undefined, // false,
+        // );
+        // argv.option('C', option as Options);
+        // argv.alias('C', option.alias1);
+        argv.option('E', {
+            alias: 'slice',
+            group: 'CLI-Only:',
+            describe: 'slice into multiple images',
+            type: 'string',
+        });
+
         argv.showHidden(true);
 
         return argv;

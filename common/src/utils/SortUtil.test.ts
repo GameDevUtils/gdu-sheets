@@ -1,9 +1,9 @@
 import {SortUtil} from "./SortUtil";
-import {ImageItem} from "../objs/images";
+import {ImageFrame, ImageItem} from "..";
 import {PackMode} from "./PackUtil";
-import {ImageUtil_ImageParser} from "./ImageUtil._base";
-import {SortBy} from "../objs/projects";
-import {ImageUtil} from "./ImageUtil";
+// import {ImageUtil_ImageParser} from "./ImageUtil._base";
+import {SortBy} from "..";
+// import {ImageUtil} from "./ImageUtil";
 import {ProjectUtil} from "./ProjectUtil";
 
 describe("SortUtil", () => {
@@ -13,38 +13,38 @@ describe("SortUtil", () => {
     beforeEach(() => {
         images.length = 0
 
-        images.push(ImageUtil.EMPTY_IMAGE_ITEM);
+        images.push(ImageItem.EMPTY_IMAGE_ITEM);
         images[0].filename = 'xyz-a';
         images[0].fullpath = 'xyz-afp';
-        images[0].frames.push(ImageUtil_ImageParser.EMPTY_IMAGE_FRAME);
+        images[0].frames.push(ImageFrame.EMPTY_IMAGE_FRAME);
         images[0].frames[0].width = 100;
         images[0].frames[0].height = 150;
         images[0].frames[0].guid = 'xyz-00';
 
-        images.push(ImageUtil.EMPTY_IMAGE_ITEM);
+        images.push(ImageItem.EMPTY_IMAGE_ITEM);
         images[1].filename = 'xyz-b';
         images[1].fullpath = 'xyz-bfp';
-        images[1].frames.push(ImageUtil_ImageParser.EMPTY_IMAGE_FRAME);
+        images[1].frames.push(ImageFrame.EMPTY_IMAGE_FRAME);
         images[1].frames[0].width = 400;
         images[1].frames[0].height = 200;
         images[1].frames[0].guid = 'xyz-01';
-        images[1].frames.push(ImageUtil_ImageParser.EMPTY_IMAGE_FRAME);
+        images[1].frames.push(ImageFrame.EMPTY_IMAGE_FRAME);
         images[1].frames[1].width = 64;
         images[1].frames[1].height = 64;
         images[1].frames[1].guid = 'xyz-02';
 
-        images.push(ImageUtil.EMPTY_IMAGE_ITEM);
+        images.push(ImageItem.EMPTY_IMAGE_ITEM);
         images[2].filename = 'xyz-d';
         images[2].fullpath = 'xyz-dfp';
-        images[2].frames.push(ImageUtil_ImageParser.EMPTY_IMAGE_FRAME);
+        images[2].frames.push(ImageFrame.EMPTY_IMAGE_FRAME);
         images[2].frames[0].width = 180;
         images[2].frames[0].height = 20;
         images[2].frames[0].guid = 'xyz-03';
 
-        images.push(ImageUtil.EMPTY_IMAGE_ITEM);
+        images.push(ImageItem.EMPTY_IMAGE_ITEM);
         images[3].filename = 'xyz-e';
         images[3].fullpath = 'xyz-efp';
-        images[3].frames.push(ImageUtil_ImageParser.EMPTY_IMAGE_FRAME);
+        images[3].frames.push(ImageFrame.EMPTY_IMAGE_FRAME);
         images[3].frames[0].width = 32;
         images[3].frames[0].height = 128;
         images[3].frames[0].guid = 'xyz-04';
