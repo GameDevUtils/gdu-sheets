@@ -118,3 +118,5 @@ dist
 build/
 # src-cli/build/
 .idea/
+
+coverage/

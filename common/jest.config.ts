@@ -104,7 +104,7 @@ export default {
   // projects: undefined,
 
   // Use this configuration option to add custom reporters to Jest
-  // reporters: undefined,
+  reporters: ["jest-skipped-reporter"],
 
   // Automatically reset mock state between every test
   // resetMocks: false,
