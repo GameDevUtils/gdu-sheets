@@ -73,7 +73,6 @@
     "@types/react": "^17.0.19",
     "@types/react-dom": "^17.0.9",
     "assert": "^2.0.0",
-    "browserify-fs": "^1.0.0",
     "browserify-zlib": "^0.2.0",
     "buffer": "^6.0.3",
     "concurrently": "^6.2.1",
