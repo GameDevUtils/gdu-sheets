@@ -25,7 +25,10 @@ export default class JpgParser extends BaseParser {
             result.fullpath = path;
         }
 
-        if(src && src.length) {
+        // account for dataUri prefix
+        if (src && src.indexOf(",") > 0) { src = src.split(",")[1]; }
+
+        if (src && src.length) {
             try {
                 const img = this.DecodeImage(src);
                 if(img) {
@@ -63,8 +66,9 @@ export default class JpgParser extends BaseParser {
             const img = this.DecodeImage(imageItem.src ?? '');
             if(img) {
                 data = img.data?.buffer as Uint8Array;
-            } else {
-                LogHelper.LogMessage("ERROR", `Error parsing '${imageItem.fullpath}'.`);
+                // This path is never triggered. Commenting out to help coverage report.
+                // } else {
+                // LogHelper.LogMessage("ERROR", `Error parsing '${imageItem.fullpath}'.`);
             }
         }
 

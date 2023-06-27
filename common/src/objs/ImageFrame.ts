@@ -1,6 +1,7 @@
 import Rectangle from "./Rectangle";
 
 export default class ImageFrame {
+    // [x: string]: never[];
 
     // public left: number = 0;
     // public top: number = 0;

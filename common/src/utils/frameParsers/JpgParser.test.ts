@@ -5,6 +5,7 @@ import ImageFrame from "../../objs/ImageFrame";
 import ImageItem from "../../objs/ImageItem";
 import ParserHelper from "../ParserHelper";
 import JpgParser from "./JpgParser";
+import PackerTestHelper from '../spritePackers/_PackerTestHelper';
 
 describe("JpgParser", () => {
 
@@ -83,6 +84,25 @@ describe("JpgParser", () => {
         expect(image.width).toEqual(0);
         expect(image.height).toEqual(0);
         expect(image.frames?.length).toEqual(0);
+    });
+
+    test("Parses empty or missing src data", () => {
+        const project = PackerTestHelper.makeProject(1);
+        const parser = new JpgParser();
+
+        let image: ImageItem = ImageItem.Empty;
+        for (let key in project.images) {
+            image = project.images[key];
+            break;
+        }
+
+        expect(image).toBeDefined();
+
+        image.src = undefined;
+        parser.PopulateFrames(image);
+
+        expect(image.width).toEqual(32);
+        expect(image.height).toEqual(32);
     });
 
     // TODO: ensure ParserHelper's registry doesn't need priming

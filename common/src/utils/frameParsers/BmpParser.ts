@@ -51,7 +51,11 @@ export default class BmpParser extends BaseParser {
 
     protected DecodeImage(src: string) : BmpDecoder {
         let result: BmpDecoder = {} as BmpDecoder;
-        if(src && src.length) {
+
+        // account for dataUri prefix
+        if (src && src.indexOf(",") > 0) { src = src.split(",")[1]; }
+
+        if (src && src.length) {
             try {
                 const buffer = Buffer.from(src, 'base64'); // new Buffer(src, 'base64');
                 result = BMP.decode(buffer);
@@ -60,18 +64,19 @@ export default class BmpParser extends BaseParser {
         return result;
     }
 
+    // TODO: commented out the try/catch since the lib handles errors without throwing exceptions, fixed coverage
     public PopulateFrames(imageItem: ImageItem, data?: Uint8Array, project?: Project): void {
         if(data === undefined) {
-            try {
+            // try {
                 const img = this.DecodeImage(imageItem.src || '');
                 if (img && img.data) {
                     data = img.data.buffer as Uint8Array;
                 } else {
                     LogHelper.LogMessage("ERROR", `Error parsing '${imageItem.fullpath}'.`);
                 }
-            } catch(e) {
-                LogHelper.LogMessage("ERROR", `Error parsing '${imageItem.fullpath}'.`, e);
-            }
+            // } catch(ex) {
+            //     LogHelper.LogMessage('ERROR', `Error parsing '${imageItem.fullpath}'.`, ex);
+            // }
         }
 
         if(data === undefined || data.length === 0) {

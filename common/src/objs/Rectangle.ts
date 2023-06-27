@@ -11,36 +11,54 @@ export default class Rectangle {
     public get left() : number { return this.x; }
     public get right() : number { return this.x + this.width; }
     public get bottom() : number { return this.y + this.height; }
-    public get isEmpty() : boolean { return this.width <= 0 || this.height <= 0; }
+    public get isEmpty(): boolean { return this.width <= 0 || this.height <= 0; }
+    public get area(): number { return this.width * this.height; }
 
     public static get Empty() : Rectangle {
         return new Rectangle();
     }
 
-    public Intersects(rect: Rectangle) : boolean {
-        return !(
-            this.x >= rect.right ||
-            this.right <= rect.x ||
-            this.y >= rect.bottom ||
-            this.bottom <= rect.y
+    public Intersects(rect: Rectangle): boolean {
+        // console.log(`
+        //     ${this.x} > ${rect.right} - t.x > r.right
+        //     ${this.right} < ${rect.x} - t.right < r.x
+        //     ${this.y} > ${rect.bottom} - t.y > r.bottom
+        //     ${this.bottom} < ${rect.y} - t.bottom < r.y
+        // `);
+        return (
+            this.ContainsPoint(rect.x, rect.y) ||
+            this.ContainsPoint(rect.x, rect.y + rect.height - 1) ||
+            this.ContainsPoint(rect.x + rect.width -1, rect.y) ||
+            this.ContainsPoint(rect.x + rect.width - 1, rect.y + rect.height - 1)
         );
     }
 
     public Contains(rect: Rectangle) : boolean {
         return (
-            rect.x >= this.x &&
-            rect.y >= this.y &&
-            rect.right  <= this.right &&
-            rect.bottom <= this.bottom
+            this.x <= rect.x &&
+            this.y <= rect.y &&
+            this.right >= rect.right &&
+            this.bottom >= rect.bottom
         );
+    }
+
+    public ContainsPoint(x: number, y: number): boolean {
+        const rect = Rectangle.Create(x, y, 1, 1);
+        return this.Contains(rect);
+        // return (
+        //     this.x <= rect.x &&
+        //     this.y <= rect.y &&
+        //     this.right >= rect.right &&
+        //     this.bottom >= rect.bottom
+        // );
     }
 
     public ContainedIn(rect: Rectangle) : boolean {
         return (
-            rect.x <= this.x &&
-            rect.y <= this.y &&
-            rect.right  >= this.right &&
-            rect.bottom >= this.bottom
+            rect.x >= this.x &&
+            rect.y >= this.y &&
+            rect.right  <= this.right &&
+            rect.bottom <= this.bottom
         );
     }
 

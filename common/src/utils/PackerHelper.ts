@@ -6,10 +6,6 @@ export type Packers = { [key: string]: BasePacker };
 
 export default class PackerHelper {
 
-    // public static async PackSprites(packer: BasePacker, project: Project) : Promise<CallbackStatusTypes>  {
-    //     return packer.DoPack(project);
-    // }
-
     public static RegisteredPackers: Packers = {} as Packers;
     public static RegisterPacker(packer: BasePacker) : void {
         const key = packer.GetPackerType();

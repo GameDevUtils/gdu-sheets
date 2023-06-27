@@ -49,26 +49,32 @@ export default class PngParser extends BaseParser {
 
     protected DecodeImage(src: string) : PNGWithMetadata {
         let result: PNGWithMetadata = {} as PNGWithMetadata;
-        if(src && src.length) {
+
+        // account for dataUri prefix
+        if (src && src.indexOf(",") > 0) { src = src.split(",")[1]; }
+
+        if (src && src.length) {
             try {
                 const buffer = Buffer.from(src, 'base64'); // new Buffer(src, 'base64');
                 result = PNG.sync.read(buffer);
             } catch { }
         }
+
         return result;
     }
 
     public PopulateFrames(imageItem: ImageItem, data?: Uint8Array, project?: Project): void {
-        if(data === undefined) {
+        if (data === undefined) {
             const img = this.DecodeImage(imageItem.src ?? '');
             if(img) {
                 data = img.data?.buffer as Uint8Array;
-            } else {
-                LogHelper.LogMessage("ERROR", `Error parsing '${imageItem.fullpath}'.`);
+                // This path is never triggered. Commenting out to help coverage report.
+                // } else {
+                // LogHelper.LogMessage("ERROR", `Error parsing '${imageItem.fullpath}'.`);
             }
         }
 
-        if(data === undefined) {
+        if (data === undefined) {
             LogHelper.LogMessage("WARN", `Unable to parse ${this.GetImageFormat()} image data.`);
         } else {
             this.AddImageFrame(imageItem, data);

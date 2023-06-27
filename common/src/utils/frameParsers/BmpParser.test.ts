@@ -86,7 +86,7 @@ describe("BmpParser", () => {
     });
 
     // TODO: ensure ParserHelper's registry doesn't need priming
-    test("Handles parsing ImageItem.Empty", () => {
+    test("Registers parser when creating a new instance", () => {
         const parser1 = new BmpParser(); // TODO: kill this line
         const parser2 = ParserHelper.RegisteredParsers["BMP"];
 

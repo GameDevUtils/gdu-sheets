@@ -6,10 +6,15 @@ import ImageItem from "../../objs/ImageItem";
 import ParserHelper from "../ParserHelper";
 import GifParser from "./GifParser";
 import Project from "../../objs/Project";
+import PackerTestHelper from '../spritePackers/_PackerTestHelper';
 
 describe( "GifParser", () => {
 
-    beforeAll(() => LogHelper.OutputModule = console );
+    beforeAll(() => {
+        LogHelper.OutputModule = console;
+        // PackerTestHelper.InitParsers();
+    });
+
     afterAll(() => LogHelper.OutputModule = undefined );
 
     test("Reads valid GIF", () => {
@@ -61,6 +66,26 @@ describe( "GifParser", () => {
         expect(image.height).toEqual(undefined);
     });
 
+    test("Cannot read invalid GIF, malformed data", () => {
+        const parser = new GifParser();
+        const buffer = Buffer.from("This isn't a valid GIF file! It's just a string.");
+        const base64 = buffer.toString("base64");
+        const image = parser.ParseImageData(base64);
+
+        expect(image.width).toEqual(undefined);
+        expect(image.height).toEqual(undefined);
+    });
+
+    test("Cannot read invalid GIF, empty data", () => {
+        const parser = new GifParser();
+        const buffer = Buffer.from("");
+        const base64 = buffer.toString("base64");
+        const image = parser.ParseImageData(base64);
+
+        expect(image.width).toEqual(0);
+        expect(image.height).toEqual(0);
+    });
+
     test("Cannot read invalid GIF or its frames", () => {
         const filename = path.resolve(__dirname, '../../_assets/joehall-logo-bad.GIF');
         const parser = new GifParser();
@@ -91,7 +116,7 @@ describe( "GifParser", () => {
         const parser1 = new GifParser(); // TODO: kill this line
         const parser2 = ParserHelper.RegisteredParsers["GIF"];
 
-        expect(parser2).toStrictEqual(undefined);
+        expect(parser2).toEqual({});
     });
 
     test("Reads valid GIF; populates multiple frames w/ buffer", () => {
@@ -110,4 +135,31 @@ describe( "GifParser", () => {
         expect(image.frames?.length).toEqual(8);
     });
 
+    test("Parses empty or missing src data", () => {
+        const project = PackerTestHelper.makeProject(1);
+        const parser = new GifParser();
+
+        let image: ImageItem = ImageItem.Empty;
+        for (let key in project.images) {
+            image = project.images[key];
+            break;
+        }
+
+        expect(image).toBeDefined();
+
+        image.src = undefined;
+        parser.PopulateFrames(image);
+
+        expect(image.width).toEqual(32);
+        expect(image.height).toEqual(32);
+    });
+
+    // TODO: ensure ParserHelper's registry doesn't need priming
+    test("Registers parser when creating a new instance", () => {
+        const parser1 = new GifParser(); // TODO: kill this line
+        const parser2 = ParserHelper.RegisteredParsers["GIF"];
+
+        expect(parser2).toStrictEqual(parser1);
+    });
+    
 });

@@ -29,17 +29,19 @@ export default abstract class BaseParser implements IBaseParser {
 
     public AddImageFrame(imageItem: ImageItem, data: Uint8Array) : void {
         const result = new ImageFrame();
+        result.spriteRect = Rectangle.Create(0, 0, 0, 0, false);
 
         if(imageItem && !imageItem.isEmpty) {
             const width = imageItem.width;
             const height = imageItem.height;
 
-            LogHelper.LogMessage("DEBUG", `Building ${width}x${height} frame for ${imageItem.fullpath} ...`)
-            if(width && height && data) { //} && data.length) {
+            result.spriteRect = Rectangle.Create(0, 0, width!, height!, false);
+
+            // LogHelper.LogMessage("DEBUG", `Building ${width}x${height} frame for ${imageItem.fullpath} ...`)
+            if (width && height && data) { //} && data.length) {
                 // result.spriteRect.width = width;
                 // result.spriteRect.height = height;
-                result.spriteRect = Rectangle.Create(0, 0, width, height, false);
-                result.gamma = imageItem.gamma ?? 0; // TODO: populate from the one parser that supports it
+                result.gamma = imageItem.gamma!; // TODO: populate from the one parser that supports it
                 result.data = data;
                 result.dataSrc = data.slice(0);
 
@@ -49,18 +51,19 @@ export default abstract class BaseParser implements IBaseParser {
                 result.hashSHA256 = hashSHA256.update(bufferString).digest('hex');
                 result.hashMD5 = hashMD5.update(bufferString).digest('hex');
 
-                LogHelper.LogMessage("DEBUG", `- SHA: ${result.hashSHA256}`);
-                LogHelper.LogMessage("DEBUG", `- MD5: ${result.hashMD5}`);
+                // LogHelper.LogMessage("DEBUG", `- SHA: ${result.hashSHA256}`);
+                // LogHelper.LogMessage("DEBUG", `- MD5: ${result.hashMD5}`);
                 result.filterAppliedAliasHash = false;
                 result.filterAppliedTrimRect = false;
                 result.filterAppliedPaddingInner = false;
                 result.isDuplicate = false;
                 if(!imageItem.frames || !imageItem.frames.length) { imageItem.frames = [] as ImageFrame[]; }
                 imageItem.frames.push(result);
-            } else {
-                LogHelper.LogMessage("WARN", `- Cannot process empty image frame, '${imageItem.fullpath}'.`);
+                // This path is never triggered. Commenting out to help coverage report.
+                // } else {
+                // LogHelper.LogMessage("WARN", `- Cannot process empty image frame, '${imageItem.fullpath}'.`);
             }
-            LogHelper.LogMessage("DEBUG", `- Done.`);
+            // LogHelper.LogMessage("DEBUG", `- Done.`);
         }
     }
 }

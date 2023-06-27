@@ -39,8 +39,8 @@ export default abstract class BasePacker implements ISpritePacker {
 
     public DoInit(project: Project, width?: number, height?: number) : boolean {
 
-        this.pack_width = width ?? 1;
-        this.pack_height = height ?? 1;
+        this.pack_width = width || 1;
+        this.pack_height = height || 1;
         this.pack_framesProcessed = 0;
         this.pack_end = undefined;
         this.pack_duration = undefined;
@@ -51,25 +51,37 @@ export default abstract class BasePacker implements ISpritePacker {
 
             LogHelper.Clear();
 
+            // TODO: add checks for the following; ideally, implement without modifying the project options object
+            // [ ] is sprite rotation supported in CSS? WARN / CORRECT
+            // [ ] does the selected heuristic negate the benefits of the selected packer? WARN ONLY
+            // [X] Trim with Threshold of 255? WARN / CORRECT
+            // [X] FixedSize with ForceSquare, when not square? WARN / CORRECT
+            // [X] FixedSize with PowerOfTwo, when not power of two? WARN / CORRECT
+
+            const options = Object.assign({}, project.options);
             // TODO: implement as described
-            if(project.options.trimMode === "Trim" && project.options.trimThreshold === 255) {
+            if(options.trimMode === "Trim" && options.trimThreshold === 255) {
                 LogHelper.LogMessage("WARN", "TrimMode enabled, but with a trim threshold of 255.");
                 LogHelper.LogMessage("WARN", "All sprites would be eliminated. Using a trim threshold of 1 instead.");
+                options.trimThreshold = 1;
             }
 
             // TODO: implement as described
-            if(project.options.forceSquare === "Yes" && project.options.sizeMode == "Fixed Size" && project.options.width != project.options.height) {
-                LogHelper.LogMessage("WARN", `Force Square is enabled with Fixed Size, but width and height don't match at ${project.options.width}x${project.options.height}.`);
-                const newSize = Math.max(project.options.width, project.options.height);
+            if(options.forceSquare === "Yes" && options.sizeMode == "Fixed Size" && options.width != options.height) {
+                LogHelper.LogMessage("WARN", `Force Square is enabled with Fixed Size, but width and height don't match at ${options.width}x${options.height}.`);
+                const newSize = Math.max(options.width, options.height);
                 LogHelper.LogMessage("WARN", `Resizing would fail. Using a size of ${newSize}x${newSize} instead.`);
+                options.width = options.height = newSize;
             }
 
             // TODO: implement as described
-            if(project.options.sizeMode == "Fixed Size" && project.options.constraint === "Power of Two" && (!MathHelper.IsPowerOfTwo(project.options.width) || !MathHelper.IsPowerOfTwo(project.options.height))) {
-                LogHelper.LogMessage("WARN", `Power of Two constraint is enabled with Fixed Size, but the width or height are not powers of two (${project.options.width}x${project.options.height}).`);
+            if(options.sizeMode === "Fixed Size" && options.constraint === "Power of Two" && (!MathHelper.IsPowerOfTwo(options.width) || !MathHelper.IsPowerOfTwo(options.height))) {
+                LogHelper.LogMessage("WARN", `Power of Two constraint is enabled with Fixed Size, but the width or height are not powers of two at ${options.width}x${options.height}.`);
                 const newWidth = MathHelper.RoundUpToPowerOfTwo(project.options.width - 1);
                 const newHeight = MathHelper.RoundUpToPowerOfTwo(project.options.height - 1);
                 LogHelper.LogMessage("WARN", `Resizing would fail. Using a size of ${newWidth}x${newHeight} instead.`);
+                options.width = newWidth;
+                options.height = newHeight;
             }
 
             this.pack_start = Date.now();
@@ -82,37 +94,65 @@ export default abstract class BasePacker implements ISpritePacker {
             this.pack_frameHashes = {} as FrameHashesType;
 
             let areaOfFrames = 0; // only useful when sizeMode is "Max Size"
-            Object.getOwnPropertyNames(project.images).forEach((key, index, array) => {
+            for (const key in project.images) {
                 const image = project.images[key];
-                if (image) {
-                    if (!image.frames || !image.frames.length) {
-                        const filetype = image.filetype?.toUpperCase();
-                        const imageFormat: string | undefined = filetype === "JPEG" ? "JPG" : filetype;
-                        if (imageFormat) {
-                            image.frames = [] as ImageFrame[];
-                            const parser: BaseParser = ParserHelper.RegisteredParsers[imageFormat];
-                            if (parser) {
-                                parser.PopulateFrames(image, undefined, project);
-                                image.frames.forEach((frame, index, array) => {
-                                    this.ApplyTrimFilter(frame, project.options);
-                                    this.ApplyInnerPaddingFilter(frame, project.options);
-                                    this.ApplyAliasSpritesFilter(frame, project.options, this.pack_frameHashes);
-                                });
-                            }
-                        }
-                    }
-                    if (image.frames) {
-                        for (let i = 0; i < image.frames.length; i++) {
-                            const frame = image.frames[i];
-                            if (frame && frame.spriteRect.width && frame.spriteRect.height) {
-                                areaOfFrames += (frame.spriteRect.width + this.pack_paddingShape * 2) * (frame.spriteRect.height + this.pack_paddingShape * 2);
-                                this.pack_frameCount++;
-                            }
-                            if (!this.pack_useAllFrames) { break; }
+                if (!image.frames?.length) {
+                    const filetype = image.filetype?.toUpperCase();
+                    const imageFormat: string | undefined = filetype === "JPEG" ? "JPG" : filetype;
+                    if (imageFormat) {
+                        image.frames = [] as ImageFrame[];
+                        const parser = ParserHelper.RegisteredParsers[imageFormat];
+                        parser?.PopulateFrames(image, undefined, project);
+                        for (const frame of image.frames) {
+                            this.ApplyTrimFilter(frame, project.options);
+                            this.ApplyInnerPaddingFilter(frame, project.options);
+                            this.ApplyAliasSpritesFilter(frame, project.options, this.pack_frameHashes);
                         }
                     }
                 }
-            });
+                if (image.frames?.length) {
+                    for (const frame of image.frames) {
+                        if (frame?.spriteRect.width && frame?.spriteRect.height) {
+                            areaOfFrames += (frame.spriteRect.width + this.pack_paddingShape * 2) * (frame.spriteRect.height + this.pack_paddingShape * 2);
+                            this.pack_frameCount++;
+                        }
+                        if (!this.pack_useAllFrames) { break; }
+                    }
+                }
+            }
+
+            // let areaOfFrames = 0; // only useful when sizeMode is "Max Size"
+            // for (const key in project.images) {
+            //     const image = project.images[key];
+            //     if (image) {
+            //         if (!image.frames || !image.frames.length) {
+            //             const filetype = image.filetype?.toUpperCase();
+            //             const imageFormat: string | undefined = filetype === "JPEG" ? "JPG" : filetype;
+            //             if (imageFormat) {
+            //                 image.frames = [] as ImageFrame[];
+            //                 const parser: BaseParser = ParserHelper.RegisteredParsers[imageFormat];
+            //                 if (parser) {
+            //                     parser.PopulateFrames(image, undefined, project);
+            //                     image.frames.forEach((frame, index, array) => {
+            //                         this.ApplyTrimFilter(frame, project.options);
+            //                         this.ApplyInnerPaddingFilter(frame, project.options);
+            //                         this.ApplyAliasSpritesFilter(frame, project.options, this.pack_frameHashes);
+            //                     });
+            //                 }
+            //             }
+            //         }
+            //         if (image.frames) {
+            //             for (let i = 0; i < image.frames.length; i++) {
+            //                 const frame = image.frames[i];
+            //                 if (frame && frame.spriteRect.width && frame.spriteRect.height) {
+            //                     areaOfFrames += (frame.spriteRect.width + this.pack_paddingShape * 2) * (frame.spriteRect.height + this.pack_paddingShape * 2);
+            //                     this.pack_frameCount++;
+            //                 }
+            //                 if (!this.pack_useAllFrames) { break; }
+            //             }
+            //         }
+            //     }
+            // }
 
             if(project.options.sizeMode === "Fixed Size") {
                 this.pack_width = project.options.width;
@@ -123,9 +163,10 @@ export default abstract class BasePacker implements ISpritePacker {
 
             LogHelper.LogMessage("LOG", `Packing ${this.pack_frameCount} frames using the ${this.GetPackerType()} sprite packer ...`);
         } else {
-            LogHelper.LogMessage("DEBUG", `Packing restarted due to canvas resize to ${this.pack_width}x${this.pack_height}...`);
+            // LogHelper.LogMessage("DEBUG", `Packing restarted due to canvas resize to ${this.pack_width}x${this.pack_height}...`);
         }
 
+        // DEAD CODE
         if(this.pack_width > project.options.width || this.pack_height > project.options.height) {
             LogHelper.LogMessage("ERROR", `Packing canceled due to canvas overflow at ${this.pack_width}x${this.pack_height}.`);
             this.DoCompleteCallback(false, project);
@@ -167,41 +208,52 @@ export default abstract class BasePacker implements ISpritePacker {
 
     // This should make the packing faster by avoiding pointless resizing. We'll see.
     protected DoInitialSizeBestGuess(project: Project, width: number, height: number, targetArea: number): void {
+        const options = project.options;
+        const padding: number = Math.max(options.shapePadding || 0, options.borderPadding || 0);
+
         let resizeResult: boolean = true;
-        const padding: number = Math.max(project.options.shapePadding || 0, project.options.borderPadding ||0);
         let canvasRect: Rectangle = Rectangle.Inflate(Rectangle.Create(0,0,this.pack_width, this.pack_height), -padding);
         let fitsArea: boolean = targetArea <= canvasRect.width * canvasRect.height;
         let canGrowMore: boolean = (
-            project.options.width > this.pack_width &&
-            project.options.height > this.pack_height
+            options.width > this.pack_width ||
+            options.height > this.pack_height
         );
-        while (resizeResult && !fitsArea && canGrowMore) {
+
+        LogHelper.LogMessage("DEBUG", `DoInitialSizeBestGuess(): ${JSON.stringify({resizeResult, canvasRect, fitsArea, canGrowMore}, null, 2)}`)
+        let didGrow = true;
+        while (resizeResult && !fitsArea && didGrow && canGrowMore) {
+            const canvasRectPrevious = Rectangle.Inflate(Rectangle.Create(0,0,this.pack_width, this.pack_height), -padding);
             resizeResult = this.DoResize(project, this.pack_width + BasePacker.GROW_BY, this.pack_height + BasePacker.GROW_BY);
-            canvasRect = Rectangle.Inflate(Rectangle.Create(0,0,this.pack_width, this.pack_height), -padding);
-            fitsArea = targetArea <= canvasRect.width * canvasRect.height;
+            canvasRect = Rectangle.Inflate(Rectangle.Create(0, 0, this.pack_width, this.pack_height), -padding);
+            fitsArea = targetArea <= canvasRect.area;
+            didGrow = canvasRect.area > canvasRectPrevious.area;
             canGrowMore = (
-                project.options.width > this.pack_width ||
-                project.options.height > this.pack_height
+                options.width > this.pack_width ||
+                options.height > this.pack_height
             );
+            LogHelper.LogMessage("DEBUG", `DoInitialSizeBestGuess(): ${JSON.stringify({resizeResult, canvasRectPrevious, canvasRect, fitsArea, canGrowMore}, null, 2)}`)
         }
-        console.log(`${this.pack_width}x${this.pack_height} <<<`);
+
+        LogHelper.LogMessage("DEBUG", `${this.pack_width}x${this.pack_height} <<<`);
     }
 
-    public async DoPack(project: Project): Promise<CallbackStatusTypes> {
+    public DoPack(project: Project): CallbackStatusTypes {
         if (this.DoInit(project)) {
             if (this.OnPack(project)) {
                 if (this.DoRender(project)) {
                     this.DoCompleteCallback(true, project);
-                    return Promise.resolve("Completed");
+                    return "Completed";
                 }
+                // DEAD CODE
                 this.DoCompleteCallback(false, project);
-                return Promise.reject("Rendering aborted, DoRender.");
+                return "Failed";
             }
             this.DoCompleteCallback(false, project);
-            return Promise.reject("Sprite packing aborted, OnPack.");
+            return "Failed";
         }
+        // DEAD CODE
         this.DoCompleteCallback(false, project);
-        return Promise.reject("Sprite packing aborted, DoInit.");
+        return "Failed";
     }
 
     public DoRender(project: Project) : boolean {
@@ -211,9 +263,10 @@ export default abstract class BasePacker implements ISpritePacker {
     }
 
     protected DoResize(project: Project, minWidth: number, minHeight: number): boolean {
-        let options = project.options;
-        let wOrig = this.pack_width;
-        let hOrig = this.pack_height;
+        const wOrig = this.pack_width;
+        const hOrig = this.pack_height;
+        const options = project.options;
+
         minWidth = minWidth || (this.pack_width + BasePacker.GROW_BY);
         minHeight = minHeight || (this.pack_height + BasePacker.GROW_BY);
 
@@ -221,8 +274,9 @@ export default abstract class BasePacker implements ISpritePacker {
             this.pack_width = options.width ?? this.pack_width + BasePacker.GROW_BY;
             this.pack_height = options.height ?? this.pack_height + BasePacker.GROW_BY;
         } else {
-            const hOpts = options.height ?? 1024;
-            const wOpts = options.width ?? 1024;
+            const hOpts = options.height;
+            const wOpts = options.width;
+
             if (this.pack_width >= this.pack_height && hOrig < hOpts) {
                 // increase height
                 this.pack_height = minHeight;
@@ -233,7 +287,7 @@ export default abstract class BasePacker implements ISpritePacker {
                 if (options.forceSquare === "Yes") {
                     this.pack_width = Math.min(wOpts, this.pack_height);
                 }
-            } else {
+            } else if (this.pack_height >= this.pack_width && wOrig < wOpts) {
                 // increase width
                 this.pack_width = minWidth;
                 if (options.constraint === "Power of Two") {
@@ -242,6 +296,17 @@ export default abstract class BasePacker implements ISpritePacker {
 
                 if (options.forceSquare === "Yes") {
                     this.pack_height = Math.min(hOpts, this.pack_width);
+                }
+            } else {
+                if (this.pack_height >= hOpts) {
+                    this.pack_width = minWidth;
+                } else if (this.pack_width >= wOpts) {
+                    this.pack_height = minHeight;
+                } else if(this.pack_height < hOpts || this.pack_height < wOpts) {
+                    this.pack_width = minWidth;
+                    this.pack_height = minHeight;
+                } else {
+                    this.DoCompleteCallback(false, project);
                 }
             }
         }
@@ -252,6 +317,7 @@ export default abstract class BasePacker implements ISpritePacker {
         } else {
             LogHelper.LogMessage("WARN", `Canvas is full at ${this.pack_width}x${this.pack_height} with ${this.pack_framesProcessed} frames placed.`);
         }
+
         return this.OnResize(project, wOrig, hOrig, this.pack_width, this.pack_height, changed) || changed;
     }
 
@@ -294,36 +360,6 @@ export default abstract class BasePacker implements ISpritePacker {
         return usedSurfaceArea / (this.pack_width * this.pack_height);
     }
 
-    public ValidatePlacements(project: Project) : boolean {
-        const rects = BasePacker.ExtractFrameSpriteRects(project);
-        let result = true;
-
-        const padding = Math.max(this.pack_paddingBorder, this.pack_paddingShape);
-        const paddedCanvas =
-            Rectangle.Inflate(Rectangle.Create(0, 0, this.pack_width, this.pack_height), -padding);
-
-        for(let i = 0; (i < rects.length) && result; i++) {
-            const rect = rects[i];
-            const fitsCanvas = paddedCanvas.Contains(rect);
-                // rect.x >= padding &&
-                // rect.y >= padding &&
-                // rect.bottom <= this.pack_height - padding &&
-                // rect.right <= this.pack_width - padding;
-
-            if(!fitsCanvas || rect.isEmpty) {
-                return false;
-            }
-
-            // check for collisions with peers
-            for(let i2 = 0; i2 < rects.length; i2++) {
-                if(i2 !== i && rects[i2].Intersects(rect)) {
-                    return false;
-                }
-            }
-        }
-        return true; // result && !!this.pack_success;
-    }
-
     public static ExtractFrameSpriteRects(project: Project) : Rectangle[] {
         const rects = [] as Rectangle[];
         for(let imgKey of Object.getOwnPropertyNames(project.images)) {
@@ -338,6 +374,38 @@ export default abstract class BasePacker implements ISpritePacker {
             }
         }
         return rects;
+    }
+
+    public ValidatePlacements(project: Project): boolean {
+        const rects = BasePacker.ExtractFrameSpriteRects(project);
+        // let result = true;
+
+        const padding = Math.max(this.pack_paddingBorder, this.pack_paddingShape);
+        const paddedCanvas =
+            Rectangle.Inflate(Rectangle.Create(0, 0, this.pack_width, this.pack_height), -padding);
+
+        for(let i = 0; i < rects.length; i++) {
+            const rect = rects[i];
+            const fitsCanvas = paddedCanvas.Contains(rect);
+
+            if (!fitsCanvas || rect.isEmpty) {
+                LogHelper.LogMessage("DEBUG", `rects[${i}] does not fit canvas !!! \nRect: ${JSON.stringify(rects[i], null, 2)}, \nCanvas: ${JSON.stringify(paddedCanvas, null, 2)}`);
+                return false;
+            }
+        }
+
+        // check for collisions with peers
+        for (let i = 0; i < rects.length; i++) {
+            const rect = rects[i];
+            for (let i2 = 0; i2 < rects.length; i2++) {
+                if (i2 !== i && rects[i2].Intersects(rect)) {
+                    LogHelper.LogMessage("DEBUG", `rects[${i}] intersects rects[${i2}] !!! ${JSON.stringify(rects[i], null, 2)}, ${JSON.stringify(rects[i2], null, 2)}`);
+                    return false;
+                }
+            }
+        }
+
+        return true;
     }
 
     public static ExtractFrames(project: Project) : ImageFrame[] {

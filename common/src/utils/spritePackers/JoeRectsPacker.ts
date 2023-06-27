@@ -68,11 +68,9 @@ export default class JoeRectsPacker extends BasePacker {
         // // this.pack_heuristic = "BestShortSide" | "BestLongSide" | "BestArea" [| "BottomLeftRule" | "ContactPointRule"]
 
         let wasMaxSize: boolean = false;
-        const frames = BasePacker.ExtractFrames(project);
+        const frames = BasePacker.ExtractFrames(project); // TODO: optimize by extracting once?
 
         while (!this.pack_complete) {
-            let breakForLoop: boolean = false;
-
             const fitsConstraints =
                 this.pack_width <= project.options.width &&
                 this.pack_height <= project.options.height;
@@ -87,6 +85,7 @@ export default class JoeRectsPacker extends BasePacker {
                     Rectangle.Inflate(Rectangle.Create(0, 0, this.pack_width, this.pack_height), -padding);
                 this.pack_freeRects.push(paddedCanvas);
             } else {
+                // DEAD CODE?
                 this.DoCompleteCallback(false, project);
                 break;
             }
@@ -102,6 +101,7 @@ export default class JoeRectsPacker extends BasePacker {
             const spritePadding: number = (project.options.shapePadding || 0) + (project.options.innerPadding || 0);
             const framesToProcessCount: number = frames.length;
             let framesProcessed: number = 0;
+            let breakForLoop: boolean = false;
 
             for(let frame of frames) {
                 const paddedRect = Rectangle.Inflate(frame.spriteRect, spritePadding);
@@ -116,6 +116,7 @@ export default class JoeRectsPacker extends BasePacker {
                     let newHeight = this.pack_height + BasePacker.GROW_BY; //  /* Math.max(self.height, frame.rectSprite.y + frame.rectSprite.height) */ + self.paddingBorder * 2;
 
                     if(this.DoResize(project, newWidth, newHeight)) {
+                        // DEAD CODE?
                         // exit loop and start over
                         if(!this.DoInit(project, this.pack_width, this.pack_height)) {
                             this.DoCompleteCallback(false, project);
@@ -125,6 +126,7 @@ export default class JoeRectsPacker extends BasePacker {
                         breakForLoop = true;
                         break;
                     } else {
+                        // DEAD CODE?
                         // we have a problem; won't fit; stop trying
                         LogHelper.LogMessage("ERROR", `Image ${frame.spriteRect.width}x${frame.spriteRect.height} won't fit within the specified constraints ${project.options.width}x${project.options.height}.`);
                         this.DoCompleteCallback(false, project);
@@ -133,6 +135,7 @@ export default class JoeRectsPacker extends BasePacker {
                 }
 
                 const progress: number = framesProcessed / (framesToProcessCount || 1);
+                // DEAD CODE?
                 if(!this.DoProgressCallback(progress, project)) {
                     this.DoCompleteCallback(false, project);
                     return !!this.pack_success;
@@ -140,10 +143,12 @@ export default class JoeRectsPacker extends BasePacker {
             }
             if(!breakForLoop) {
                 this.DoCompleteCallback(true, project);
-                return !!this.pack_success;
+                break;
+                // return !!this.pack_success;
             }
         }
 
+        // DEAD CODE?
         this.DoCompleteCallback(true, project);
         return !!this.pack_success;
     }
@@ -200,34 +205,34 @@ export default class JoeRectsPacker extends BasePacker {
 
         rect.x = result.x;
         rect.y = result.y;
-        assert(rect.width === result.width);
-        assert(rect.height === result.height);
-        // rect.width = result.width;
-        // rect.height = result.height;
+        // assert(rect.width === result.width);
+        // assert(rect.height === result.height);
+        rect.width = result.width;
+        rect.height = result.height;
         rect.rotated = result.rotated;
 
         this._placeRect(project, rect);
 
-        //
-        // // TODO: what was this?
-        // if (!result.isEmpty) {
-        //     let rectsToProcess = this.pack_freeRects.length;
-        //     for(var i = 0; i < rectsToProcess; i++) {
-        //         if (this._splitFreeRect(this.pack_freeRects[i], result)) {
-        //             this.pack_freeRects.splice(i,1);
-        //             i = 0;
-        //             i--;
-        //             rectsToProcess--;
-        //         }
-        //     }
-        //     this._pruneFreeRects();
-        // }
-        //
-        // // // TODO: what was this?
-        // // result.x += padding;
-        // // result.y += padding;
-        // // result.width  -= padding * 2;
-        // // result.height -= padding * 2;
+
+// TODO: what was this?
+if (!result.isEmpty) {
+    let rectsToProcess = this.pack_freeRects.length;
+    for(var i = 0; i < rectsToProcess; i++) {
+        if (this._splitFreeRect(this.pack_freeRects[i], result)) {
+            this.pack_freeRects.splice(i,1);
+            i = 0;
+            i--;
+            rectsToProcess--;
+        }
+    }
+    this._pruneFreeRects();
+}
+
+// // TODO: what was this?
+// result.x += padding;
+// result.y += padding;
+// result.width  -= padding * 2;
+// result.height -= padding * 2;
 
         return rect;
     }
@@ -254,7 +259,8 @@ export default class JoeRectsPacker extends BasePacker {
 
                     // since new free rects keep decreasing in size, the new free rect
                     // can never contain an older free rect
-                    assert(!this.pack_freeRects[i].ContainedIn(this.pack_newFreeRects[j]));
+                    // assert(!this.pack_freeRects[i].ContainedIn(this.pack_newFreeRects[j]));
+                    assert(!this.pack_newFreeRects[j].Contains(this.pack_freeRects[i]));
                     j++;
                 }
             }
@@ -277,7 +283,7 @@ export default class JoeRectsPacker extends BasePacker {
     private _splitFreeRect(freeRect: Rectangle, usedRect: Rectangle) : boolean {
 
         // no overlap between rectangles
-        if (usedRect.x >= freeRect.right  || usedRect.right <= freeRect.x || usedRect.y >= freeRect.bottom || usedRect.bottom <= freeRect.y) {
+        if (usedRect.x >= freeRect.right || usedRect.right <= freeRect.x || usedRect.y >= freeRect.bottom || usedRect.bottom <= freeRect.y) {
             return false;
         }
 
@@ -287,6 +293,7 @@ export default class JoeRectsPacker extends BasePacker {
         this._newFreeRectsLastSize = this.pack_newFreeRects.length;
         let rectsWereProcessed: boolean = false;
 
+        // if (usedRect.x < freeRect.right && usedRect.right > freeRect.x) {
         if (usedRect.x < freeRect.right && usedRect.right > freeRect.x) {
 
             // New node at the top side of the used node.
@@ -448,15 +455,36 @@ export default class JoeRectsPacker extends BasePacker {
                 const longSideFit: number = Math.max(leftoverHoriz, leftoverVert);
 
 
-                if (shortSideFit < bestShortSideFit || (shortSideFit == bestShortSideFit && longSideFit < bestLongSideFit)) {
+                // if (shortSideFit < bestShortSideFit || (shortSideFit == bestShortSideFit && longSideFit < bestLongSideFit)) {
+                //     rect.x = result.x = freeRect.x;
+                //     rect.y = result.y = freeRect.y;
+                //     rect.width = result.width = rect.width; // TODO: really?
+                //     rect.height = result.height = rect.height; // TODO: really?
+                //     rect.rotated = result.rotated = false;
+                //     bestShortSideFit = shortSideFit;
+                //     bestLongSideFit = longSideFit;
+                // }
+
+                if (shortSideFit < bestShortSideFit) {
                     rect.x = result.x = freeRect.x;
                     rect.y = result.y = freeRect.y;
-                    rect.width = result.width = rect.width; // TODO: really?
-                    rect.height = result.height = rect.height; // TODO: really?
+                    // rect.width = result.width = rect.width; // TODO: really?
+                    // rect.height = result.height = rect.height; // TODO: really?
+                    result.width = rect.width;
+                    result.height = rect.height;
                     rect.rotated = result.rotated = false;
                     bestShortSideFit = shortSideFit;
                     bestLongSideFit = longSideFit;
                 }
+                // if (shortSideFit == bestShortSideFit && longSideFit < bestLongSideFit) {
+                //     rect.x = result.x = freeRect.x;
+                //     rect.y = result.y = freeRect.y;
+                //     rect.width = result.width = rect.width; // TODO: really?
+                //     rect.height = result.height = rect.height; // TODO: really?
+                //     rect.rotated = result.rotated = false;
+                //     bestShortSideFit = shortSideFit;
+                //     bestLongSideFit = longSideFit;
+                // }
             }
 
             if(this.pack_allowRotate && freeRect.width >= rect.height && freeRect.height >= rect.width) {
@@ -616,7 +644,7 @@ export default class JoeRectsPacker extends BasePacker {
 
     protected OnResize(project: Project, oldWidth: number, oldHeight: number, newWidth: number, newHeight: number, changed: boolean): boolean {
         // TODO: implement
-        return true; // changed;
+        return changed;
     }
 
     protected OnProgressCallback(progress: number): boolean {

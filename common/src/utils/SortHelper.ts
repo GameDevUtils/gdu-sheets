@@ -343,10 +343,10 @@ export default class SortHelper {
                     const aFrames = project.images[a].frames;
                     const bFrames = project.images[b].frames;
                     if (aFrames && bFrames) {
-                        width_a = aFrames[0].spriteRect.width;
-                        width_b = bFrames[0].spriteRect.width;
-                        height_a = aFrames[0].spriteRect.height;
-                        height_b = bFrames[0].spriteRect.height;
+                        width_a = aFrames[0]?.spriteRect?.width ?? 0;
+                        width_b = bFrames[0]?.spriteRect?.width ?? 0;
+                        height_a = aFrames[0]?.spriteRect?.height ?? 0;
+                        height_b = bFrames[0]?.spriteRect?.height ?? 0;
                     }
                 } else {
                     width_a = project.images[a].width ?? 0;

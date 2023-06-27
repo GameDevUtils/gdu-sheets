@@ -8,5 +8,5 @@ export interface ISpritePacker {
     GetPackerType() : SpritePackerTypes;
     GetDefaultSortBy() : SortByTypes;
     GetHeuristic(project: Project) : string; // calculated; packer-specific
-    DoPack(project: Project): Promise<CallbackStatusTypes>;
+    DoPack(project: Project): CallbackStatusTypes;
 }

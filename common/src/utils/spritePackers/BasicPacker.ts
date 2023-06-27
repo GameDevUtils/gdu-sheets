@@ -45,8 +45,11 @@ export default class BasicPacker extends BasePacker {
                 this.pack_maxY = this.pack_paddingBorder + this.pack_paddingShape;
             }
 
+            let progressIndex = 0;
             for (let key of keys) {
                 const image = project.images[key];
+
+                this.OnProgressCallback(keys.length / ++progressIndex);
 
                 for (let i = 0; image.frames && i < image.frames.length; i++) {
                     const frame = image.frames[i];
@@ -65,11 +68,12 @@ export default class BasicPacker extends BasePacker {
                         this.pack_currentY = this.pack_maxY;
                     } else { // if(!fitsWidth && !fitsOnNextRow) {
                         if (this.DoResize(project, this.pack_currentX + frame.spriteRect.width + this.pack_paddingBorder, this.pack_maxY + frame.spriteRect.height + this.pack_paddingBorder)) {
-                            // exit loop and start over
-                            if(!this.DoInit(project, this.pack_width, this.pack_height)) {
-                                this.DoCompleteCallback(false, project);
-                                return false;
-                            }
+                            // // DEAD CODE
+                            // // exit loop and start over
+                            // if(!this.DoInit(project, this.pack_width, this.pack_height)) {
+                            //     this.DoCompleteCallback(false, project);
+                            //     return false;
+                            // }
                             breakOuterLoop = true;
                             break;
                         } else {
@@ -96,10 +100,11 @@ export default class BasicPacker extends BasePacker {
                 }
 
                 const progress: number = this.pack_framesProcessed / (this.pack_frameCount || this.pack_framesProcessed || 1);
-                if(!this.DoProgressCallback(progress, project)) {
-                    this.DoCompleteCallback(false, project);
-                    return false;
-                }
+                // // DEAD CODE
+                // if(!this.DoProgressCallback(progress, project)) {
+                //     this.DoCompleteCallback(false, project);
+                //     return false;
+                // }
 
                 if(breakOuterLoop) { break; }
             }
@@ -112,6 +117,7 @@ export default class BasicPacker extends BasePacker {
                 return true;
             }
         }
+        // DEAD CODE ??
         return !!this.pack_success;
     }
 

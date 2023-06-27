@@ -5,6 +5,7 @@ import ImageFrame from "../../objs/ImageFrame";
 import ImageItem from "../../objs/ImageItem";
 import ParserHelper from "../ParserHelper";
 import PngParser from "./PngParser";
+import PackerTestHelper from '../spritePackers/_PackerTestHelper';
 
 describe("PngParser", () => {
 
@@ -32,6 +33,25 @@ describe("PngParser", () => {
         expect(image.width).toEqual(256);
         expect(image.height).toEqual(256);
         expect(image.frames?.length).toEqual(1);
+    });
+
+    test("Parses empty or missing src data", () => {
+        const project = PackerTestHelper.makeProject(1);
+        const parser = new PngParser();
+
+        let image: ImageItem = ImageItem.Empty;
+        for (let key in project.images) {
+            image = project.images[key];
+            break;
+        }
+
+        expect(image).toBeDefined();
+
+        image.src = undefined;
+        parser.PopulateFrames(image);
+
+        expect(image.width).toEqual(32);
+        expect(image.height).toEqual(32);
     });
 
     test("Reads valid PNG; populates frames w/o buffer", () => {
@@ -86,7 +106,7 @@ describe("PngParser", () => {
     });
 
     // TODO: ensure ParserHelper's registry doesn't need priming
-    test("Handles parsing ImageItem.Empty", () => {
+    test("Registers parser when creating a new instance", () => {
         const parser1 = new PngParser(); // TODO: kill this line
         const parser2 = ParserHelper.RegisteredParsers["PNG"];
 
