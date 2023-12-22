@@ -28,8 +28,10 @@ export default abstract class BasePacker implements ISpritePacker {
     public pack_start: number = Date.now();
     public pack_end: number | undefined = undefined;
     public pack_duration: number | undefined = undefined;
-    public pack_success: boolean | undefined = undefined;
-    public pack_complete: boolean | undefined = undefined;
+    // public pack_success: boolean | undefined = undefined;
+    // public pack_complete: boolean | undefined = undefined;
+    public pack_success: boolean = false;
+    public pack_complete: boolean = false;
 
     public abstract GetPackerType(): SpritePackerTypes;
     public abstract GetDefaultSortBy(): SortByTypes;
@@ -44,8 +46,8 @@ export default abstract class BasePacker implements ISpritePacker {
         this.pack_framesProcessed = 0;
         this.pack_end = undefined;
         this.pack_duration = undefined;
-        this.pack_success = undefined;
-        this.pack_complete = undefined;
+        this.pack_success = false; // undefined;
+        this.pack_complete = false; // undefined;
 
         if (!width || !height) {
 
@@ -120,6 +122,17 @@ export default abstract class BasePacker implements ISpritePacker {
                     }
                 }
             }
+
+            // // TODO: verify this new code is needed; resets image[n].frames[n].spriteRect location
+            // for (const key in project.images) {
+            //     const img = project.images[key];
+            //     if (img && img?.frames && img?.frames?.length) {
+            //         for (const frame of img.frames) {
+            //             frame.spriteRect.x = frame.spriteRect.y = 0;
+            //         }
+            //     }
+            // }
+
 
             // let areaOfFrames = 0; // only useful when sizeMode is "Max Size"
             // for (const key in project.images) {
@@ -211,35 +224,61 @@ export default abstract class BasePacker implements ISpritePacker {
         const options = project.options;
         const padding: number = Math.max(options.shapePadding || 0, options.borderPadding || 0);
 
-        let resizeResult: boolean = true;
-        let canvasRect: Rectangle = Rectangle.Inflate(Rectangle.Create(0,0,this.pack_width, this.pack_height), -padding);
+        let resizeResult = true;
+        
+        // let canvasRect = Rectangle.Inflate(Rectangle.Create(0, 0, this.pack_width, this.pack_height), -padding);
+        this.pack_width = width;
+        this.pack_height = height;
+        let canvasRect = Rectangle.Inflate(Rectangle.Create(0, 0, this.pack_width, this.pack_height), -padding);
+
+        while (canvasRect.isEmpty) {
+            this.pack_width += BasePacker.GROW_BY;
+            this.pack_height += BasePacker.GROW_BY;
+            canvasRect = Rectangle.Inflate(Rectangle.Create(0, 0, this.pack_width, this.pack_height), -padding);
+        }
+
         let fitsArea: boolean = targetArea <= canvasRect.width * canvasRect.height;
         let canGrowMore: boolean = (
             options.width > this.pack_width ||
             options.height > this.pack_height
         );
 
-        LogHelper.LogMessage("DEBUG", `DoInitialSizeBestGuess(): ${JSON.stringify({resizeResult, canvasRect, fitsArea, canGrowMore}, null, 2)}`)
+LogHelper.LogMessage("DEBUG", `DoInitialSizeBestGuess(): ${JSON.stringify({resizeResult, canvasRect, fitsArea, canGrowMore}, null, 2)}`)
         let didGrow = true;
         while (resizeResult && !fitsArea && didGrow && canGrowMore) {
             const canvasRectPrevious = Rectangle.Inflate(Rectangle.Create(0,0,this.pack_width, this.pack_height), -padding);
             resizeResult = this.DoResize(project, this.pack_width + BasePacker.GROW_BY, this.pack_height + BasePacker.GROW_BY);
             canvasRect = Rectangle.Inflate(Rectangle.Create(0, 0, this.pack_width, this.pack_height), -padding);
             fitsArea = targetArea <= canvasRect.area;
-            didGrow = canvasRect.area > canvasRectPrevious.area;
+            didGrow = resizeResult;  // canvasRect.area > canvasRectPrevious.area;
             canGrowMore = (
                 options.width > this.pack_width ||
                 options.height > this.pack_height
             );
-            LogHelper.LogMessage("DEBUG", `DoInitialSizeBestGuess(): ${JSON.stringify({resizeResult, canvasRectPrevious, canvasRect, fitsArea, canGrowMore}, null, 2)}`)
+// LogHelper.LogMessage("DEBUG", `DoInitialSizeBestGuess(): ${JSON.stringify({resizeResult, canvasRectPrevious, canvasRect, fitsArea, canGrowMore}, null, 2)}`)
         }
 
         LogHelper.LogMessage("DEBUG", `${this.pack_width}x${this.pack_height} <<<`);
     }
 
     public DoPack(project: Project): CallbackStatusTypes {
+
+        // TODO: needed? fail if there's nothing to pack ...
+        for (const key in project.images) {
+            for (const frame of project.images[key].frames ?? [] as ImageFrame[]) {
+                if (!frame || frame.spriteRect.isEmpty) {
+console.error('Empty spriteRect!');
+                    return "Failed";
+                }
+            }
+        }
+
         if (this.DoInit(project)) {
             if (this.OnPack(project)) {
+                if (!this.ValidatePlacements(project)) {
+                    this.DoCompleteCallback(false, project);
+                    return "Failed";
+                }
                 if (this.DoRender(project)) {
                     this.DoCompleteCallback(true, project);
                     return "Completed";
@@ -277,7 +316,7 @@ export default abstract class BasePacker implements ISpritePacker {
             const hOpts = options.height;
             const wOpts = options.width;
 
-            if (this.pack_width >= this.pack_height && hOrig < hOpts) {
+            if (this.pack_width > this.pack_height && hOrig < hOpts) {
                 // increase height
                 this.pack_height = minHeight;
                 if (project.options.constraint === "Power of Two") {
@@ -287,7 +326,7 @@ export default abstract class BasePacker implements ISpritePacker {
                 if (options.forceSquare === "Yes") {
                     this.pack_width = Math.min(wOpts, this.pack_height);
                 }
-            } else if (this.pack_height >= this.pack_width && wOrig < wOpts) {
+            } else if (this.pack_height > this.pack_width && wOrig < wOpts) {
                 // increase width
                 this.pack_width = minWidth;
                 if (options.constraint === "Power of Two") {
@@ -298,10 +337,11 @@ export default abstract class BasePacker implements ISpritePacker {
                     this.pack_height = Math.min(hOpts, this.pack_width);
                 }
             } else {
-                if (this.pack_height >= hOpts) {
-                    this.pack_width = minWidth;
+                if (this.pack_height > hOpts) {
+                    this.pack_height = Math.min(hOpts, minHeight);
                 } else if (this.pack_width >= wOpts) {
-                    this.pack_height = minHeight;
+                    this.pack_width = Math.min(wOpts, minWidth);
+                    this.pack_width = minWidth;
                 } else if(this.pack_height < hOpts || this.pack_height < wOpts) {
                     this.pack_width = minWidth;
                     this.pack_height = minHeight;
@@ -380,6 +420,8 @@ export default abstract class BasePacker implements ISpritePacker {
         const rects = BasePacker.ExtractFrameSpriteRects(project);
         // let result = true;
 
+        if (!rects || rects.length < 1) { return false; }
+
         const padding = Math.max(this.pack_paddingBorder, this.pack_paddingShape);
         const paddedCanvas =
             Rectangle.Inflate(Rectangle.Create(0, 0, this.pack_width, this.pack_height), -padding);
@@ -398,7 +440,7 @@ export default abstract class BasePacker implements ISpritePacker {
         for (let i = 0; i < rects.length; i++) {
             const rect = rects[i];
             for (let i2 = 0; i2 < rects.length; i2++) {
-                if (i2 !== i && rects[i2].Intersects(rect)) {
+                if (i2 !== i && (rects[i2].Intersects(rect) || rect.Contains(rects[i2]))) {
                     LogHelper.LogMessage("DEBUG", `rects[${i}] intersects rects[${i2}] !!! ${JSON.stringify(rects[i], null, 2)}, ${JSON.stringify(rects[i2], null, 2)}`);
                     return false;
                 }

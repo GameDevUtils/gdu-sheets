@@ -53,6 +53,7 @@
     "jest": "^27.3.1",
     "jest-skipped-reporter": "^0.0.5",
     "license-report": "^6.3.0",
+    "ngrok": "^5.0.0-beta.2",
     "os-browserify": "^0.3.0",
     "path-browserify": "^1.0.1",
     "pkg": "^5.3.1",

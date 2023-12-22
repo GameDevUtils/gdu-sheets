@@ -158,9 +158,10 @@ export default class PackerTestHelper {
         const project = PackerTestHelper.makeProject(testOptions.spriteCount);
         project.options = projectOptions;
 
-        expect(packer.DoPack(project)).toEqual(testOptions.expectedCatchMsg);
+        const result= packer.DoPack(project);
 console.log("testPackerFailsToPackSprites(): ", JSON.stringify(project, null, 2));
-// console.log(JSON.stringify(packer, null, 2));
+console.log(JSON.stringify(packer, null, 2));
+        expect(result).toEqual(testOptions.expectedCatchMsg);
         expect(packer.GetPackerType()).toEqual(testOptions.packerType);
         expect(packer.GetDefaultSortBy()).toEqual(testOptions.defaultSortBy);
         expect(packer.GetHeuristic(project)).toEqual(testOptions.expectedHeuristics);

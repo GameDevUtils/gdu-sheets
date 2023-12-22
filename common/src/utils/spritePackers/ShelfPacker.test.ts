@@ -157,6 +157,35 @@ describe("ShelfPacker", () => {
     });
 
 
+    // exact fit of sprites to canvas 32x32  into 1024x64, no padding (no trim)
+    test("packs sprites successfully horizontally without padding, 1024x64", async () => {
+        const options = new ProjectOptions();
+        options.width = 1024;
+        options.height = 64;
+        options.sortBy = "AREA_DESC";
+        options.innerPadding = options.shapePadding = options.borderPadding = 0;
+        testOptions.spriteCount = 64;
+        testOptions.expectedValidate = true;
+        testOptions.expectedSuccess = true;
+        testOptions.expectedThenMsg = "Completed";
+
+        await PackerTestHelper.testPackerPacksSpritesWithoutPadding(new ShelfPacker(), options, testOptions);
+    });
+
+    // exact fit of sprites to canvas 32x32  into 64x1024, no padding (no trim)
+    test("packs sprites successfully vertically without padding, 64x1024", () => {
+        const options = new ProjectOptions();
+        options.width = 64;
+        options.height = 1024;
+        options.sortBy = "AREA_DESC";
+        options.innerPadding = options.shapePadding = options.borderPadding = 0;
+        testOptions.spriteCount = 64;
+        testOptions.expectedValidate = true;
+        testOptions.expectedSuccess = true;
+        testOptions.expectedThenMsg = "Completed";
+
+        PackerTestHelper.testPackerPacksSpritesWithoutPadding(new ShelfPacker(), options, testOptions);
+    });
 
 
 

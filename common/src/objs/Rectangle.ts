@@ -53,14 +53,15 @@ export default class Rectangle {
         // );
     }
 
-    public ContainedIn(rect: Rectangle) : boolean {
-        return (
-            rect.x >= this.x &&
-            rect.y >= this.y &&
-            rect.right  <= this.right &&
-            rect.bottom <= this.bottom
-        );
-    }
+    // public ContainedIn(rect: Rectangle): boolean {
+    //     return rect.Contains(this);
+    //     // return (
+    //     //     rect.x >= this.x &&
+    //     //     rect.y >= this.y &&
+    //     //     rect.right  <= this.right &&
+    //     //     rect.bottom <= this.bottom
+    //     // );
+    // }
 
     public static Inflate(rect: Rectangle, padding: number) : Rectangle {
         const result = Rectangle.Copy(rect);

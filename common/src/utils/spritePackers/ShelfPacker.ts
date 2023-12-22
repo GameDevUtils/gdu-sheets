@@ -94,7 +94,7 @@ let index = 0;
                 frame.spriteRect.y = this.pack_currentY + padding;
 
                 if (!paddedCanvas.Contains(frame.spriteRect)) {
-                    LogHelper.LogMessage("DEBUG", "paddedCanvas did not contain sprite.");
+// LogHelper.LogMessage("DEBUG", "paddedCanvas did not contain sprite.");
                     this.pack_currentX = 0;
                     this.pack_currentY += this.pack_shelfHeight;
                     // this.pack_shelfHeight = frame.spriteRect.height + padding * 2;
@@ -107,7 +107,7 @@ let index = 0;
 
                 this.pack_framesProcessed++;
 
-                LogHelper.LogMessage("DEBUG", `shelfHeight: ${this.pack_shelfHeight}; frame[${index++}]: ${JSON.stringify(frame.spriteRect, null, 2)}`);
+// LogHelper.LogMessage("DEBUG", `shelfHeight: ${this.pack_shelfHeight}; frame[${index++}]: ${JSON.stringify(frame.spriteRect, null, 2)}`);
                 if (!paddedCanvas.Contains(frame.spriteRect)) {
                     LogHelper.LogMessage("DEBUG", `OOPS: Newly-placed sprite does not fit! Need to DoResize()... ${this.pack_width}x${this.pack_height}`);
                     if (!this.DoResize(project, this.pack_width + BasePacker.GROW_BY, this.pack_height + BasePacker.GROW_BY)) {
@@ -205,7 +205,7 @@ let index = 0;
     }
 
     protected OnResize(project: Project, oldWidth: number, oldHeight: number, newWidth: number, newHeight: number, changed: boolean): boolean {
-        this.pack_complete = changed;
+        // this.pack_complete = !changed;
         return changed;
     }
 

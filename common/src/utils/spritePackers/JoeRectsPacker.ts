@@ -84,18 +84,18 @@ export default class JoeRectsPacker extends BasePacker {
                 const paddedCanvas =
                     Rectangle.Inflate(Rectangle.Create(0, 0, this.pack_width, this.pack_height), -padding);
                 this.pack_freeRects.push(paddedCanvas);
-            } else {
-                // DEAD CODE?
-                this.DoCompleteCallback(false, project);
-                break;
+            // } else {
+            //     // DEAD CODE?
+            //     this.DoCompleteCallback(false, project);
+            //     break;
             }
 
             const isMaxSize = this.pack_width >= project.options.width && this.pack_height >= project.options.height;
-            if(isMaxSize && wasMaxSize) {
-                LogHelper.LogMessage("WARN", `Processed the same data twice for ${this.pack_width}x${this.pack_height}. Exiting.`);
-                this.DoCompleteCallback(false, project);
-                return !!this.pack_success;
-            }
+            // if(isMaxSize && wasMaxSize) {
+            //     LogHelper.LogMessage("WARN", `Processed the same data twice for ${this.pack_width}x${this.pack_height}. Exiting.`);
+            //     this.DoCompleteCallback(false, project);
+            //     return !!this.pack_success;
+            // }
             wasMaxSize = isMaxSize;
 
             const spritePadding: number = (project.options.shapePadding || 0) + (project.options.innerPadding || 0);
@@ -135,11 +135,12 @@ export default class JoeRectsPacker extends BasePacker {
                 }
 
                 const progress: number = framesProcessed / (framesToProcessCount || 1);
-                // DEAD CODE?
-                if(!this.DoProgressCallback(progress, project)) {
-                    this.DoCompleteCallback(false, project);
-                    return !!this.pack_success;
-                }
+                // // DEAD CODE?
+                // if(!this.DoProgressCallback(progress, project)) {
+                //     this.DoCompleteCallback(false, project);
+                //     return !!this.pack_success;
+                // }
+                this.DoProgressCallback(progress, project)
             }
             if(!breakForLoop) {
                 this.DoCompleteCallback(true, project);
@@ -180,10 +181,6 @@ export default class JoeRectsPacker extends BasePacker {
         let result: Rectangle = Rectangle.Empty;
 
         switch(this.GetHeuristic(project)) {
-            case "BestArea": // smallest free rect
-            default:
-                result = this._placeByBestAreaFit(rect, scores, project.options.allowRotate === "Yes");
-                break;
             case "BestShortSide": // short side of a free rectangle
                 result = this._placeByBestShortSideFit(result, scores);
                 break;
@@ -196,22 +193,48 @@ export default class JoeRectsPacker extends BasePacker {
             case "ContactPointRule":     // rectangle touches other rects as much as possible
                 result = this._placeByContactPointRule(result, scores);
                 break;
+            case "BestArea": // smallest free rect
+            default:
+                result = this._placeByBestAreaFit(rect, scores, project.options.allowRotate === "Yes");
+                break;
         }
 
-        if(result.isEmpty) {
-            // return rect;
-            return result;
+        if (!result.isEmpty) {
+            rect.x = result.x;
+            rect.y = result.y;
+            // assert(rect.width === result.width);
+            // assert(rect.height === result.height);
+            rect.width = result.width;
+            rect.height = result.height;
+            rect.rotated = result.rotated;
+    
+            this._placeRect(project, rect);
+
+
+            // TODO: verify this  is needed ...
+            let rectsToProcess = this.pack_freeRects.length;
+            for(var i = 0; i < rectsToProcess; i++) {
+                if (this._splitFreeRect(this.pack_freeRects[i], result)) {
+                    this.pack_freeRects.splice(i,1);
+                    i = 0;
+                    i--;
+                    rectsToProcess--;
+                }
+            }
+            this._pruneFreeRects();
+
+
+
+            // // TODO: verify this is needed ...
+            // const padding = Math.max(project.options.shapePadding || 0, project.options.innerPadding || 0);
+            // Rectangle.Inflate(result, -padding);
+            // // result.x += padding;
+            // // result.y += padding;
+            // // result.width  -= padding * 2;
+            // // result.height -= padding * 2;
+
         }
 
-        rect.x = result.x;
-        rect.y = result.y;
-        // assert(rect.width === result.width);
-        // assert(rect.height === result.height);
-        rect.width = result.width;
-        rect.height = result.height;
-        rect.rotated = result.rotated;
-
-        this._placeRect(project, rect);
 
 
 // TODO: what was this?
@@ -228,11 +251,12 @@ if (!result.isEmpty) {
     this._pruneFreeRects();
 }
 
-// // TODO: what was this?
-// result.x += padding;
-// result.y += padding;
-// result.width  -= padding * 2;
-// result.height -= padding * 2;
+// TODO: what was this?
+const padding = Math.max(project.options.shapePadding || 0, project.options.innerPadding || 0);
+result.x += padding;
+result.y += padding;
+result.width  -= padding * 2;
+result.height -= padding * 2;
 
         return rect;
     }
@@ -242,7 +266,8 @@ if (!result.isEmpty) {
             // for(var j = i+1; j < this.pack_newFreeRects.length;) { // j++) {
             for(var j = 0; j < this.pack_newFreeRects.length;) { // j++) {
                 // TODO: make sure the contains check isn't inverted
-                if (/* this.pack_freeRects[i].isEmpty || */ this.pack_newFreeRects[j].ContainedIn(this.pack_freeRects[i])) {
+                if (this.pack_freeRects[i].isEmpty || this.pack_freeRects[i].Contains(this.pack_newFreeRects[j])) {
+                // if (/* this.pack_freeRects[i].isEmpty || */ this.pack_newFreeRects[j].ContainedIn(this.pack_freeRects[i])) {
                     this.pack_newFreeRects[j] = this.pack_newFreeRects[this.pack_newFreeRects.length - 1] as Rectangle;
                     this.pack_newFreeRects.pop();
                     // this.pack_freeRects.splice(i,1);
@@ -297,7 +322,7 @@ if (!result.isEmpty) {
         if (usedRect.x < freeRect.right && usedRect.right > freeRect.x) {
 
             // New node at the top side of the used node.
-            if (usedRect.y > freeRect.y && usedRect.y < freeRect.bottom) {
+            if (usedRect.y >= freeRect.y && usedRect.y < freeRect.bottom) {
                 const newRect = Rectangle.Copy(freeRect);
                 newRect.height = usedRect.y - newRect.y;
                 this._insertNewFreeRectangle(newRect);
@@ -317,7 +342,7 @@ if (!result.isEmpty) {
         if (usedRect.y < freeRect.bottom && usedRect.bottom > freeRect.y) {
 
             // New node at the left side of the used node.
-            if (usedRect.x > freeRect.x && usedRect.x < freeRect.right) {
+            if (usedRect.x >= freeRect.x && usedRect.x < freeRect.right) {
                 const newRect = Rectangle.Copy(freeRect);
                 newRect.width = usedRect.x - newRect.x;
                 this._insertNewFreeRectangle(newRect);
@@ -325,7 +350,7 @@ if (!result.isEmpty) {
             }
 
             // New node at the right side of the used node.
-            if (usedRect.right < freeRect.right) {
+            if (usedRect.right <= freeRect.right) {
                 const newRect = Rectangle.Copy(freeRect);
                 newRect.x = usedRect.right;
                 newRect.width = freeRect.right - usedRect.right;
@@ -339,18 +364,19 @@ if (!result.isEmpty) {
 
     private _insertNewFreeRectangle(newFreeRect: Rectangle) : void {
 
-        assert(!newFreeRect.isEmpty);
+        if (newFreeRect.isEmpty) { return; }
+        // assert(!newFreeRect.isEmpty);
 
         for(let i = 0; i < this._newFreeRectsLastSize;)
         {
             // This new free rectangle is already accounted for?
-            // if (this.pack_newFreeRects[i].ContainedIn(rect)) {
-            if (newFreeRect.ContainedIn(this.pack_newFreeRects[i])) {
+            if (this.pack_newFreeRects[i].Contains(newFreeRect)) {
+            // if (newFreeRect.ContainedIn(this.pack_newFreeRects[i])) {
                 return;
             }
 
             // Does this new free rectangle obsolete a previous new free rectangle?
-            if (this.pack_newFreeRects[i].ContainedIn(newFreeRect))
+            if (newFreeRect.Contains(this.pack_newFreeRects[i]))
             {
                 // Remove i'th new free rectangle, but do so by retaining the order
                 // of the older vs newest free rectangles that we may still be placing
@@ -365,6 +391,8 @@ if (!result.isEmpty) {
         }
 
         this.pack_newFreeRects.push(newFreeRect);
+        // TODO: is this new logic valid?
+        this._newFreeRectsLastSize = this.pack_newFreeRects.length;
     }
 
     private _placeByBestAreaFit(rect: Rectangle, scores: PackScores, allowRotate: boolean) : Rectangle {
@@ -374,6 +402,7 @@ if (!result.isEmpty) {
         let bestShortSideFit: number = JoeRectsPacker.BIG_NUMBER;
 
         // TODO: is this OK? untested.
+        // TODO: DEAD CODE?
         if(rect.isEmpty) {
             return rect;
         }
@@ -639,7 +668,7 @@ if (!result.isEmpty) {
                 }
             }
         }
-        return bestContactScore === -1 ? Rectangle.Empty : result;
+        return (bestContactScore === -1) ? Rectangle.Empty : result;
     }
 
     protected OnResize(project: Project, oldWidth: number, oldHeight: number, newWidth: number, newHeight: number, changed: boolean): boolean {
